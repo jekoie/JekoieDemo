@@ -1,0 +1,5 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <li url="http://192.168.1.1" type="HT803" password="admin" username="admin" class="HT803"/>
+  <li url="http://192.168.1.1/login.html" type="HT825GP" password="cqunicom" username="cqadmin" class="HT825GP" data="cu/raisecom-chongqing-gpon-sip-4f1-wifi"/>
+</root>
