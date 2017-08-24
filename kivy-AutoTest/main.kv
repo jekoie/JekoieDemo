@@ -1,0 +1,31 @@
+#:import FadeTransition  kivy.uix.screenmanager.FadeTransition
+#:set chiness_font "./font/simsun.ttc"
+
+<Menubutton@ToggleButton>:
+    group: 'menu'
+    size_hint: None, None
+    size: 80 , 50
+    pos_hint:{'top':1}
+    font_name: chiness_font
+
+<MainScreen@BoxLayout>:
+    sm:sm
+    orientation: 'vertical'
+    BoxLayout:
+        size_hint_y: None
+        height: 60
+        Menubutton:
+            text: 'Home'
+            on_release: sm.current = 'home'
+        Menubutton:
+            text: '设置'
+            on_release: app.open_settings()
+        Menubutton:
+            on_release: sm.current = 'log'
+            text: '日志'
+        Menubutton:
+            on_release: sm.cureent = 'database'
+            text: '数据库'
+    ScreenManager:
+        id: sm
+        transition: FadeTransition()
