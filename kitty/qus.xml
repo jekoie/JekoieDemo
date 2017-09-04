@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <question name="1.Where i come from?" answer="3">
+            <li choice='WuHan,HuBei'/>
+            <li choice="XiangYang,HuBei"/>
+            <li choice="HuangGang,HuBei"/>
+    </question>
+</root>
