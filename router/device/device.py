@@ -3,7 +3,6 @@ import sys
 import time
 import re
 import os
-import selenium.common
 from lxml import etree
 from selenium import webdriver
 import pyping
@@ -14,7 +13,8 @@ from selenium.webdriver.support import expected_conditions as EC
 reload(sys)
 sys.setdefaultencoding('utf-8')
 BIN_PATH = os.path.join( os.getcwd(), 'bin')
-os.environ['PATH'] =  BIN_PATH
+# os.environ['PATH'] = r'E:\router\bin'
+os.environ['PATH'] = BIN_PATH
 
 class Device(object):
     __instance = None
@@ -30,7 +30,7 @@ class Device(object):
         self.password = password
         self.firmware = firmware
         self.timeout = timeout
-        self.driver = webdriver.Chrome()
+        self.driver = webdriver.PhantomJS()
         self.driver.implicitly_wait(self.timeout)
 
     def get_url(self):
@@ -201,7 +201,7 @@ def test_ht825():
 def test_ht803():
     h803 = HT803('http://192.168.1.1/admin/login.asp', 'admin', 'admin', r'C:\Users\jett\Desktop\bin\ISCOMHT803-DR_T_RC01_SYSTEM_3.0.15(a)_20170103')
     h803.relogin()
-    h803.modify_data()
+    h803.modify_data('')
     h803.upgrade()
     # h803.wait_device_to_reset()
     #
@@ -212,6 +212,167 @@ def test_ht803():
     # h803.relogin()
     # h803.check_version('1')
     # h803.driver.quit()
-
+#
 # test_ht803()
-# time.sleep(1000)
+# # time.sleep(1000)
+
+class ISCOM1016EM(object):
+    def __init__(self, url, username='raisecom', password='admin', data={}, timeout=5):
+        self.url = url
+        self.ip = re.search(r'(\d{1,3}\.){3}\d{1,3}', self.url).group()
+        self.username = username
+        self.password = password
+        self.timeout = timeout
+        self.driver = webdriver.Firefox(timeout=120)
+        self.driver.set_window_position(100, 100)
+        self.driver.set_window_size(800, 600)
+        self.data = data
+        self.test_status = True
+        # self.driver.implicitly_wait(self.timeout)
+
+    def get_login_url(self):
+        self.driver.get(self.url)
+
+    def get_url(self, url=''):
+        self.driver.get(url)
+
+    def relogin(self):
+        self.get_login_url()
+        self.login()
+
+    def close(self):
+        self.driver.quit()
+        self.driver = None
+
+    def clear_arp(self):
+        os.system("arp -d")
+
+    def modify_sn(self, flag=False):
+        mac, sn = self.data['mac'], self.data['sn']
+
+        url = "http://{}/{}".format(self.ip, 'MACIDFix.htm')
+        self.driver.get(url)
+        mac_element = self.driver.find_elements_by_css_selector("input[name='MACID']")
+        serial_element = self.driver.find_element_by_name("SERIAL")
+        yes_element = self.driver.find_elements_by_css_selector("input[value='y']")[0]
+        no_element = self.driver.find_elements_by_css_selector("input[value='n']")[0]
+        update_elemnt = self.driver.find_element_by_name("Modify")
+
+        serial_element.clear()
+        serial_element.send_keys(sn)
+
+        yes_element.click() if flag else  no_element.click()
+        for idx, element in enumerate(mac_element):
+            element.clear()
+            element.send_keys(mac[0+idx*3:2+idx*3])
+
+        update_elemnt.click()
+
+    def reboot_device(self):
+        url = "http://{}/{}".format(self.ip, 'resetdevice.htm')
+        self.driver.get(url)
+        reboot_element = self.driver.find_element_by_name("Reset")
+        reboot_element.click()
+
+    def login(self):
+        while True:
+            if 'your browser does not support frames' in self.driver.page_source:
+                time.sleep(1)
+                self.get_login_url()
+            else:
+                break
+
+
+        WebDriverWait(self.driver, 60).until(
+            EC.presence_of_element_located((By.NAME, "Username"))
+        )
+
+        WebDriverWait(self.driver, 60).until(
+            EC.presence_of_element_located((By.NAME, "Password"))
+        )
+
+        username = self.driver.find_element_by_name("Username")
+        password = self.driver.find_element_by_name("Password")
+        submit = self.driver.find_element_by_css_selector("input[type='Submit']")
+
+        username.clear()
+        username.send_keys(self.username)
+
+        password.clear()
+        password.send_keys(self.password)
+        submit.click()
+
+    def verify_message(self, mac='', sn=''):
+        self.driver.get(self.url + 'Status.htm')
+        mac_element = self.driver.find_elements_by_css_selector("tbody:first-child > tr:nth-child(1) > td:nth-child(2)")[0]
+        serial_element = self.driver.find_elements_by_css_selector("tbody:first-child > tr:nth-child(2) > td:nth-child(2)")[0]
+
+        # print mac_element.text, serial_element.text
+
+    def modify_region(self):
+        self.driver.get(self.url + 'RegAccess.htm')
+        reg_no_element = self.driver.find_element_by_name('RegNO')
+        reg_val_element = self.driver.find_element_by_name('RegVAL')
+        update_element = self.driver.find_element_by_name('Update')
+
+        reg_no_element.clear()
+        reg_no_element.send_keys('1d')
+        reg_val_element.clear()
+        reg_val_element.send_keys('0000')
+
+        update_element.click()
+
+    def port_status(self):
+        self.driver.get(self.url + 'NonAssPort.htm')
+        for idx in range(1, 17, 1):
+            element = self.driver.find_elements_by_css_selector("input[name='PortNO'][value='{}']".format(idx))[0]
+            # print idx, element.is_selected()
+
+    def modify_sn_and_reboot(self):
+        try:
+            self.relogin()
+            self.modify_sn()
+            self.reboot_device()
+            self.close()
+        except Exception as e:
+            self.test_status = False
+
+    def run(self):
+        try:
+            self.relogin()
+            self.modify_sn(mac="C8:50:E9:95:7B:EA", sn="101502000351S18505S051P", flag=False)
+            self.reboot_device()
+
+            self.clear_arp()
+            self.relogin()
+            self.verify_message()
+
+            self.modify_region()
+            raw_input(u"打开网络测试仪，运行”16Fport”配置文件，观察指示灯状态，重启待测设备")
+
+            self.clear_arp()
+            self.relogin()
+            self.modify_sn(mac="C8:50:E9:95:7B:EA", sn="101502000351S18505S051P", flag=True)
+            self.port_status()
+            time.sleep(5)
+
+            self.relogin()
+            self.modify_region()
+            raw_input(u"用信而泰网络测试仪")
+
+            self.clear_arp()
+            self.relogin()
+            self.modify_sn(mac="C8:50:E9:95:7B:EA", sn="101502000351S18505S051P", flag=False)
+            self.reboot_device()
+            self.port_status()
+            self.verify_message()
+
+
+        except Exception as e:
+            print traceback.format_exc()
+        finally:
+            time.sleep(5)
+            # self.close()
+
+# dev = ISCOM1016EM("http://192.168.2.1/login2.htm", 'admin', 'raisecom')
+# dev.modify_sn_and_reboot()

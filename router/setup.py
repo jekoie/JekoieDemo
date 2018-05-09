@@ -7,8 +7,8 @@ sys.setdefaultencoding('utf-8')
 
 app_name = 'Router'
 build_exe_options = {
-    'include_files':['./data', './device', './setting', './lxml', './bin'],
-    'excludes':['lxml'],
+    'include_files':['./data', './device', './setting', './bin'],
+    'packages':['lxml'],
     }
 
 shortcut_table = [

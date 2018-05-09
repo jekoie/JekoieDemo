@@ -9,8 +9,9 @@ import textwrap
 import threading
 import signal
 from wx.py.shell import ShellFrame
-from builtins import open
+from io import open
 from lxml import etree
+import wx.html2 as webview
 from device.device import *
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -23,6 +24,74 @@ PLUS_IMAGE = os.path.join(DATA_DIR, 'plus_green.png')
 INFO_IMAGE = os.path.join(DATA_DIR, 'info.png')
 ICON__IMAGE = os.path.join(DATA_DIR, 'logo.ico')
 THREAD_LOCK = threading.RLock()
+
+class WebPanel(wx.Panel):
+    def __init__(self, parent=None):
+        wx.Panel.__init__(self, parent=parent)
+        self.wv = webview.WebView.New(self)
+        self.Bind(webview.EVT_WEBVIEW_LOADED, self.OnWebViewLoaded, self.wv)
+        self.current = 'http://www.baidu.com'
+        btnsizer = wx.BoxSizer()
+
+        btn = wx.Button(self, label='<--', style=wx.BU_EXACTFIT)
+        btnsizer.Add(btn, 0, wx.EXPAND|wx.ALL, 2)
+        self.Bind(wx.EVT_BUTTON, self.OnBack, btn)
+        self.Bind(wx.EVT_UPDATE_UI, self.OnCheckCanGoBack, btn)
+
+        btn = wx.Button(self, label='-->', style=wx.BU_EXACTFIT)
+        btnsizer.Add(btn, 0, wx.EXPAND | wx.ALL, 2)
+        self.Bind(wx.EVT_BUTTON, self.OnPrev, btn)
+        self.Bind(wx.EVT_UPDATE_UI, self.OnCheckCanGoForward, btn)
+
+        btn = wx.Button(self, label='Refresh', style=wx.BU_EXACTFIT)
+        btnsizer.Add(btn, 0, wx.EXPAND | wx.ALL, 2)
+        self.Bind(wx.EVT_BUTTON, self.OnRefresh, btn)
+
+        btn = wx.Button(self, label='Home', style=wx.BU_EXACTFIT)
+        btnsizer.Add(btn, 0, wx.EXPAND | wx.ALL, 2)
+        self.Bind(wx.EVT_BUTTON, self.OnHome, btn)
+
+        self.location = wx.ComboBox(self, style=wx.CB_DROPDOWN|wx.TE_PROCESS_ENTER)
+        self.location.Append(self.current)
+        self.Bind(wx.EVT_COMBOBOX, self.OnLocationSelect, self.location)
+        self.location.Bind(wx.EVT_TEXT_ENTER, self.OnLocationEnter)
+        btnsizer.Add(self.location, 1, wx.EXPAND|wx.ALL, 2)
+
+        sizer = wx.BoxSizer(wx.VERTICAL)
+        sizer.Add(btnsizer, 0, wx.EXPAND)
+        sizer.Add(self.wv, 1, wx.EXPAND)
+        self.SetSizer(sizer)
+
+    def OnLocationEnter(self, evt):
+        url = self.location.GetValue()
+        self.location.Append(url)
+        self.wv.LoadURL(url)
+
+    def OnLocationSelect(self, evt):
+        url = self.location.GetStringSelection()
+        self.wv.LoadURL(url)
+
+    def OnWebViewLoaded(self, evt):
+        self.current = evt.GetURL()
+        self.location.SetValue(self.current)
+
+    def OnPrev(self, evt):
+        self.wv.GoForward()
+
+    def OnBack(self, evt):
+        self.wv.GoBack()
+
+    def OnRefresh(self, evt):
+        self.wv.Reload()
+
+    def OnHome(self, evt):
+        self.wv.LoadURL('http://192.168.1.1')
+
+    def OnCheckCanGoBack(self, evt):
+        evt.Enable(self.wv.CanGoBack())
+
+    def OnCheckCanGoForward(self, evt):
+        evt.Enable( self.wv.CanGoForward())
 
 class AboutDialog(wx.Dialog):
     def __init__(self, parent, datafile='', size=wx.DefaultSize, title='About'):
@@ -87,6 +156,7 @@ class MainFrame(wx.Frame):
         self.bin_file = None
         self.isUpgrading = False
         self.SetIcon(wx.Icon(ICON__IMAGE) )
+        self.thread = None
         text_size = (95, 18)
 
         device_type_sier = wx.BoxSizer()
@@ -116,12 +186,14 @@ class MainFrame(wx.Frame):
         version_sizer.Add(version_ctl, 1, wx.EXPAND, 10)
 
         upgrade_button = wx.Button(panel, label=u'升级')
+        self.device_panel = wx.Panel(panel)
 
         sizer = wx.BoxSizer(orient=wx.VERTICAL)
         sizer.Add(device_type_sier, 0, wx.EXPAND)
         sizer.Add(file_sizer, 0, wx.EXPAND)
         sizer.Add(version_sizer, 0, wx.EXPAND)
-        sizer.Add(upgrade_button, 1, wx.EXPAND)
+        sizer.Add(self.device_panel, 1, wx.EXPAND|wx.TOP|wx.BOTTOM, 5)
+        sizer.Add(upgrade_button, 0, wx.EXPAND)
         panel.SetSizer(sizer)
         self.CreateMenuBar()
         #self.CreateToolBar()
@@ -129,50 +201,40 @@ class MainFrame(wx.Frame):
         self.Bind(wx.EVT_FILEPICKER_CHANGED, self.OnFileSelected, file_ctl)
         self.Bind(wx.EVT_BUTTON, self.OnUpgrade, upgrade_button)
 
-    def upgrade(self, node, win):
-        THREAD_LOCK.acquire()
-        win.StatusBar.SetStatusText('正在升级中')
+    def upgrade(self, node, data):
         device_class = globals()[node.get('class')]
         node_dict = node.attrib
-        msg = ''
-        try:
-            device_ins = device_class(node_dict['url'], node_dict['username'], node_dict['password'], win.bin_file)
-            device_ins.relogin()
-            device_ins.modify_data(node_dict.get('data', ''))
-            if device_ins.upgrade() == False:
-                raise TypeError('upgrade failed')
-            device_ins.wait_device_to_reset()
-
-            device_ins.relogin()
-            device_ins.factory_reset()
-            device_ins.wait_device_to_reset()
-
-            device_ins.relogin()
-            if device_ins.check_version(self.version_ctl.GetValue()):
-                msg += '版本校验成功 '
-            else:
-                msg += '版本校验失败 '
-            msg += '固件升级成功 '
-            win.StatusBar.SetStatusText(msg)
-        except Exception as e:
-            #wx.MessageBox(traceback.format_exc(), 'error')
-            msg += '升级失败'
-            win.StatusBar.SetStatusText(msg)
-        finally:
-            if self.version_ctl.GetValue().strip() !=  '':
-                device_ins.close()
-            THREAD_LOCK.release()
+        device_ins = device_class(node_dict['url'], node_dict['username'], node_dict['password'], data=data)
+        device_ins.modify_sn_and_reboot()
 
     def OnUpgrade(self, evt):
-        if self.bin_file is not None:
             self.StatusBar.SetStatusText('Ready')
             xml = etree.parse(CONFIG_FILE)
             node = xml.xpath('.//li[@type="{}"]'.format(self.device_type_ctl.GetStringSelection() ))[0]
+            if self.thread and not self.thread.isAlive():
+                self.thread = None
 
-            if THREAD_LOCK._RLock__count == 0:
-                threading.Thread(target=self.upgrade, args=(node, self)).start()
-            else:
-                self.StatusBar.SetStatusText('请等待当前升级完毕')
+            if self.thread is None:
+                sn_dlg = wx.TextEntryDialog(self, u'请输入SN', 'SN')
+                if sn_dlg.ShowModal() == wx.ID_OK:
+                    sn = sn_dlg.GetValue().strip().upper()
+                    sn_dlg.Destroy()
+                else:
+                    sn_dlg.Destroy()
+                    return
+
+                mac_dlg = wx.TextEntryDialog(self, u'请输入SN', 'SN')
+                if mac_dlg.ShowModal() == wx.ID_OK:
+                    mac = mac_dlg.GetValue().strip().lower()
+                    mac_dlg.Destroy()
+                else:
+                    mac_dlg.Destroy()
+                    return
+
+                data = {'sn': sn, 'mac': mac}
+                self.thread = threading.Thread(target=self.upgrade, args=(node, data))
+                self.thread.start()
+
 
     def OnFileSelected(self, evt):
         self.bin_file = evt.GetPath()
