@@ -1,0 +1,38 @@
+{% extends 'raisecom/base.html' %}
+
+{% block title %}个人日记{% endblock %}
+{% block content %}
+    {{ block.super }}
+    <form method="post" action="." class="ml-5 center">
+        <div class="row">
+            <div class="col-9">
+                <div class="input-group">
+                    {% csrf_token %}
+                    {{ form.search }}
+                    <div class="input-group-append">
+                        <button type="submit" class="input-group-text"><i class="fa fa-search in"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="ml-auto col">
+                <a class="btn btn-outline-primary" href="{% url 'blog:create_diary' id=0 %}">新建</a>
+                <a class="btn btn-outline-primary" href="{% url 'blog:diary_collect_list'  %}">我的收藏</a>
+            </div>
+        </div>
+    </form>
+
+    <ul class="ml-5 mt-4">
+        {% for article in articles %}
+            <li>
+                <a href="{% url 'blog:diary_detail' id=article.id %}" >
+                    <h5 class="h5">{{ article.title }}</h5>
+                </a>
+                <div class="shadow-sm bg-light">
+                    {{ article.body|safe|truncatechars_html:'100' }}
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+    {% include 'raisecom/paginator.html' with page=articles %}
+{% endblock %}
+

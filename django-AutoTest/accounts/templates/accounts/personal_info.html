@@ -1,0 +1,46 @@
+{% extends 'raisecom/base.html' %}
+{% load thumbnail %}
+
+{% block title %}个人信息{% endblock %}
+{% block content %}
+    {{ block.super }}
+    <form action="." method="post"  enctype="multipart/form-data" class="text-nowrap mt-3">
+        {% csrf_token %}
+        {% for field in form %}
+            {% if  field.html_name == 'photo' %}
+                <div class="form-group row ">
+                    <label for="{{ field.id_for_label }}" class="col-1 col-form-label">{{ field.label }}： </label>
+                    <div  class="col-6 d-flex flex-row">
+                        {{ field }}
+                        <label class="custom-file-label text-truncate" for="{{ field.id_for_label }}">选择文件</label>
+                    </div>
+                </div>
+            {% else %}
+                <div class="form-group row">
+                    <label for="{{ field.id_for_label }}" class="col-1 col-form-label">{{ field.label }}： </label>
+                    <div class="col-6">
+                        {{ field }}
+                        <small class="form-text text-muted">
+                            {{ field.help_text|safe }}
+                        </small>
+
+                        <small class="text-danger">
+                            {{ field.errors|safe }}
+                        </small>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+        <input type="submit" value="提交" class="btn btn-primary">
+    </form>
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script type="text/javascript" >
+        $('.custom-file-input').change(function () {
+            var filename = $(this).val().split('\\').pop();
+            $(this).next('.custom-file-label').addClass('selected').html(filename);
+        });
+    </script>
+{%  endblock %}

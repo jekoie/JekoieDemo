@@ -1,0 +1,66 @@
+{% extends 'raisecom/base.html' %}
+
+{% block title %}配置文件索引{% endblock %}
+{% block content_attr %} style="margin-top: 5rem;"  class="container-fluid"{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    <p><a class="btn btn-primary" data-toggle="collapse" href="#index_summary">数据统计信息</a><p>
+    <div class="col-10 collapse" id="index_summary">
+        <table class="table table-hover">
+            <caption>总数：{{ total }}</caption>
+            <thead class="thead-light">
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">姓名</th>
+                <th scope="col">配置文件个数</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for name, value in sum_list.items %}
+                <tr class="clickable-row"  data-href="#{{ name }}">
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ name }}</td>
+                    <td>{{ value.count }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% for name, value in sum_list.items %}
+        <h2 id="{{ name }}">{{ name }}({{ value.count }}) </h2>
+        {% for child in value.child %}
+            <div class="text-nowrap"> <a href="ftp://192.168.60.70/AutoTest-Config{{ child.attrib.xml|slice:'1:' }}">&lt;bom="{{ child.attrib.bom }}"
+                product="{{ child.attrib.product }}" xml="{{ child.attrib.xml }}"
+                /&gt; </a> </div>
+        {% endfor %}
+
+        {% for child in value.nchild %}
+            <div class="text-nowrap text-success">&lt; bom="{{ child.attrib.bom }}"&gt;</div>
+            <div class="ml-4 text-nowrap">
+                {% for dchild in child.iterchildren %}
+                    <div> <a href="ftp://192.168.60.70/AutoTest-Config{{ dchild.attrib.xml|slice:'1:' }}">
+                        &lt;review="{{ dchild.attrib.review }}" product="{{ dchild.attrib.product }}" xml="{{ dchild.attrib.xml }}" /&gt;
+                    </a> </div>
+                {% endfor %}
+            </div>
+            <div class="text-success">&lt;/li&gt;</div>
+        {% endfor %}
+    {% endfor %}
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.clickable-row').on('click mousemove' ,function () {
+                if(event.type == 'click'){
+                    window.location = $(this).data('href');
+                }else {
+                    $(this).css('cursor', 'pointer');
+                }
+            })
+        })
+    </script>
+{% endblock %}

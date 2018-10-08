@@ -1,0 +1,33 @@
+{% extends 'raisecom/base.html' %}
+
+{% block title %}新建日记{% endblock %}
+{% block content %}
+    {{ block.super }}
+    <form action="." method="post" enctype="multipart/form-data" class="ml-3">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group row">
+                <label for="{{ field.id_for_label }}" class="col-1">{{ field.label }}</label>
+                <div class="col-10">
+                    {{ field }}
+                    <small class="form-text text-muted">
+                        {{ field.help_text|safe }}
+                    </small>
+
+                    <small class="text-danger">
+                        {{ field.errors|safe }}
+                    </small>
+                </div>
+            </div>
+        {% endfor %}
+        {{ form.media }}
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-10">
+                <input type="hidden" value="{{ form.instance.id }}" name="article_id">
+                <input type="submit" value="保存" class="btn btn-outline-primary" id="save">
+            </div>
+        </div>
+    </form>
+{% endblock %}
+

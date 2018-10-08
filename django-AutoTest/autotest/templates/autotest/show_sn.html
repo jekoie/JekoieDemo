@@ -1,0 +1,210 @@
+{% extends 'raisecom/base.html' %}
+{% load static %}
+{% block title %}平台数据查询{% endblock %}
+{% block content %}
+
+    <form action="." method="post"  id="snform">
+        {% csrf_token %}
+
+        <div class="form-row">
+            {% for field in form %}
+                {% if forloop.counter0 < 4 %}
+                    <div class="form-group col">
+                        {{ field.label_tag }}
+                        {{ field }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <div class="form-row">
+            {% for field in form %}
+                {% if forloop.counter0 >= 4 %}
+                    <div class="form-group col">
+                        {{ field.label_tag }}
+                        {{ field }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <div class="row">
+            <div class="col-2">
+                <button type="submit" class="btn btn-primary">搜索</button>
+            </div>
+
+            {% if pass_count and total_count %}
+                <div class="col-3">
+                    合格率:{{ pass_count }}/{{ total_count }}={{ qa }}
+                </div>
+
+                <div class="col-auto ml-auto">
+                </div>
+
+                <div class="col-1">
+                    <button class="btn btn-outline-primary"  id="download_excel" name="download_excel">下载EXCEL</button>
+                </div>
+
+                <div class="col-1">
+                    <button class="btn btn-outline-primary"  id="download_csv">下载CSV</button>
+                </div>
+            {% endif %}
+        </div>
+    </form>
+
+    <table class="table table-hover mt-3">
+        <thead class="thead-light text-nowrap">
+        <tr>
+            <th scope="col" class="sort-numeric">ID</th>
+            <th scope="col" class="sort-alpha">SN</th>
+            <th scope="col" class="sort-alpha">MAC</th>
+            <th scope="col" class="sort-alpha">线体</th>
+            <th scope="col" class="sort-numeric">工序</th>
+            <th scope="col" class="sort-alpha">结果</th>
+            <th scope="col" class="sort-datetime">起始时间</th>
+            <th scope="col" class="sort-datetime">结束时间</th>
+            <th scope="col" class="sort-numeric">测试时间</th>
+            <th scope="col" class="sort-numeric">操作员</th>
+            <th scope="col" class="sort-alpha">工单号</th>
+            <th scope="col" class="sort-alpha">BOM编码</th>
+            <th scope="col" class="sort-alpha">产品名称</th>
+            <th scope="col" class="sort-alpha">产品版本</th>
+            <th scope="col" class="sort-alpha">物料代码</th>
+            <th scope="col" class="sort-alpha">批次号</th>
+            <th scope="col">串口日志</th>
+            <th scope="col">测试日志</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for obj in data %}
+            <tr class="text-nowrap">
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ obj.sn }}</td>
+                <td>{{ obj.segment1 }}</td>
+                <td>{{ obj.segment4 }}</td>
+                <td>{{ obj.segment3 }}</td>
+                <td>{{ obj.result }}</td>
+                <td>{{ obj.starttime|date:'Y-m-d H:i:s' }}</td>
+                <td>{{ obj.endtime |date:'Y-m-d H:i:s'}}</td>
+                <td>{{ obj.totaltime }}</td>
+                <td>{{ obj.operator }}</td>
+                <td>{{ obj.workorder }}</td>
+                <td>{{ obj.bomcode }}</td>
+                <td>{{ obj.productname }}</td>
+                <td>{{ obj.productver }}</td>
+                <td>{{ obj.segment2 }}</td>
+                <td>{{ obj.lotno }}</td>
+                <td data-id="{{ obj.id }}" data-infotype="serial" class="showlog" data-toggle="modal" data-target="#log"><i class="far fa-file"></i></td>
+                <td data-id="{{ obj.id }}" data-infotype="process" class="showlog" data-toggle="modal" data-target="#log"><i class="far fa-file"></i></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="modal fade" id="log" tabindex="-1" role="dialog"  aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="log-title" style="white-space: pre"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="white-space: pre">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'raisecom/js/laydate/laydate.js' %}"></script>
+    <script>
+        $(document).ready(function() {
+            lay('.datepicker').each(function () {
+                laydate.render({
+                    elem: this,
+                    theme: 'molv',
+                    calendar: true
+                });
+            })
+
+            $('.showlog').click(function (event) {
+                event.preventDefault();
+                var id = $(this).data('id');
+                var infotype = $(this).data('infotype');
+                $.post('{% url "autotest:sn_detail" %}',
+                    {
+                        id: id,
+                        infotype: infotype
+                    },
+                    function (data) {
+                        $('#log-title').text(data['sn']);
+                        $('.modal-body').text(data['log']);
+                    }
+                );
+            }).mousemove(function (event) {
+                event.preventDefault();
+                $(this).css('cursor', 'pointer');
+            });
+
+            $('#download_csv').click(function (event) {
+                event.preventDefault();
+                var csv_input = $('<input>').attr({'type': 'hidden', 'name': 'csv'}).val('csv');
+                $('#snform').append($(csv_input));
+                $('#snform').submit();
+            } );
+
+            $('#download_excel').click(function (event) {
+                event.preventDefault();
+                var excel_input = $('<input>').attr({'type': 'hidden', 'name': 'excel'}).val('excel');
+                $('#snform').append($(excel_input));
+                $('#snform').submit();
+            } );
+
+
+            $('thead  th').slice(0, 15)
+                .prepend($('<i class="fas fa-sort"></i>'))
+                .click(function (event) {
+                    event.preventDefault();
+                    var column = $(this).index();
+                    var rows =  $('tbody > tr').get();
+                    var sortmethod = this.className.replace(/^sort-/, '');
+                    var fas_cell = $(this).children(0);
+                    var sortdirection = 1;
+                    if (fas_cell.hasClass('fa-sort-up')) {
+                        sortdirection = -1;
+                    }
+
+                    rows.sort(function (a, b) {
+                        var keyA = $(a).children().eq(column).text();
+                        var keyB = $(b).children().eq(column).text();
+                        if (sortmethod == 'numeric'){
+                            keyA = parseFloat(keyA);
+                            keyB = parseFloat(keyB);
+                        } else if (sortmethod == 'datetime'){
+                            keyA = new Date(keyA).getTime();
+                            keyB = new Date(keyB).getTime();
+                        }
+
+                        if (keyA > keyB) return sortdirection;
+                        if (keyA < keyB) return -sortdirection;
+                        return 0;
+                    });
+
+                    fas_cell.removeClass('fa-sort-up fa-sort-down fa-sort');
+                    fas_cell.addClass( sortdirection == 1 ? 'fa-sort-up': 'fa-sort-down');
+                    $.each(rows, function (index, row) {
+                        $('tbody').append(row);
+                    })
+                });
+
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% load comments %}
+
+<form action="{% comment_form_target %}" method="post" style="display:none" class="my-3" >
+    {% csrf_token %}
+    {{ form.content_type }}
+    {{ form.object_pk }}
+    {{ form.timestamp }}
+    {{ form.security_hash }}
+    <input type="hidden" name="next" value="{{ request.path }}" />
+
+    <div class="col-10">
+        {{ form.comment }}
+        <div class="justify-content-end my-1 mx-1 d-flex">
+            <button class="btn btn-primary" type="submit">提交</button>
+        </div>
+    </div>
+</form>

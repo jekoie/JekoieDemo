@@ -1,0 +1,29 @@
+<nav>
+    <ul class="pagination">
+        {% if page.has_previous %}
+            <li class="page-item" title="第一页" data-toggle="tooltip"><a class="page-link" href="?page=1"><i class="fas fa-angle-double-left"></i></a></li>
+            <li class="page-item" title="前一页" data-toggle="tooltip"><a class="page-link" href="?page{{ page.previous_page_number }}"><i class="fas fa-angle-left"></i></a></li>
+            {% if page.number > 5 %}
+                <li class="page-item"><span>...</span></li>
+            {% endif %}
+        {% endif %}
+
+        {% for page_num in page.paginator.page_range %}
+            {% if page_num < page.number|add:'5' and  page_num > page.number|add:'-5' %}
+                {% if page_num == page.number %}
+                    <li class="page-item active"><a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a></li>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+
+        {% if page.has_next %}
+            {% if page.number < page.paginator.num_pages|add:'-4' %}
+                <li class="page-item"><span>...</span></li>
+            {% endif %}
+            <li class="page-item" title="后一页" data-toggle="tooltip"><a class="page-link" href="?page={{ page.next_page_number }}"><i class="fas fa-angle-right"></i></a></li>
+            <li class="page-item" title="最后一页" data-toggle="tooltip"><a class="page-link" href="?page={{ page.paginator.num_pages }}"><i class="fas fa-angle-double-right" ></i></a></li>
+        {% endif %}
+    </ul>
+</nav>

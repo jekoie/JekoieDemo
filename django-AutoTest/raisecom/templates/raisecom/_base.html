@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% load static %}
+<html {% block html_attribs %}{% endblock html_attribs %} lang="cn">
+{% block html%}
+    <head>
+        {%  block head %}
+            <title>{% block title %}AutoTest{% endblock title %}</title>
+
+            {%  block metas %}
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+            {%  endblock %}
+
+            {%  block styles %}
+                <link href="{% static 'raisecom/css/bootstrap.min.css' %}" rel="stylesheet">
+                <link href="{% static 'raisecom/js/fontawesome-free-5.1/css/all.css' %}" rel="stylesheet">
+                <link href="{% static 'raisecom/js/fontawesome-free-5.1/css/v4-shims.min.css' %}" rel="stylesheet">
+
+            {%  endblock %}
+        {%  endblock %}
+
+
+    </head>
+    <body {% block body_attribs %}{% endblock %}>
+    {% block body  %}
+
+        {% block navbar %}
+        {%  endblock  %}
+
+        <div  style="margin-top: 5rem;"  class="container-fluid" >
+            {%block content%}{%endblock%}
+        </div>
+
+        {% block scripts %}
+            <script src="{% static 'raisecom/js/jquery-3.3.1.min.js' %}"></script>
+            <script src="{% static 'raisecom/js/popper.min.js' %}"></script>
+            <script src="{% static 'raisecom/js/bootstrap.min.js' %}"></script>
+        {%  endblock  %}
+
+    {%  endblock  %}
+    </body>
+{%  endblock %}
+</html>

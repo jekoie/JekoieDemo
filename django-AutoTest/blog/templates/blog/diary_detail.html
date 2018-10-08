@@ -1,0 +1,49 @@
+{% extends 'raisecom/base.html' %}
+{% load comments %}
+
+{% block title %}
+    {{ article.title }}
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    <h1 class="text-center h2">{{ article.title }}</h1>
+    {{ article.body|safe }}
+    {% if user.is_authenticated %}
+        <button class="btn btn-outline-primary btn-sm comment" >
+            <i class="fa fa-comment-o"></i>  评论 <span>{% get_comment_count for article as comment_count %} {{ comment_count }}</span>
+        </button>
+
+        {% render_comment_form  for article%}
+    {% endif %}
+
+    {% render_comment_list for article  %}
+{% endblock %}
+
+{% block extranavbar %}
+    <div class="navbar-nav ml-5">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa  fa-lg fa-ellipsis-h text-primary"></i></a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item text-success"  href="{% url 'blog:create_diary' id=article.id %}"><i class="fa fa-edit mr-2"></i>编辑</a>
+                {% if article.status == 'draft' %}
+                    <a class="dropdown-item text-success"  href="{% url 'blog:publish_diary' id=article.id  status='published'%}"><i class="fa fa-paper-plane-o mr-2"></i>发布</a>
+                {% else %}
+                    <a class="dropdown-item text-success"  href="{% url 'blog:publish_diary' id=article.id status='draft' %}"><i class="fa fa-paper-plane-o mr-2"></i>取消发布</a>
+                {% endif %}
+                <a class="dropdown-item text-success" href="{% url 'blog:remove_diary' id=article.id %}"><i class="fa fa-trash-alt mr-2"></i>删除</a>
+            </div>
+        </li>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script type="text/javascript">
+      $(document).ready(function () {
+          $('.comment').click(function (event) {
+                $('form').toggle();
+            });
+      });
+    </script>
+{% endblock %}

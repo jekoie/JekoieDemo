@@ -1,0 +1,414 @@
+{% extends 'raisecom/base.html' %}
+{% load static %}
+
+{% block title %}自动化平台配置说明书{% endblock %}
+
+{% autoescape on %}
+    {% block content %}
+        <div class="d-flex flex-row" style="margin-top: 5rem;">
+            <div class="col-2">
+                <div class="nav flex-column bg-dark position-fixed" >
+                    <a class="nav-link" href="#config_show">配置说明</a>
+                    <a class="nav-link" href="#serial_show">串口配置</a>
+                    <a class="nav-link" href="#attribute_show">attribute配置</a>
+                    <a class="nav-link" href="#assign_show">assign配置</a>
+                    <a class="nav-link" href="#testree_show">测试项配置</a>
+                    <a class="nav-link" href="#workstage_show">工序配置</a>
+                    <a class="nav-link" href="#cmd_show">命令配置</a>
+                    <a class="nav-link" href="#fan_show">风扇配置</a>
+                    <a class="nav-link" href="#if_show">if语句</a>
+                    <a class="nav-link" href="#for_show">for语句</a>
+                    <a class="nav-link" href="#reg_show">reg正则</a>
+                </div>
+            </div>
+
+            <div class="col" >
+                <h1 align="center" class="h2"><a href="ftp://192.168.60.70/AutoTest-Config/example/example.xml">AutoTest自动化平台配置说明书 </a></h1>
+                <div id="config_show">
+                    <ul>
+                        <li>function enter_normal_mode,enter_super_mode, enter_debug_mode, enter_config_mode</li>
+                        <li>固定变量, @SN=产品SN（ISN）, @CSN=客户SN, @MAC地址=产品MAC地址;</li>
+                        <li>当输入工单信息后，自动获取MES变量,  @MES_LOTNO=批次号，@MES_PRODUCTNAME=产品名称，@MES_PRODUCTTYPE=规格型号，
+                            @MES_CUSTOMER_PRODUCTNAME=客户产品型号;</li>
+                        <li>三段MAC地址固定变量，@3MAC0，@3MAC1, @3MAC2, ....@3MAC99,,,3MAC0是产品的MAC三段地址，3MAC1到M3AC99是3MAC0以次加一的MAC地址</li>
+                        <li>MAC变量，@MAC0, ...@MAC99,  @MAC0与@MAC变量相同， @MAC1地址是@MAC0加1， 其他的以此类推</li>
+                        <li>@VMAC, 虚拟MAC地址, 第一个窗口@VMAC=00:00:00:00:00:01, 第二个窗口为@VMAC=00:00:00:00:00:02, 依次类推</li>
+                        <li ><img src="{% static 'instruction/img/vmac_portid.png' %}" class="w-75 h-25"></li>
+                        <li>@PORTID, 窗口PORTID, 第一个窗口@PORTID=100, 第二个窗口为@PORTID=101, 依次类推</li>
+                        <li>当前时间动态变量， @NOW=20170909192345(年月日时分秒)， @NOW1=19 14 23 2014 9 12（时 分 秒 年月日）(数字前不含0)</li>
+                        <li> 命令换行符， "&amp;#xA"="\n"  "&amp;xD;"="\r"  "&amp;#x9;"="\t"</li>
+                        <li> xml文件特殊字符转义 "&amp;lt;"=表示小于符号< , "&amp;gt;"=表示大于符号>,"&amp;amp;"=表示与符号& </li>
+                        <li>
+                            <ul>
+                                <p class="text-primary">命令之命令类型cmdtype</p>
+                                <li> function内部函数命令类型；值可为enter_super_mode, enter_debug_mode, enter_config_mode；</li>
+                                <li> cmd命令类型（默认类型），发送命令到串口；</li>
+                                <li>sleep命令类型，延迟命令，值为数字或者小数；</li>
+                                <li>session命令类型，发送消息到测试区域；</li>
+                                <li> dialog命令类型，弹出对话框；</li>
+                                <li>  condition逻辑关系判断命令类型；</li>
+                                <li>  item类型，调用其他测试项；</li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <ul>
+                                <p class="text-primary">命令之命令标记flag</p>
+                                <li>  hex,命令以十六进制形式发送，常用特殊字符；如ctrl+b,ctrl+e,等；</li>
+                                <li> detect,表示发送该命令后不自动换行，默认命令发送后都会自动换行；常用于输入命令后不需要回车；</li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <ul>
+                                <p class="text-primary"> 表达式标记flag</p>
+                                <li>  upper,对匹配的值进行大写转化，然后校验；</li>
+                                <li> lower,对匹配的值进行小写转化，然后校验；</li>
+                                <li> strip,对匹配的值两边删除空白字符，然后校验；</li>
+                                <li> lstrip,对匹配的值左侧删除空白字符，然后校验；</li>
+                                <li> rstrip,对匹配的值右侧删除空白字符，然后校验；</li>
+                                <li> rstrip,对匹配的值右侧删除空白字符，然后校验；</li>
+                                <li> date,对匹配的英文日期值转化成数字日期形式，然后校验；</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div id="serial_show">
+                    <p>串口设置参数设置，baudrate波特率，bytesize波特率位数</p>
+                    <p>&lt; serial baudrate="9600" bytesize="8" parity="N" stopbits="1" timeout="1" write_timeout="0"/ &gt;</p>
+                </div>
+
+                <div id="options_show">
+                    <p>config_cmd进入config模式命令，debug_cmd进入debug模式命令，super_cmd进入super模式命令,
+                        password=密码，username=用户名，linefeed=命令换行符，hostword=模式关键字，exit_cmd=模式退出命令</p>
+                    <p>  &lt;options config_cmd="config" debug_cmd="debug-hide 0906" super_cmd="ena" exit_cmd="exit" hostword="raisecom" linefeed="&amp;#xA;"
+                        username="raisecom"  password="raisecom" /&gt; </p>
+                </div>
+
+                <div id="attribute_show">
+                    <p>自定义变量,变量名前加@符号</p>
+                    <div>
+                        <p> &lt;attribute&gt;</p>
+                        <div>
+                            <p>自定义@product_name变量</p>
+                            <p>&lt;li name="@product_name" value="MSG2200-T4"/&gt;</p>
+
+                            <p>把@MES_PRODUCTTYPE(从MES上自动获取)变量赋值给自定义的@product_ver变量</p>
+                            <p>&lt;li name="@product_ver" value="@MES_PRODUCTTYPE"/&gt;</p>
+                        </div>
+                        <p> &lt;/attribute&gt;</p>
+                    </div>
+                </div>
+
+                <div id="assign_show">
+                    <p>从工单对应的软件列表中，用正则表达式匹配的值赋给asssign参数变量</p>
+                    <div>
+                        <p> &lt;assignversion&gt;</p>
+                        <div>
+                            <p> &lt;reg assign="@system_ver" regex="B_SYSTEM_([\d\.]+)"/&gt; </p>
+                        </div>
+
+                        <p> &lt;/assignversion&gt;</p>
+                    </div>
+                </div>
+
+                <div id="testree_show">
+                    <p>测试项目顺序，节点顺序决定执行顺序</p>
+                    <div>
+                        <p> &lt;testtree&gt;</p>
+                        <div>
+                            <p>run表示测试项是否运行的开关，cn表示测试项的中文名称,station表示测试项的工序</p>
+                            <p> &lt;product_info_write cn="版本信息写入" run="True" station="1"/&gt; </p>
+                            <p> &lt;product_info_check cn="产品制造信息检查" run="True" station="2"/&gt; </p>
+                        </div>
+
+                        <p> &lt;/testtree&gt;</p>
+                    </div>
+                </div>
+
+                <div id="workstage_show">
+                    <p>工序选择对话框配置</p>
+                    <div>
+                        <p>  &lt;workstage&gt; </p>
+                        <div>
+                            <p>name为工序提示信息，value为工序的值, show_mac该工序是否弹出MAC地址框，缺省值为True,
+                                pass_station=自动过站标志(缺省值为(False)，baudrate=该工序的波特率(缺省值为默认设置)</p>
+                            <p>  &lt;li name="1.版本信息写入" show_mac="False" value="1" pass_station="False" baudrate="9600"&gt; </p>
+                            <div>
+                                <p>工序自定义选择性弹框，name=输入的值赋给该变量，msg=消息框信息，caption=消息框标题，show=该输入框是否显示，initial_value=消息框初始值，type=输入框类型；
+                                    name,msg,caption,type为必须值，其他为可选值，msg，caption,initial_value缺省值为空，show缺省值为True;当show为False是，输入提示框不会显示，
+                                    但变量的值为initial_value;flag=对输入的值进行转化；flag标记可为upper,lower,strip,lstrip,rstrip; 标记可以多次使用，以|符号分隔 </p>
+                                <p>&lt;li caption="IP" flag="upper|strip" initial_value="what a pity" msg="请输入IP" name="@IP" show="True" type="msgbox"/&gt;</p>
+                                <p>&lt;li caption="IP" msg="请输入IP" name="@IP2" type="msgbox"/&gt;</p>
+                            </div>
+                            <p>&lt;/li &gt;</p>
+                            <p> &lt;li caption="IP2" msg="请输入IP2" name="@IP2" type="msgbox" /&gt;</p>
+                        </div>
+                        <p>  &lt;/workstage&gt;</p>
+                    </div>
+                </div>
+
+                <div id="cmd_show">
+                    <p>自定义选择性弹框cmdtype="msgbox"，name=输入的值赋给该变量，msg=消息框信息，caption=消息框标题，show=该输入框是否显示，initial_value=消息框初始值；
+                        name,msg,caption为必须值，其他为可选值; msg，caption,initial_value缺省值为空，show缺省值为True; 当show为False是，输入提示框不会显示，但变量的值为initial_value;
+                        flag=对输入的值进行转化；flag标记可为upper,lower,strip,lstrip,rstrip; 标记可以多次使用，以|符号分隔</p>
+                    <div>
+                        <p> &lt;cmd caption="IP地址" cmdtype="msgbox" initial_value="what a pity" msg="请输入IP地址" name="@IPADDR" show="True" flag="upper" /&gt;</p>
+                        <p> &lt;cmd caption="IP" msg="请输入IP" name="@IP2" cmdtype="msgbox"/&gt;</p>
+                    </div>
+                </div>
+
+                <div>
+                    <p>进入super模式，timeout超时为180秒，默认为100秒 </p>
+                    <div>
+                        <p> &lt;cmd cmdtype="function" command="enter_super_mode" timeout="180"/&gt;</p>
+                    </div>
+                </div>
+
+                <div>
+                    <p>发送show ver命令，不读取结束符, cmdtype默认为cmd类型，默认超时未10秒 </p>
+                    <div>
+                        <p> &lt;cmd command="show ver"/&gt;</p>
+                    </div>
+                </div>
+
+                <div>
+                    <p>发送自定义变量@version，读取raisecom(debug)#结束符表示命令结束, cmdtype默认为cmd类型，默认超时未10秒</p>
+                    <div>
+                        <p> &lt;cmd command="@version" endflag="raisecom(debug)#"/&gt;</p>
+                    </div>
+                </div>
+
+                <div>
+                    <p>变量可以组合使用，读取raisecom(debug)#结束符表示命令结束, cmdtype默认为cmd类型，默认超时未10秒</p>
+                    <div>
+                        <p> &lt;cmd command="ftp login @ip @user" endflag="raisecom(debug)#"/&gt;</p>
+                    </div>
+                </div>
+
+                <div>
+                    <p>发送show ver命令，读取raisecom(debug)#结束符表示命令结束,命令超时时间为30秒, cmdtype默认为cmd类型</p>
+                    <div>
+                        <p> &lt;cmd command="show ver" endflag="raisecom(debug)#" timeout="30"/&gt;</p>
+                    </div>
+                </div>
+
+                <div>
+                    <p>发送show ver命令，读取raisecom(debug)#或者raisecom(config)#结束符表示命令结束；
+                        命令有多个结束符时，用|符号分隔，如endflag="A|B|C|D|E",表示结束符为A或B或C或D或E；
+                        命令超时时间为30秒, cmdtype默认为cmd类型</p>
+                    <div>
+                        <p> &lt;cmd command="show ver" endflag="raisecom(debug)#|raisecom(config)#" timeout="30"/&gt;</p>
+                    </div>
+                </div>
+
+                <div>
+                    <p>发送1命令，读取menu结束符表示命令结束, cmdtype默认为cmd类型，默认超时未10秒;
+                        flag表示命令标记参数，detect表示发送该命令后不自动换行，默认命令发送后都会自动换行；</p>
+                    <div>
+                        <p> &lt;cmd command="1" endflag="menu" flag="detect"/&gt;</p>
+                    </div>
+                </div>
+
+                <div>
+                    <p>发送04十六进制命令，读取menu结束符表示命令结束, cmdtype默认为cmd类型，默认超时未10秒;
+                        flag表示命令标记参数，hex表示以十六进制发送，常用与ctrl+b,ctrl+e,等特殊情况</p>
+                    <div>
+                        <p> &lt;cmd command="04" endflag="menu" flag="hex"/&gt;</p>
+                    </div>
+                </div>
+
+                <div>
+                    <p>发送04十六进制命令，读取menu结束符表示命令结束, 以detect方式发送</p>
+                    <div>
+                        <p> &lt;cmd command="04" endflag="menu" flag="hex|detect"/&gt;</p>
+                    </div>
+                </div>
+
+                <div>
+                    <p>弹出信息提示框，包含OK,Cancel按钮；OK表示命令成功，Cancel表示命令失败</p>
+                    <div>
+                        <p> &lt;cmd command="观察指示灯是否亮起" caption="观察指示灯" cmdtype="dialog" /&gt;</p>
+                    </div>
+                </div>
+
+                <div>
+                    <p>弹出信息提示框，只包含OK按钮；OK表示命令成功</p>
+                    <div>
+                        <img src="{% static 'instruction/img/dialog_caption.png' %}">
+                        <p> &lt;cmd command="Hello raisecom" cmdtype="dialog"  caption="raisecom" c style="ok"/&gt;</p>
+                    </div>
+                </div>
+
+                <div>
+                    <p>表示命令延迟0.3秒后在执行之后的命令</p>
+                    <div>
+                        <p> &lt;cmd command="0.3" cmdtype="sleep" /&gt;</p>
+                    </div>
+                </div>
+
+                <div>
+                    <p>表示把@MAC发送到测试提示区域</p>
+                    <div>
+                        <p> &lt;cmd command="@MAC" cmdtype="session"  /&gt;</p>
+                    </div>
+                </div>
+
+                <div>
+                    <p>表示把命令发送到空</p>
+                    <div>
+                        <p> &lt;cmd command="10000012516" cmdtype="null"  &gt;</p>
+                        <div>
+                            <p>&lt;reg regex="(100)" value="100"/&gt;</p>
+                        </div>
+                        <p>&lt;/cmd&gt;</p>
+                    </div>
+                </div>
+
+                <div>
+                    <p>对匹配的时间进行误差检验，timedelta检验所允许的最大秒数 </p>
+                    <div>
+                        <p> &lt;cmd command="show clock" endflag="Timezone offset" &gt;</p>
+                        <div>
+                            <p>&lt; reg  regex="Current system time\s*:\s*([\d,-:]+)" timedelta="10" flag="time" /&gt;</p>
+                        </div>
+                        <p>&lt;/cmd&gt;</p>
+                    </div>
+                </div>
+
+                <div id="fan_show">
+                    <p>风扇校验表达式，which_re匹配哪个风扇的表达式，which_value哪个风扇的值；level_re匹配风扇级别，speed_re匹配风扇速度；
+                        level定义风扇级别，level_range风扇级别对应的速度； extra_re匹配附加信息，extra_value附加信息的值;re结束的参数都要写表达式，
+                        如which_re,level_re,speed_re,extra_re; </p>
+                    <div>
+                        <p> &lt;cmd command="show fan" endflag="fan" &gt;</p>
+                        <div>
+                            <p>&lt; fan extra_re="(normal)" extra_value="normal" level="1,2,3" level_range="0-0,1000-2000,2000-3000"
+                                level_re="(1)" speed_re="(3200)" which_re="(fan1)" which_value="fan1"/&gt;</p>
+                        </div>
+                        <p>&lt;/cmd&gt;</p>
+                    </div>
+                </div>
+
+
+                <div>
+                    <p>表示执行product_info_write测试项</p>
+                    <div>
+                        <p> &lt;cmd command="product_info_write" cmdtype="item"/&gt;</p>
+                    </div>
+                </div>
+
+                <div>
+                    <p>逻辑判断命令；逻辑为真，表示命令成功；逻辑为假，表示命令失败</p>
+                    <div>
+                        <p> &lt;cmd command="True|False|True" cmdtype="conditon" /&gt;</p>
+                    </div>
+                </div>
+
+                <div id="if_show">
+                    <p>if命令，发送单行命令后;结果成功，执行ok区域命令;结果失败，执行fail区域命令;if命令可以多级嵌套；</p>
+                    <div>
+                        <p> &lt;if &gt;</p>
+                        <div>
+                            <p>&lt;cmd command="show ver" endflag="raisecom(debug)#"/&gt;</p>
+                            <div>
+                                <p>&lt;ok/&gt;</p>
+                                <p>&lt;fail/&gt;</p>
+                            </div>
+                        </div>
+                        <p>&lt;/if&gt;</p>
+                    </div>
+                </div>
+
+                <div id="for_show">
+                    <p>for命令，value=值列表，以逗号隔开；assign=循环的值赋给该变量</p>
+                    <div>
+                        <p> &lt;for assign="@V1" value="1,2,3" &gt;</p>
+                        <div>
+                            <p>&lt;cmd command="@V1" cmdtype="session" /&gt;</p>
+                        </div>
+                        <p>&lt;/for&gt;</p>
+                    </div>
+                </div>
+
+
+                <div id="reg_show">
+                    <p>reg的flag标记可为upper,lower,strip,lstrip,rstrip,date,time,not; 标记可以多次使用，以|符号分隔;</p>
+                    <div>
+                        <p> &lt;cmd command="show version" endflag="raisecom#" /&gt;</p>
+                        <div>
+                            <p>regex填写表达式，匹配的内容放在()中，匹配后的值与value比较，一致则校验成功，否则失败</p>
+                            <p>&lt;reg regex="Bootrom version\s*:\s*([\w]+)" value="@version" /&gt;</p>
+
+                            <p>匹配的结果可为A或B或C,多个值时以|符号分隔 </p>
+                            <p>&lt;reg regex="(A|B|C)" value="A|B|C" /&gt;</p>
+
+                            <p>对匹配的值进行大写转化，然后校验 </p>
+                            <p>&lt;reg regex="(aa:ab:ac:aa:ab:ac)" value="@MAC" flag="upper"  /&gt;</p>
+
+                            <p>对匹配的值进行小写转化，然后校验 </p>
+                            <p>&lt;reg regex="(AA:AB:AC:AA:AB:AC)" flag="lower"  value="@MAC"  /&gt;</p>
+
+                            <p>对匹配的值两边删除空白字符，然后校验 </p>
+                            <p>&lt;reg regex="(  aa:ab:ac:aa:ab:ac  )" flag="strip"  value="@MAC"  /&gt;</p>
+
+                            <p>对匹配的值左侧删除空白字符，然后校验 </p>
+                            <p>&lt;reg regex="(   aa:ab:ac:aa:ab:ac)" flag="lstrip"  value="@MAC"  /&gt;</p>
+
+                            <p>对匹配的值右侧删除空白字符，然后校验 </p>
+                            <p>&lt;reg regex="(aa:ab:ac:aa:ab:ac   )" flag="rstrip"  value="@MAC"  /&gt;</p>
+
+                            <p>对匹配的值两边删除空白字符，转成大写，然后校验 </p>
+                            <p>&lt;reg regex="(   aa:ab:ac:aa:ab:ac   )" flag="strip|upper"  value="@MAC" /&gt;</p>
+
+                            <p>对匹配的英文日期值转化成20180821形式 </p>
+                            <p>&lt;reg regex="Today is (Aug 21 2018)" flag="date"  value="(Aug 21 2018)" /&gt;</p>
+
+                            <p>匹配值取非标记位， 匹配的值不在value中，则匹配正确 </p>
+                            <p>&lt;reg regex="(abc)" flag="not"  value="china" /&gt;</p>
+
+                        </div>
+                        <p>&lt;/cmd&gt;</p>
+                    </div>
+                </div>
+
+
+                <div>
+                    <p></p>
+                    <div>
+                        <p>  &lt;product_info_check&gt; </p>
+                        <div>
+                            <p>  &lt;cmd command="enter_super_mode" cmdtype="function"  nullfeed="True" timeout="180"/&gt; </p>
+                            <p>  &lt;cmd command="show ve" endflag="raisecom#"&gt;</p>
+                            <p>  &lt;reg flag="strip" regex="Serial number\s*:\s*(.*)" value="@SN"/&gt;</p>
+                            <p>  &lt;/cmd&gt;</p>
+                        </div>
+                        <p>  &lt;/product_info_check&gt;</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    {% endblock %}
+
+{% endautoescape %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('ul > li').each(function () {
+                $(this).text();
+            })
+
+            $('.col > div').each(function () {
+                $(this).addClass('text-dark shadow');
+                $(this).css({'background-color': '#eaa'});
+                $('div > div', this).css({'text-indent':'40px'});
+                $('div > div > div ', this).css({'text-indent':'80px'});
+            })
+        })
+    </script>
+{% endblock %}

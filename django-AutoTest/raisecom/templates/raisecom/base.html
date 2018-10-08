@@ -1,0 +1,125 @@
+{% extends "raisecom/_base.html" %}
+{% load static %}
+{% load thumbnail %}
+
+{%block title%}AutoTest{%endblock%}
+
+{%block styles%}
+    {{ block.super }}
+    <link rel="icon" type="image/x-icon" href="{% static  'raisecom/favicon.png' %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'raisecom/favicon.png' %}">
+{%endblock%}
+
+{%block navbar%}
+    <nav class="navbar navbar-light navbar-expand fixed-top text-nowrap" style=" background-color: #e3f2fd; " >
+        <a class="navbar-brand" href="{% url 'autotest:softdown' %}">
+            <span class="mb-0 h4">AutoTest{{ ver.version }}</span>
+        </a>
+
+        <div class="navbar-collapse collapse" id="navcontent">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="{% url 'instruction:show_instruction' %}" >使用说明</a>
+                {% if user.is_authenticated %}
+                    <a class="nav-item nav-link" href="{% url 'blog:diary_list' %}">个人日记</a>
+                {% endif %}
+                <a class="nav-item nav-link" href="{% url 'blog:blog_list' %}" >博客</a>
+                {% if perms.accounts.can_view %}
+                    <a class="nav-item nav-link" href="{% url 'autotest:ftp_index'  %}" >FTP</a>
+                {% endif %}
+                <a class="nav-item nav-link" href="{% url 'instruction:show_config_index' %}" >配置文件索引</a>
+                <a class="nav-item nav-link" href="{% url 'autotest:show_sn' %}" >数据查询</a>
+                <a class="nav-item nav-link" href="{% url 'autotest:softdown' %}">软件下载</a>
+                <a class="nav-item nav-link" href="{% url 'autotest:website' %}" >网站大全</a>
+            </div>
+
+            {% block extranavbar %} {% endblock %}
+            <div class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-primary" href="#"  data-toggle="dropdown" >
+                            {{ user.chinese_name }} <img src="{{ user.photo|thumbnail_url:'navimage' }}">
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right ">
+                            <a class="dropdown-item text-success" href="{% url 'accounts:logout' %}"><i class="fa fa-sign-out mr-3"></i>登出</a>
+                            <a class="dropdown-item text-success" href="{% url 'accounts:personal_info' %}"><i class="fa fa-user-edit mr-3"></i>个人信息</a>
+                            <a class="dropdown-item text-success" href="{% url 'accounts:password_change' %}"><i class="fa fa-key mr-3"></i>修改密码</a>
+                            {% if user.is_staff %}
+                                <a class="dropdown-item text-success" href="/admin"><i class="fa fa-database mr-3"></i>网站管理</a>
+                            {% endif %}
+                        </div>
+                    </li>
+                {% else %}
+                    <a class="nav-item nav-link text-primary" href="{% url 'accounts:login' %}"><i class="fa fa-sign-in mr-3"></i>登录</a>
+                {% endif %}
+            </div>
+        </div>
+
+    </nav>
+{%endblock%}
+
+
+{% block scripts %}
+    {{ block.super }}
+    <script type="text/javascript">
+
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        var csrftoken = getCookie('csrftoken');
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+
+        window.setTimeout(function() {
+            $('.alert').fadeOut();
+        }, 2000);
+    </script>
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    {% if messages %}
+        <ul class="errorlist">
+            {% for message in messages %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                    <li class="alert alert-success alert-dismissable fade show col-9">
+                        {{ message }}
+                    </li>
+                {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    <li class="alert alert-warning alert-dismissable fade show col-9">
+                        {{ message }}
+                    </li>
+                {% else %}
+                    <li class="alert alert-primary alert-dismissable fade show col-9">
+                        {{ message }}
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

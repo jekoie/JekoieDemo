@@ -1,0 +1,70 @@
+{% extends 'raisecom/base.html' %}
+
+{% block title %}软件下载{% endblock %}
+{% block content %}
+    {{ block.super }}
+    <div class="row container">
+        <div class="nav  nav-tabs col-2 text-nowrap flex-column"  role="tablist">
+            {% if autotest_softs %}
+                <a class="nav-link nav-item active" data-toggle="tab" href="#autotest" role="tab">平台软件</a>
+            {% endif %}
+
+            {% if other_softs %}
+                <a class="nav-link nav-item"  data-toggle="tab" href="#other" role="tab">其他软件</a>
+            {% endif %}
+        </div>
+
+        <div class="tab-content col" >
+            {% if autotest_softs %}
+                <div class="tab-pane fade show active text-muted" id="autotest" role="tabpanel" >
+                    <ul>
+                        {% for soft in autotest_softs %}
+                            <li class="table-light mt-3 border border-white shadow" >
+                                <div class="d-flex flex-row flex-nowrap justify-content-between">
+                                    <a  href="#" data-fileid="{{ soft.id }}">{{ soft.softname }} <i class="fas fa-download"></i></a>
+                                    <p >发布时间：{{ soft.published }}</p>
+                                    <p >下次次数：{{ soft.download_counts }}</p>
+                                </div>
+                                {{ soft.description|linebreaks }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            {% if other_softs %}
+                <div class="tab-pane fade show text-muted" id="other" role="tabpanel" >
+                    <ul>
+                        {% for soft in other_softs %}
+                            <li class="table-light mt-3 border border-white shadow" >
+                                <div class="d-flex flex-row flex-nowrap justify-content-between">
+                                    <a  href="#" data-fileid="{{ soft.id }}">{{ soft.softname }} <i class="fas fa-download"></i></a>
+                                    <p >上传时间：{{ soft.created }}</p>
+                                    <p >下次次数：{{ soft.download_counts }}</p>
+                                </div>
+                                {{ soft.description|linebreaks }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('a[data-fileid]').click(function (event) {
+                event.preventDefault();
+                var id = $(this).data('fileid');
+                var csrftoken = "{% csrf_token %}";
+                $("<form action='.' method='post'>" + csrftoken +
+                        "<input type='number' name='id' value=" + id + ">" +
+                    " </form>").appendTo('body').submit().remove();
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,250 @@
+{% extends 'raisecom/base.html' %}
+{% load humanize %}
+
+{% block title %}工艺FTP{% endblock %}
+{% block content %}
+    {{ block.super }}
+    <div class="container-fluid d-flex">
+        <div>
+            <button class="btn btn-primary btn-sm"  id="delete_item"  style="display:none">删除</button>
+            <button class="btn btn-primary btn-sm"  id="rename_item" data-toggle="modal" data-target="#ftpmodal" style="display:none">重命名</button>
+        </div>
+
+        <div class="ml-5">
+            {% for pdir, pdir_name in parent_dirs %}
+                {% if forloop.counter == 1 %}
+                    <span> <a href="{% url 'autotest:ftp' curdir=pdir filetype='folder' %}"><i class="fa fa-home"></i></a> <span>/</span></span>
+                {% else %}
+                    <span> <a href="{% url 'autotest:ftp' curdir=pdir filetype='folder' %}">{{ pdir_name }}</a> <span>/</span></span>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <div class="ml-auto">
+            <button class="btn btn-primary btn-sm" id="upload_item">上传</button>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown">新建</button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="#" id="newfile_item" data-toggle="modal" data-target="#ftpmodal" >新建文件</a>
+                    <a class="dropdown-item" href="#" id="newfolder_item" data-toggle="modal" data-target="#ftpmodal" >新建文件夹</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table table-hover mt-3 table-sm">
+        <thead class="thead-light text-nowrap">
+        <tr>
+            <th scope="col" ></th>
+            <th scope="col" class="sort-alpha">文件</th>
+            <th scope="col" class="sort-numeric">大小</th>
+            <th scope="col" class="sort-datetime">修改时间</th>
+        </tr>
+        </thead>
+
+        <div class="modal fade" id="ftpmodal" role="dialog" tabindex="-1">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modal_title"></h5>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <input type="text" name="cvalue" class="form-control" id="cvalue" >
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <tbody>
+
+        {% for key, value in dirs.items %}
+            <tr class="text-nowrap">
+                <th scope="row"><a href="#"><i class="fa square fa-square-o ftp_dir"></i></a></th>
+                <td><a  href="{% url 'autotest:ftp' curdir=curdir|add:'/'|add:key  filetype='folder'%}"><i class="fa fa-folder-o"></i> {{ key }}</a> </td>
+                <td data-size="-1">-</td>
+                <td data-datetime="{{ value.mtime|date:'Y-m-d H:i:s' }}"> {{ value.mtime }}</td>
+            </tr>
+        {% endfor %}
+
+        {% for key, value in files.items %}
+            <tr class="text-nowrap">
+                <th scope="row"><a href="#"><i class="fa square fa-square-o ftp_file"></i></a></th>
+                <td> <a  href="{% url 'autotest:ftp' curdir=curdir|add:'/'|add:key filetype='file' %}"><i class="fa fa-file-o"></i> {{ key }}</a></td>
+                <td data-size="{{ value.size }}">{{ value.size|filesizeformat }}</td>
+                <td data-datetime="{{ value.mtime|date:'Y-m-d H:i:s' }}">{{ value.mtime }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <form action="." method="post" enctype="multipart/form-data"   id="upload_form" hidden>
+        {% csrf_token %}
+        {{ form.as_p }}
+    </form>
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('#delete_item').click(function (event) {
+                var items = $('.fa-check-square').parents('tr').find('td a');
+                var itemarray = new Array();
+                items.each(function (index) {
+                    itemarray.push($(this).text().trim());
+                });
+
+                $.post("{{ request.path }}",
+                    {
+                        remove_files: itemarray
+                    }, function () {
+                        window.location.href = '{{ request.path }}';
+                    }
+                )
+            });
+
+            $('#rename_item').click(function (event) {
+                event.preventDefault();
+                var oldname = $('.fa-check-square').parents('tr').find('td a').text().trim();
+                $('#cvalue').val('');
+                $('#modal_title').text('请输入重命名文件名');
+                $('#ftpmodal').show();
+                $('#cvalue').change(function (event) {
+                    event.preventDefault();
+                    var cvalue = $(this).val().trim();
+                    $.post("{{ request.path }}",
+                        {
+                            oldname: oldname,
+                            newname: cvalue
+                        }, function () {
+                            window.location.href = '{{ request.path }}';
+                        }
+                    )
+                });
+            });
+
+            $('#newfile_item').click(function (event) {
+                event.preventDefault();
+                $('#cvalue').val('');
+                $('#modal_title').text('请输入文件名');
+                $('#ftpmodal').show();
+                $('#cvalue').change(function (event) {
+                    event.preventDefault();
+                    var cvalue = $(this).val().trim();
+                    $.post("{{ request.path }}",
+                        {
+                            'newfile_name': cvalue
+                        }, function () {
+                            window.location.href = '{{ request.path }}';
+                        }
+                    )
+                });
+            });
+
+            $('#newfolder_item').click(function (event) {
+                event.preventDefault();
+                $('#cvalue').val('');
+                $('#modal_title').text('请输入文件夹名');
+                $('#ftpmodal').show();
+                $('#cvalue').change(function (event) {
+                    event.preventDefault();
+                    var cvalue = $(this).val();
+                    $.post("{{ request.path }}",
+                        {
+                            'newfolder_name': cvalue
+                        }, function () {
+                            window.location.href = '{{ request.path }}';
+                        }
+                    )
+                });
+            });
+
+
+            $('#upload_item').click(function (event) {
+                event.preventDefault();
+                $('#id_upload').click();
+            });
+
+            $('#id_upload').change(function (event) {
+                $('#upload_form').submit();
+            });
+
+            $('.square').click(function (event) {
+                event.preventDefault();
+                if ($(this).hasClass('fa-square-o')){
+                    $(this).removeClass('fa-square-o').addClass('fa-check-square')
+                } else if ($(this).hasClass('fa-check-square')) {
+                    $(this).removeClass('fa-check-square').addClass('fa-square-o')
+                }
+
+                var checknums = $('.fa-check-square').length;
+                if (checknums == 0 ){
+                    $('#rename_item').hide();
+                    $('#delete_item').hide();
+                } else if(checknums == 1){
+                    $('#rename_item').show();
+                    $('#delete_item').show();
+                } else {
+                    $('#rename_item').hide();
+                    $('#delete_item').show();
+                }
+
+            });
+
+
+            $('thead  th').slice(1, 4)
+                .prepend($('<i class="fas fa-sort"></i>'))
+                .click(function (event) {
+                    event.preventDefault();
+                    var column = $(this).index();
+                    var rows =  $('tbody > tr').get();
+                    var sortmethod = this.className.replace(/^sort-/, '');
+                    var fas_cell = $(this).children(0);
+                    var sortdirection = 1;
+                    if (fas_cell.hasClass('fa-sort-up')) {
+                        sortdirection = -1;
+                    }
+
+                    rows.sort(function (a, b) {
+                        var keyA = '', keyB = '';
+                        if (sortmethod == 'numeric'){
+                            keyA = $(a).children().eq(column).data('size');
+                            keyB = $(b).children().eq(column).data('size');
+                            keyA = parseFloat(keyA);
+                            keyB = parseFloat(keyB);
+                        } else if (sortmethod == 'datetime'){
+                            keyA = $(a).children().eq(column).data('datetime');
+                            keyB = $(b).children().eq(column).data('datetime');
+                            keyA = new Date(keyA).getTime();
+                            keyB = new Date(keyB).getTime();
+                        }else if (sortmethod == 'alpha'){
+                            keyA = $(a).children().eq(column).text();
+                            keyB = $(b).children().eq(column).text();
+                        }
+
+                        if (keyA > keyB) return sortdirection;
+                        if (keyA < keyB) return -sortdirection;
+                        return 0;
+                    });
+
+                    fas_cell.removeClass('fa-sort-up fa-sort-down fa-sort');
+                    fas_cell.addClass( sortdirection == 1 ? 'fa-sort-up': 'fa-sort-down');
+                    $.each(rows, function (index, row) {
+                        $('tbody').append(row);
+                    })
+
+                });
+
+        });
+    </script>
+
+{% endblock %}
+

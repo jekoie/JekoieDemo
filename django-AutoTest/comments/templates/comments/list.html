@@ -1,0 +1,18 @@
+{% load comments %}
+{% load thumbnail %}
+
+<dl>
+    {% for comment in  comment_list%}
+        <div class="my-1 shadow-sm">
+            <dt> <img src="{{ comment.user.photo|thumbnail_url:'comment' }}">
+                {{ comment.user.chinese_name }} From {{ comment.user.get_deparment_display }}, {{ comment.submit_date }}
+                {% if comment.user == user %}
+                    <a href="{% url 'comments:delete_own_comment' comment_id=comment.id %}"><i class="fa fa-trash-alt" data-toggle="tooltip" title="删除"></i></a>
+                {% endif %}
+            </dt>
+            <dd>
+                {{ comment.comment }}
+            </dd>
+        </div>
+    {% endfor %}
+</dl>

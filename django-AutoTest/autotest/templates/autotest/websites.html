@@ -1,0 +1,16 @@
+{% extends 'raisecom/base.html' %}
+{% load thumbnail %}
+
+{% block title %}网站大全{% endblock %}
+{% block content %}
+{{ block.super }}
+    <ul>
+        {% for site in websites %}
+            <li class="table-light mt-3 border border-white shadow-sm">
+                <a href="{{ site.url }}"> <img src="{{ site.image|thumbnail_url:'navimage' }}"> {{ site.name }}</a>
+                {{ site.description|linebreaks }}
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

@@ -1,0 +1,215 @@
+{% extends 'raisecom/base.html' %}
+{% load static %}
+
+{% block title %}自动化平台使用说明书{% endblock %}
+
+{% block content %}
+    <div class="d-flex flex-row" style="margin-top: 5rem;">
+        <div class="col-2">
+            <div class="nav flex-column bg-dark position-fixed" >
+                <a class="nav-link" href="#login">登录</a>
+                <a class="nav-link" href="#abnormal">启动异常解决方法</a>
+                <a class="nav-link" href="#mes_area">视图->显示MES区</a>
+                <a class="nav-link" href="#worktable">设置->工单信息</a>
+                <a class="nav-link" href="#soft_download">设置->软件下载</a>
+                <a class="nav-link" href="#para_setting">设置->参数设置</a>
+                <a class="nav-link" href="#toolset">工具->工具合集</a>
+                <a class="nav-link" href="#about">帮助->关于</a>
+                <a class="nav-link" href="#soft_func">软件功能使用方法</a>
+                <a class="nav-link" href="#test_result">软件测试结果说明</a>
+                <a class="nav-link" href="#feedback">软件异常信息反馈</a>
+            </div>
+        </div>
+
+        <div class="col" >
+            <h1 align="center" class="h2">AutoTest自动化平台使用说明书</h1>
+            <ul>
+                <li id="login">
+                    <p>登录：</p>
+                    <div>
+                        <p>按提示输入MES输入账号和密码点击OK按钮登录，点击Cancel则退出软件；</p>
+                        <img src="{% static 'instruction/img/login.png' %}">
+                    </div>
+                </li>
+
+                <li id="abnormal">
+                    <p >软件启动提示异常解决方法：</p>
+                    <div>
+                        <img src="{% static 'instruction/img/startup_error.png' %}">
+                        <ul>
+                            <li>AutoTest软件启动多个，关闭不必要的软件；</li>
+                            <li>检查串口设备是否被SecureCRT等设备占用或串口设备未启用；</li>
+                            <li>点击 “删除本地配置文件” 后启动软件；</li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li id="mes_area">
+                    <p>视图->显示MES区：</p>
+                    <div>
+                        <p >勾选该菜单项显示MES功能区；未勾选则隐藏MES功能区；</p>
+                        <img src="{% static 'instruction/img/mes_area.png' %}" >
+                    </div>
+
+                </li>
+
+                <li id="worktable">
+                    <p> 设置->工单信息输入：</p>
+                    <div>
+                        <p>在测试设备之前，必须先输入工单信息才能进行测试；</p>
+                        <img src="{% static 'instruction/img/worktable.png' %}">
+                    </div>
+
+                </li>
+
+
+                <li id="soft_download">
+                    <p> 设置->软件下载：</p>
+                    <div>
+                        <p >在工单信息输入无误后，点击该菜单显示该工单相对应的软件；
+                            点击列表项后单击鼠标右键弹出“下载”菜单项，单击“下载”菜单项下载相应的软件；</p>
+                        <img src="{% static 'instruction/img/softdownload.png' %}">
+                    </div>
+                </li>
+
+                <li>
+                    <p>设置->SN自动弹框：</p>
+                    <div>勾选该菜单项，则每次测完设备后会自动弹出SN对话框；</div>
+                </li>
+
+                <li>
+                    <p>设置->工序自动弹框：</p>
+                    <div>
+                        勾选该菜单项，则输入SN后会自动弹出工序选择对话框； 未勾选该菜单项, 会自动选择上次选择的工序；
+                    </div>
+                </li>
+
+                <li id="para_setting">
+                    <p>设置->参数设置：</p>
+                    <div>
+                        <img src="{% static 'instruction/img/para_setting.png' %}">
+                        <ul>
+                            <li>显示模式：该功能尚在开发中；</li>
+                            <li>MES区： 同 “视图->显示MES区”；</li>
+                            <li>COM端口设置: 设置串口参数或禁用该串口；禁用后需重启软件生效；</li>
+                            <li>工单信息：同 “设置->工单信息输入”；</li>
+                            <li>老化时间： 设置老化时间；	</li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li>
+                    <p>更新->更新配置文件：</p>
+                    <div>
+                        <p>服务器配置文件改变时，点击该选项以更新配置文件；</p>
+                    </div>
+                </li>
+
+                <li id="toolset">
+                    <p>工具->工具合集：</p>
+                    <div>
+                        <img src="{% static 'instruction/img/db_eg.png' %}">
+                        <ul>
+                            <li>程序异常信息： 显示程序运行过程中错误信息；</li>
+                            <li>脚本运行信息： 显示测试脚本运行过程关键步骤信息；</li>
+                            <li>脚本运行变量： 显示测试脚本运行过程中的变量；</li>
+                            <li>表达式验证： 正则表达式验证工具；</li>
+                            <li>更新说明： 显示软件更新内容；	</li>
+                            <li>脚本配置说明： 显示脚本配置方法；</li>
+                            <li>FTP Server：本地 FTP 服务搭建；</li>
+                            <li>TFTP Server： 本底 TFTP 服务搭建；</li>
+                            <li>数据库查询： 查询测试数据记录；</li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li id="about">
+                    <p>帮助->关于：</p>
+                    <div>
+                        <img src="{% static 'instruction/img/about.png' %}">
+                        <p>显示软件版本信息；</p>
+                    </div>
+                </li>
+
+                <li>
+                    <p>帮助->调试：</p>
+                    <div>
+                        <p>连接测试MES数据库和测试日志数据库(仅工艺部有此权限)；</p>
+                    </div>
+                </li>
+
+                <li>
+                    <p>帮助->维修</p>
+                    <div >
+                        <p>测试设备过程中，输入SN后不校验过站问题；(仅维修组账号和工艺账号有此权限)；</p>
+                    </div>
+                </li>
+
+                <li id="soft_func">
+                    <p>软件测试功能使用方法</p>
+                    <img src="{% static 'instruction/img/soft_func.png' %}">
+                    <ul>
+                        <li>
+                            <p>测试区窗口菜单项:</p>
+                            <ul>
+                                <li>停止: 设备测试过程中，单击该选项强制测试过程</li>
+                                <li>设置: 设置该串口参数</li>
+                                <li>断开连接: 断开串口连接</li>
+                                <li>重新连接: 重新连接串口</li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <p>测试过程信息区</p>
+                            <div class="ml-4">
+                                <p>显示测试过程信息</p>
+                            </div>
+                        </li>
+
+                        <li>
+                            <p>串口信息区</p>
+                            <div class="ml-4">
+                                <p>显示串口信息</p>
+                            </div>
+                        </li>
+                    </ul>
+
+                </li>
+
+                <li id="test_result">
+                    <p>软件测试结果说明：</p>
+                    <div>
+                        <p>测试通过:设备测试无误，测试窗口显示绿色，并且左上角会显示PASS文字；</p>
+                        <p>测试错误:设备测试异常，测试窗口显示红色，并且左上角会显示FAIL文字；</p>
+                        <p>其他：测试过程中，测试窗口显示浅绿色，左上角会显示当前测试步骤； 测试过程中，测试窗口显示灰色，
+                            表示测试脚本异常，应重新测试，多次测试无效应重启软件或向工艺部反馈；</p>
+                    </div>
+                </li>
+
+                <li id="feedback">
+                    <p>软件测试异常信息反馈：</p>
+                    <div >
+                        在测试过程中，经常性的提示异常或功能异常，请发邮件至<a href="mailto:chenjie@mailraisecomsz.com">chenjie@mailraisecomsz.com</a>反馈信息
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('li > div').each(function () {
+                $(this).addClass('ml-4');
+            })
+
+            $('li > p').each(function () {
+                $(this).addClass('font-weight-bold');
+            })
+        })
+
+    </script>
+{% endblock %}

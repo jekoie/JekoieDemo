@@ -1,0 +1,60 @@
+{% extends 'raisecom/base.html' %}
+
+{% block title %}登录{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+
+    {% if next %}
+        {% if user.is_authenticated %}
+            <p class="ml-3 h6">你没有权限访问这个页面！！！</p>
+        {% else %}
+            <p class="ml-3 h6">登录后才能访问相应的页面。</p>
+        {% endif %}
+    {% else %}
+
+        <form action="." method="post" class="text-nowrap">
+            {% if form.errors %}
+                <small class="text-nowrap text-danger">
+                    {{ form.non_field_errors|safe }}
+                </small>
+            {% endif %}
+
+            {% csrf_token %}
+            {% for field in form %}
+                {% if field.html_name == 'remberme' %}
+                    <div class="form-group">
+                        <div class="form-check ">
+                            {{ field }}
+                            <label class="form-check-label" for="{{ field.id_for_label }}" > {{ field.label }}</label>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="form-group row">
+                        <label id="{{ field.id_for_label }}" class="col-1 col-form-label">{{ field.label }}：</label>
+                        <div class="col-5">
+                            {{ field }}
+                            <small class="form-text text-muted">
+                                {{ field.help_text|safe }}
+                            </small>
+
+                            <small class="text-danger">
+                                {{ field.errors|safe }}
+                            </small>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+            <input type="hidden" name="next" value="{{ next }}" />
+            <input type="submit" value="登录" class="btn btn-primary">
+            <div class="d-flex flex-row mt-3 col-6">
+                <a href="{% url 'accounts:password_reset' %}">忘记密码？</a>
+                <a href="{% url 'accounts:register' %}" class="ml-auto">注册</a>
+            </div>
+        </form>
+
+    {% endif %}
+
+{% endblock %}
+

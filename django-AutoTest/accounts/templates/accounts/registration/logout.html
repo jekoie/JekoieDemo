@@ -1,0 +1,10 @@
+{% extends 'raisecom/base.html' %}
+
+{% block title %}登出{% endblock %}
+{% block content %}
+    <div>
+        <h3 class="h3">登出成功</h3>
+        <p>你可以<a href="{% url 'accounts:login' %}">重新登录</a></p>
+    </div>
+
+{% endblock %}
