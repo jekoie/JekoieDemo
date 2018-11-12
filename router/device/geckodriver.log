@@ -1,0 +1,88 @@
+1525829945017	geckodriver	INFO	geckodriver 0.20.1 (685f18325cea0a282c736e65972f95aa6db7ca48 2018-04-03)
+1525829945033	geckodriver	INFO	Listening on 127.0.0.1:50441
+1525829948017	mozrunner::runner	INFO	Running command: "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe" "-marionette" "-profile" "C:\\Users\\jett\\AppData\\Local\\Temp\\rust_mozprofile.hdUI5iVJ1k2H"
+1525829949064	Marionette	INFO	Enabled via --marionette
+1525829952034	Marionette	INFO	Listening on port 50459
+1525829952264	Marionette	WARN	TLS certificate errors will be ignored for this session
+[Parent 8440, Gecko_IOThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Child 3856, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Child 3856, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Child 4932, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Child 4932, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+*** UTM:SVC TimerManager:registerTimer called after profile-before-change notification. Ignoring timer registration for id: telemetry_modules_ping
+[GPU 5024, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+
+://devtools/shared/base-loader.js -> resource://devtools/shared/transport/transport.js:767:9
+onPacket@resource://devtools/shared/base-loader.js -> resource://devtools/server/main.js:1767:11
+send/<@resource://devtools/shared/base-loader.js -> resource://devtools/shared/transport/transport.js:570:13
+exports.makeInfallible/<@resource://devtools/shared/base-loader.js -> resource://devtools/shared/ThreadSafeDevToolsUtils.js:109:14
+exports.makeInfallible/<@resource://devtools/shared/base-loader.js -> resource://devtools/shared/ThreadSafeDevToolsUtils.js:109:14
+Line: 537, column: 0
+console.error: 
+  Handler function LocalDebuggerTransport instance's this.other.hooks.onPacket threw an exception: [Exception... "Component returned failure code: 0xc1f30001 (NS_ERROR_NOT_INITIALIZED) [nsIMessageSender.sendAsyncMessage]"  nsresult: "0xc1f30001 (NS_ERROR_NOT_INITIALIZED)"  location: "JS frame :: resource://devtools/shared/base-loader.js -> resource://devtools/client/responsive.html/browser/tunnel.js :: destroy/this[method] :: line 537"  data: no]
+Stack: destroy/this[method]@resource://devtools/shared/base-loader.js -> resource://devtools/client/responsive.html/browser/tunnel.js:537:43
+send@resource://devtools/shared/base-loader.js -> resource://devtools/shared/transport/transport.js:767:9
+onPacket@resource://devtools/shared/base-loader.js -> resource://devtools/server/main.js:1767:11
+send/<@resource://devtools/shared/base-loader.js -> resource://devtools/shared/transport/transport.js:570:13
+exports.makeInfallible/<@resource://devtools/shared/base-loader.js -> resource://devtools/shared/ThreadSafeDevToolsUtils.js:109:14
+exports.makeInfallible/<@resource://devtools/shared/base-loader.js -> resource://devtools/shared/ThreadSafeDevToolsUtils.js:109:14
+Line: 537, column: 0
+[Parent 7456, Gecko_IOThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Child 15964, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Parent 7456, Gecko_IOThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[GPU 15364, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+ors/styles.js:1696:14
+getRuleText@resource://devtools/shared/base-loader.js -> resource://devtools/server/actors/styles.js:1583:7
+getAuthoredCssText/<@resource://devtools/shared/base-loader.js -> resource://devtools/server/actors/styles.js:1251:20
+process@resource://gre/modules/Promise.jsm -> resource://gre/modules/Promise-backend.js:922:23
+walkerLoop@resource://gre/modules/Promise.jsm -> resource://gre/modules/Promise-backend.js:806:7
+scheduleWalkerLoop/<@resource://gre/modules/Promise.jsm -> resource://gre/modules/Promise-backend.js:742:11
+
+*************************
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: rx.exec(...) is null
+Full stack: getTextAtLineColumn@resource://devtools/shared/base-loader.js -> resource://devtools/server/actors/styles.js:1696:14
+getRuleText@resource://devtools/shared/base-loader.js -> resource://devtools/server/actors/styles.js:1583:7
+getAuthoredCssText/<@resource://devtools/shared/base-loader.js -> resource://devtools/server/actors/styles.js:1251:20
+process@resource://gre/modules/Promise.jsm -> resource://gre/modules/Promise-backend.js:922:23
+walkerLoop@resource://gre/modules/Promise.jsm -> resource://gre/modules/Promise-backend.js:806:7
+scheduleWalkerLoop/<@resource://gre/modules/Promise.jsm -> resource://gre/modules/Promise-backend.js:742:11
+
+*************************
+console.error: 
+  Message: TypeError: rx.exec(...) is null
+  Stack:
+    getTextAtLineColumn@resource://devtools/shared/base-loader.js -> resource://devtools/server/actors/styles.js:1696:14
+getRuleText@resource://devtools/shared/base-loader.js -> resource://devtools/server/actors/styles.js:1583:7
+getAuthoredCssText/<@resource://devtools/shared/base-loader.js -> resource://devtools/server/actors/styles.js:1251:20
+process@resource://gre/modules/Promise.jsm -> resource://gre/modules/Promise-backend.js:922:23
+walkerLoop@resource://gre/modules/Promise.jsm -> resource://gre/modules/Promise-backend.js:806:7
+scheduleWalkerLoop/<@resource://gre/modules/Promise.jsm -> resource://gre/modules/Promise-backend.js:742:11
+
+getTextAtLineColumn@resource://devtools/shared/base-loader.js -> resource://devtools/server/actors/styles.js:1696:14
+getRuleText@resource://devtools/shared/base-loader.js -> resource://devtools/server/actors/styles.js:1583:7
+getAuthoredCssText/<@resource://devtools/shared/base-loader.js -> resource://devtools/server/actors/styles.js:1251:20
+process@resource://gre/modules/Promise.jsm -> resource://gre/modules/Promise-backend.js:922:23
+walkerLoop@resource://gre/modules/Promise.jsm -> resource://gre/modules/Promise-backend.js:806:7
+scheduleWalkerLoop/<@resource://gre/modules/Promise.jsm -> resource://gre/modules/Promise-backend.js:742:11
+console.error: 
+  Protocol error (unknownError): rx.exec(...) is null
+console.error: 
+  Protocol error (unknownError): rx.exec(...) is null
+console.error: 
+  Protocol error (unknownError): rx.exec(...) is null
+[Child 9888, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Child 9888, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Child 12432, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Child 12432, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
