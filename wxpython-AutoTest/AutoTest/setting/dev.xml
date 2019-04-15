@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root>
+  <li win="0" parity="N" baudrate="9600" name="COM3" bytesize="8" timeout="1" stopbits="1" protocol="serial" ip="192.168.1.1" port="23"/>
+  <li win="1" parity="N" baudrate="115200" name="COM5" bytesize="8" timeout="1" stopbits="1" protocol="serial" ip="192.168.2.1" port="23"/>
+  <li win="2" parity="N" baudrate="9600" protocol="telnet" name="192.168.1.1:23" bytesize="8" timeout="1" stopbits="1" ip="192.168.1.1" port="23"/>
+</root>

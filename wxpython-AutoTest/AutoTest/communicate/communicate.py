@@ -3,7 +3,6 @@ import six, abc
 import ftfy
 import serial
 from telnetlib import Telnet
-import common
 
 #抽象通信基类
 @six.add_metaclass(metaclass=abc.ABCMeta)
@@ -51,7 +50,7 @@ class CommunicateBase(object):
     # 对数据进行修复
     def _fix_data(self, data, fix=True):
         if fix:
-            return ftfy.fix_text(unicode(str(data)))
+            return ftfy.fix_text(unicode(data, errors='ignore'))
         return data
 
 
@@ -63,11 +62,14 @@ class SerialCommunicate(CommunicateBase):
          'stopbits', 'dsrdtr', 'write_timeout'] + 'port'
         """
         self.dev = serial.Serial()
-        self.dev.port = kwargs.get('port')
+        self.dev.port = kwargs.get('name')
         self.settings = kwargs
         self.apply_settings(**self.settings)
 
     def apply_settings(self, **kwargs):
+        for k, v in kwargs.items():
+            if isinstance(v, str) and v.isdigit():
+                kwargs[k] = int(v)
         self.settings.update(kwargs)
         self.dev.apply_settings(self.settings)
 
@@ -98,7 +100,6 @@ class SerialCommunicate(CommunicateBase):
 
         data = self.dev.read_until(terminator=match, size=size)
         return self._fix_data(data, fix=kwargs.get('fix', False))
-
 
     def read_available(self, timeout=None, **kwargs):
         """
@@ -143,14 +144,24 @@ class SerialCommunicate(CommunicateBase):
 
     def set_read_timeout(self, timeout):
         if self.alive():
-            self.dev.timeout = int(timeout)
+            self.dev.timeout = float(timeout)
 
     def close(self):
-        if self.alive():
-            self.dev.close()
+        self.dev.close()
 
     def alive(self):
         return self.dev.isOpen()
+
+    #private
+    def _active(self):
+        try:
+            _ = self.dev.inWaiting()
+        except Exception :
+            return False
+        return True
+
+    def __str__(self):
+        return '{!s}'.format(self.dev)
 
 class TelnetCommnuicate(CommunicateBase):
     def __init__(self, **kwargs):
@@ -161,13 +172,13 @@ class TelnetCommnuicate(CommunicateBase):
         self.settings = kwargs
 
     def apply_settings(self, **kwargs):
-        self.settings = common.tostr(kwargs)
+        self.settings = kwargs
 
     def connect(self):
         if self.alive():
             self.close()
         host, port, timeout = self.settings.get('ip'), self.settings.get('port'), self.settings.get('timeout', 3)
-        self.dev.open(host, port, timeout)
+        self.dev.open(host, int(port), int(timeout))
 
     def read_until(self, match, **kwargs):
         timeout = kwargs.get('timeout', 1)
@@ -198,7 +209,7 @@ class TelnetCommnuicate(CommunicateBase):
 
     def set_read_timeout(self, timeout):
         if self.alive():
-            self.dev.timeout = int(timeout)
+            self.dev.timeout = float(timeout)
 
     def close(self):
         if self.alive():
@@ -211,6 +222,9 @@ class TelnetCommnuicate(CommunicateBase):
         except Exception as e:
             alive = False
         return alive
+
+    def __str__(self):
+        return '{!s}'.format(self.dev)
 
 #通信类工厂函数
 def communicate_factory(type, **kwargs):

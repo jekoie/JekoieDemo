@@ -1,0 +1,1281 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <!--example-->
+  <li bom="102910000300S17829S" product="ISCOM(测试)" xml="./example/xinertai_test/test1.xml"/>
+  <!--fushengxiang-->
+  <li bom="101600000140">
+    <li review="default" product="ISCOM2008-DC(E.00)" xml="./fushengxiang/ISCOM2008-DC(E.00).xml"/>
+  </li>
+  <li bom="101618002122">
+    <li review="default" product="ISCOM2110EA-MA-PWR-DC(A.22)" xml="./fushengxiang/ISCOM2110EA-MA-PWR-DC(A.22).xml"/>
+  </li>
+  <li bom="101625002701">
+    <li review="default" product="ISCOM2948G-AC(B.01)" xml="./fushengxiang/ISCOM2948G-AC(B.01).xml"/>
+  </li>
+  <li bom="101625002801">
+    <li review="default" product="ISCOM2948G-DC(B.01)" xml="./fushengxiang/ISCOM2948G-DC(B.01).xml"/>
+  </li>
+  <li bom="101616000411">
+    <li review="default" product="ISCOM2150-MA-AC-D(C.01)" xml="./fushengxiang/ISCOM2150-MA-AC-D(C.01).xml"/>
+  </li>
+  <li bom="101625000104">
+    <li review="default" product="ISCOM2624G-4GE-AC(A.04)" xml="./fushengxiang/ISCOM2624G-4GE-AC(A.04).xml"/>
+    <li review="田明启测试" product="ISCOM2624G-4GE-AC(A.04田明启测试)" xml="./fushengxiang/ISCOM2624G-4GE-AC(A.04-test).xml"/>
+  </li>
+  <li bom="101625000204">
+    <li review="default" product="ISCOM2624G-4GE-DC(A.04)" xml="./fushengxiang/ISCOM2624G-4GE-DC(A.04).xml"/>
+  </li>
+  <li bom="101708002102">
+    <li review="default" product="ISCOM3024G-4GE-AC_DC(B.02)" xml="./fushengxiang/ISCOM3024G-4GE-AC_DC(B.02).xml"/>
+  </li>
+  <li bom="111621000112">
+    <li review="default" product="ISCOMRAX711-AC_DC-01(B.02)" xml="./fushengxiang/ISCOMRAX711-AC_DC-01(B.02).xml"/>
+    <li review="@REAP_1.2.1457" product="ISCOMRAX711-AC_DC-01(B.02)(REAP_1.2.1457)" xml="./fushengxiang/ISCOMRAX711-AC_DC-01(B.02)(REAP_1.2.1457).xml"/>
+    <li review="@REAP_1.2.1477a" product="ISCOMRAX711-AC_DC-01(B.02)(REAP_1.2.1477a)" xml="./fushengxiang/ISCOMRAX711-AC_DC-01(B.02)(REAP_1.2.1477a).xml"/>
+  </li>
+  <li bom="101709001005">
+    <li review="default" product="ISCOM3948XF-4Q-AC-D(A.05)" xml="./fushengxiang/ISCOM3948XF-4Q-AC-D(A.05).xml"/>
+  </li>
+  <li bom="101709002500">
+    <li review="default" product="ISCOM3048G-4C-PWR-AC-D(B.00)" xml="./fushengxiang/ISCOM3048G-4C-PWR-AC-D(B.00).xml"/>
+    <li review="@Inspur_OID286" product="ISCOM3048G-4C-PWR-AC-D(B.00)(Inspur_OID286)" xml="./fushengxiang/ISCOM3048G-4C-PWR-AC-D(B.00)(Inspur_OID286).xml"/>
+  </li>
+  <li bom="101618001822">
+    <li review="default" product="ISCOM2110EA-MA-PWR-AC(A.22)" xml="./fushengxiang/ISCOM2110EA-MA-PWR-AC(A.22).xml"/>
+  </li>
+  <li bom="101705000421">
+    <li review="default" product="ISCOM3052G-AC-D(C.01)" xml="./fushengxiang/ISCOM3052G-AC-D(C.01).xml"/>
+  </li>
+  <li bom="101705000411">
+    <li review="default" product="ISCOM3052G-AC-D(B.01)" xml="./fushengxiang/ISCOM3052G-AC-D(B.01).xml"/>
+  </li>
+  <li bom="101709000421">
+    <li review="default" product="ISCOM3048G-4C-AC-D(C.01)" xml="./fushengxiang/ISCOM3048G-4C-AC-D(C.01).xml"/>
+  </li>
+  <li bom="101625000303">
+    <li review="default" product="ISCOM2648G-4C-AC-D(A.03)" xml="./fushengxiang/ISCOM2648G-4C-AC-D(A.03).xml"/>
+    <li review="@ISCOM3024-AC" product="ISCOM2648G-4C-AC-D(A.03)(ISCOM3024-AC)" xml="./fushengxiang/ISCOM2648G-4C-AC-D(A.03)(ISCOM3024-AC).xml"/>
+    <li review="@VER_G.03_OID283" product="ISCOM2648G-4C-AC-D(A.03)(VER_G.03_OID283)" xml="./fushengxiang/ISCOM2648G-4C-AC-D(A.03)(VER_G.03_OID283).xml"/>
+    <li review="@VER_H.00-OID_242" product="ISCOM2648G-4C-AC-D(A.03)(VER_H.00-OID_242)" xml="./fushengxiang/ISCOM2648G-4C-AC-D(A.03)(VER_H.00-OID_242).xml"/>
+  </li>
+  <li bom="101709000705">
+    <li review="default" product="ISCOM3048XF-4Q-AC-D(A.05)" xml="./fushengxiang/ISCOM3048XF-4Q-AC-D(A.05).xml"/>
+  </li>
+  <li bom="101625001210">
+    <li review="default" product="ISCOM2608G-2GE-PWR-AC(A.10)" xml="./fushengxiang/ISCOM2608G-2GE-PWR-AC(A.10).xml"/>
+  </li>
+  <li bom="101625001010">
+    <li review="default" product="ISCOM2608G-2GE-AC(A.10)" xml="./fushengxiang/ISCOM2608G-2GE-AC(A.10).xml"/>
+    <li review="@BOOT20170208_SYSTEM20170815" product="ISCOM2608G-2GE-AC(A.10)(BOOT20170208_SYSTEM20170815)" xml="./fushengxiang/ISCOM2608G-2GE-AC(A.10)(BOOT20170208_SYSTEM20170815).xml"/>
+    <li review="@BOOT20170208_SYSTEM20180313" product="ISCOM2608G-2GE-AC(A.10)(BOOT20170208_SYSTEM20180313)" xml="./fushengxiang/ISCOM2608G-2GE-AC(A.10)(BOOT20170208_SYSTEM20180313).xml"/>
+  </li>
+  <li bom="101625001601">
+    <li review="default" product="ISCOM2624G-4GE-PWR-AC(A.01)" xml="./fushengxiang/ISCOM2624G-4GE-PWR-AC(A.01).xml"/>
+    <li review="平台过账测试" product="ISCOM2624G-4GE-PWR-AC(A.01)" xml="./fushengxiang/ISCOM2624G-4GE-PWR-AC(A.01)-test.xml"/>
+    <li review="@SYSTEM_3.11.288" product="ISCOM2624G-4GE-PWR-AC(A.01)(SYSTEM_3.11.288)" xml="./fushengxiang/ISCOM2624G-4GE-PWR-AC(A.01)(SYSTEM_3.11.288).xml"/>
+  </li>
+  <li bom="101625000800">
+    <li review="default" product="ISCOM2624G-4C-AC(A.00)" xml="./fushengxiang/ISCOM2624G-4C-AC(A.00).xml"/>
+  </li>
+  <li bom="101625001207">
+    <li review="default" product="ISCOM2608G-2GE-PWR-AC(A.07)" xml="./fushengxiang/ISCOM2608G-2GE-PWR-AC(A.07).xml"/>
+    <li review="@AC_TENGSHU_BTL_115200" product="ISCOM2608G-2GE-PWR-AC(A.07)(AC_TENGSHU_BTL_115200)" xml="./fushengxiang/ISCOM2608G-2GE-PWR-AC(A.07)(AC_TENGSHU_BTL_115200).xml"/>
+  </li>
+  <li bom="101625000803">
+    <li review="default" product="ISCOM2624G-4C-AC(A.03)" xml="./fushengxiang/ISCOM2624G-4C-AC(A.03).xml"/>
+  </li>
+  <li bom="101708001402">
+    <li review="default" product="ISCOM3024GF-4C-DC-D(B.02)" xml="./fushengxiang/ISCOM3024GF-4C-DC-D(B.02).xml"/>
+  </li>
+  <li bom="101708001302">
+    <li review="default" product="ISCOM3024GF-4C-AC-D(B.02)" xml="./fushengxiang/ISCOM3024GF-4C-AC-D(B.02).xml"/>
+  </li>
+  <li bom="101625000103">
+    <li review="default" product="ISCOM2624G-4GE-AC(A.03)" xml="./fushengxiang/ISCOM2624G-4GE-AC(A.03).xml"/>
+  </li>
+  <li bom="101709000510">
+    <li review="default" product="ISCOM3048G-4C-DC-D(B.00)" xml="./fushengxiang/ISCOM3048G-4C-DC-D(B.00).xml"/>
+  </li>
+  <li bom="101709000511">
+    <li review="default" product="ISCOM3048G-4C-DC-D(B.01)" xml="./fushengxiang/ISCOM3048G-4C-DC-D(B.01).xml"/>
+  </li>
+  <li bom="101709000211">
+    <li review="default" product="ISCOM3048GF-4C-DC-D(B.01)" xml="./fushengxiang/ISCOM3048GF-4C-DC-D(B.01).xml"/>
+  </li>
+  <li bom="101708000911">
+    <li review="default" product="ISCOM3024GF-AC_DC(B.02)" xml="./fushengxiang/ISCOM3024GF-AC_DC(B.02).xml"/>
+  </li>
+  <li bom="101708001802">
+    <li review="default" product="ISCOM3024GF-4GE-AC_DC(B.02)" xml="./fushengxiang/ISCOM3024GF-4GE-AC_DC(B.02).xml"/>
+  </li>
+  <li bom="101708001010">
+    <li review="default" product="ISCOM3024G-4C-AC-D(B.00)" xml="./fushengxiang/ISCOM3024G-4C-AC-D(B.00).xml"/>
+  </li>
+  <li bom="101625001401">
+    <li review="default" product="ISCOM2648G-4GE-AC(A.01)" xml="./fushengxiang/ISCOM2648G-4GE-AC(A.01).xml"/>
+  </li>
+  <li bom="101709000410">
+    <li review="default" product="ISCOM3048G-4C-AC-D(B.0O)" xml="./fushengxiang/ISCOM3048G-4C-AC-D(B.00).xml"/>
+  </li>
+  <li bom="101708000312">
+    <li review="default" product="ISCOM3024C-AC-D(B.02)" xml="./fushengxiang/ISCOM3024C-AC-D(B.02).xml"/>
+  </li>
+  <li bom="101708000612">
+    <li review="default" product="ISCOM3024C-DC-D(B.02)" xml="./fushengxiang/ISCOM3024C-DC-D(B.02).xml"/>
+  </li>
+  <li bom="101708001902">
+    <li review="default" product="ISCOM3024G-4GE-AC-D(B.02)" xml="./fushengxiang/ISCOM3024G-4GE-AC-D(B.02).xml"/>
+  </li>
+  <li bom="101709000411">
+    <li review="default" product="ISCOM3048G-4C-AC-D(B.01)" xml="./fushengxiang/ISCOM3048G-4C-AC-D(B.01).xml"/>
+    <li review="@Inspur_OID274" product="ISCOM3048G-4C-AC-D(B.01)(Inspur_OID274)" xml="./fushengxiang/ISCOM3048G-4C-AC-D(B.01)(Inspur_OID274).xml"/>
+  </li>
+  <li bom="101625002401">
+    <li review="default" product="ISCOM2624GF-4C-HI-AC(A.01)" xml="./fushengxiang/ISCOM2624GF-4C-HI-AC(A.01).xml"/>
+  </li>
+  <li bom="101625002501">
+    <li review="default" product="ISCOM2624GF-4C-HI-DC(A.01)" xml="./fushengxiang/ISCOM2624GF-4C-HI-DC(A.01).xml"/>
+  </li>
+  <li bom="101625001110">
+    <li review="default" product="ISCOM2608G-2GE-DC(A.10)" xml="./fushengxiang/ISCOM2608G-2GE-DC(A.10).xml"/>
+  </li>
+  <li bom="101618001710">
+    <li review="default" product="ISCOM2110EA-MA-WP(B.00)" xml="./fushengxiang/ISCOM2110EA-MA-WP(B.00).xml"/>
+    <li review="@ROS20120920_BOOT20120820" product="ISCOM2110EA-MA-WP(B.00)(@ROS20120920_BOOT20120820)" xml="./fushengxiang/ISCOM2110EA-MA-WP(B.00)(@ROS20120920_BOOT20120820).xml"/>
+    <li review="@ROS_20150526" product="ISCOM2110EA-MA-WP(B.00)(ROS_20150526)" xml="./fushengxiang/ISCOM2110EA-MA-WP(B.00)(ROS_20150526).xml"/>
+    <li review="@ROS_20160419_Boot_20150227" product="ISCOM2110EA-MA-WP(B.00)(ROS_20160419_Boot_20150227)" xml="./fushengxiang/ISCOM2110EA-MA-WP(B.00)(ROS_20160419_Boot_20150227).xml"/>
+  </li>
+  <li bom="101608004840">
+    <li review="default" product="ISCOM2126EA-MA-PWR-AC(C.10)" xml="./fushengxiang/ISCOM2126EA-MA-PWR-AC(C.10).xml"/>
+  </li>
+  <li bom="101709000905">
+    <li review="default" product="ISCOM3048XF-4Q-AC_DC(A.05)" xml="./fushengxiang/ISCOM3048XF-4Q-AC_DC(A.05).xml"/>
+  </li>
+  <li bom="101709000805">
+    <li review="default" product="ISCOM3048XF-4Q-DC-D(A.05)" xml="./fushengxiang/ISCOM3048XF-4Q-DC-D(A.05).xml"/>
+  </li>
+  <li bom="101708000712">
+    <li review="default" product="ISCOM3024C-AC_DC(B.02)" xml="./fushengxiang/ISCOM3024C-AC_DC(B.02).xml"/>
+  </li>
+  <li bom="101708001903">
+    <li review="default" product="ISCOM3024G-4GE-AC-D(B.03)" xml="./fushengxiang/ISCOM3024G-4GE-AC-D(B.03).xml"/>
+  </li>
+  <li bom="101708001702">
+    <li review="default" product="ISCOM3024GF-4GE-DC-D(B.02)" xml="./fushengxiang/ISCOM3024GF-4GE-DC-D(B.02).xml"/>
+  </li>
+  <li bom="101708000011">
+    <li review="default" product="ISCOM3024GF-AC-D(B.02)" xml="./fushengxiang/ISCOM3024GF-AC-D(B.02).xml"/>
+  </li>
+  <li bom="101709000311">
+    <li review="default" product="ISCOM3048GF-4C-AC_DC(B.01)" xml="./fushengxiang/ISCOM3048GF-4C-AC_DC(B.01).xml"/>
+  </li>
+  <li bom="101709000111">
+    <li review="default" product="ISCOM3048GF-4C-AC-D(B.01)" xml="./fushengxiang/ISCOM3048GF-4C-AC-D(B.01).xml"/>
+  </li>
+  <li bom="101708001602">
+    <li review="default" product="ISCOM3024GF-4GE-AC-D(B.02)" xml="./fushengxiang/ISCOM3024GF-4GE-AC-D(B.02).xml"/>
+  </li>
+  <li bom="101708000811">
+    <li review="default" product="ISCOM3024GF-DC-D(B.02)" xml="./fushengxiang/ISCOM3024GF-DC-D(B.02).xml"/>
+  </li>
+  <li bom="101618001510">
+    <li review="default" product="ISCOM2110EA-MA-AC(B.00)" xml="./fushengxiang/ISCOM2110EA-MA-AC(B.00).xml"/>
+    <li review="@MSG2100E-16V_OID281" product="ISCOM2110EA-MA-AC(B.00)(MSG2100E-16V_OID281)" xml="./fushengxiang/ISCOM2110EA-MA-AC(B.00)(MSG2100E-16V_OID281).xml"/>
+  </li>
+  <li bom="101625000503">
+    <li review="default" product="ISCOM2648G-4C-DC-D(A.03)" xml="./fushengxiang/ISCOM2648G-4C-DC-D(A.03).xml"/>
+  </li>
+  <li bom="101709000121">
+    <li review="default" product="ISCOM3048GF-4C-AC-D(C.01)" xml="./fushengxiang/ISCOM3048GF-4C-AC-D(C.01).xml"/>
+  </li>
+  <li bom="101625002200">
+    <li review="default" product="ISCOM2608G-2GE-HI-AC(A.10)" xml="./fushengxiang/ISCOM2608G-2GE-HI-AC(A.10).xml"/>
+  </li>
+  <li bom="101709001902">
+    <li review="default" product="ISCOM3048XF-4Q-F-AC-D(A.05)" xml="./fushengxiang/ISCOM3048XF-4Q-F-AC-D(A.05).xml"/>
+  </li>
+  <li bom="101614001404">
+    <li review="default" product="ISCOM2924GF-4GE-AC-D(A.04)" xml="./fushengxiang/ISCOM2924GF-4GE-AC-D(A.04).xml"/>
+  </li>
+  <li bom="101625001307">
+    <li review="default" product="ISCOM2608G-2GE-PWR-DC(A.07)" xml="./fushengxiang/ISCOM2608G-2GE-PWR-DC(A.07).xml"/>
+    <li review="@BOOT_20170208" product="ISCOM2608G-2GE-PWR-DC(A.07)(BOOT_20170208)" xml="./fushengxiang/ISCOM2608G-2GE-PWR-DC(A.07)(BOOT_20170208).xml"/>
+  </li>
+  <li bom="101708000321">
+    <li review="default" product="ISCOM3024C-AC-D(C.01)" xml="./fushengxiang/ISCOM3024C-AC-D(C.01).xml"/>
+  </li>
+  <li bom="101708000621">
+    <li review="default" product="ISCOM3024C-DC-D(C.01)" xml="./fushengxiang/ISCOM3024C-DC-D(C.01).xml"/>
+  </li>
+  <li bom="101625001501">
+    <li review="default" product="ISCOM2648G-4GE-DC(A.01)" xml="./fushengxiang/ISCOM2648G-4GE-DC(A.01).xml"/>
+  </li>
+  <li bom="104101000201">
+    <li review="default" product="ISCOMS5600-52C-EI-AC-S(A.01)" xml="./fushengxiang/ISCOMS5600-52C-EI-AC-S(A.01).xml"/>
+  </li>
+  <li bom="101708001110">
+    <li review="default" product="ISCOM3024G-4C-DC-D(B.00)" xml="./fushengxiang/ISCOM3024G-4C-DC-D(B.00).xml"/>
+  </li>
+  <li bom="101708003120">
+    <li review="default" product="ISCOM3024G-4C-AC-S(C.00)" xml="./fushengxiang/ISCOM3024G-4C-AC-S(C.00).xml"/>
+  </li>
+  <li bom="101708001020">
+    <li review="default" product="ISCOM3024G-4C-AC-D(C.00)" xml="./fushengxiang/ISCOM3024G-4C-AC-D(C.00).xml"/>
+  </li>
+  <li bom="101614002103">
+    <li review="default" product="ISCOM2924G-4C-AC-D(A.03)" xml="./fushengxiang/ISCOM2924G-4C-AC-D(A.03).xml"/>
+    <li review="@REAP_1.2.3324" product="ISCOM2924G-4C-AC-D(A.03)(REAP_1.2.3324)" xml="./fushengxiang/ISCOM2924G-4C-AC-D(A.03)(REAP_1.2.3324).xml"/>
+  </li>
+  <li bom="101619000230">
+    <li review="default" product="ISCOM2128EA-MA-AC(B.10)" xml="./fushengxiang/ISCOM2128EA-MA-AC(B.10).xml"/>
+    <li review="@ROS_4.14.2366" product="ISCOM2128EA-MA-AC(B.10)(ROS_4.14.2366)" xml="./fushengxiang/ISCOM2128EA-MA-AC(B.10)(ROS_4.14.2366).xml"/>
+    <li review="@ROS_4.14.1781" product="ISCOM2128EA-MA-AC(B.10)(ROS_4.14.1781)" xml="./fushengxiang/ISCOM2128EA-MA-AC(B.10)(ROS_4.14.1781).xml"/>
+  </li>
+  <li bom="104101000101">
+    <li review="default" product="ISCOMS5600-52C-EI-AC-D(A.01)" xml="./fushengxiang/ISCOMS5600-52C-EI-AC-D(A.01).xml"/>
+  </li>
+  <li bom="101708003220">
+    <li review="default" product="ISCOM3024G-4C-DC-S(C.00)" xml="./fushengxiang/ISCOM3024G-4C-DC-S(C.00).xml"/>
+  </li>
+  <li bom="101616000511">
+    <li review="default" product="ISCOM2150-MA-AC-S(C.01)" xml="./fushengxiang/ISCOM2150-MA-AC-S(C.01).xml"/>
+  </li>
+  <li bom="104101000601">
+    <li review="default" product="ISCOMS5600-28C-EI-24F-AC-D(A.01)" xml="./fushengxiang/ISCOMS5600-28C-EI-24F-AC-D(A.01).xml"/>
+  </li>
+  <li bom="104101001501">
+    <li review="default" product="ISCOMS5600-52C-EI-48F-AC_DC(A.01)" xml="./fushengxiang/ISCOMS5600-52C-EI-48F-AC_DC(A.01).xml"/>
+  </li>
+  <li bom="101608004340">
+    <li review="default" product="ISCOM2126EA-MA-DC(C.10)" xml="./fushengxiang/ISCOM2126EA-MA-DC(C.10).xml"/>
+  </li>
+  <li bom="121614000906">
+    <li review="default" product="ISCOM2924GF-4C-AC-D-02(A.06)" xml="./fushengxiang/ISCOM2924GF-4C-AC-D-02(A.06).xml"/>
+  </li>
+  <li bom="101708001120">
+    <li review="default" product="ISCOM3024G-4C-DC-D(C.00)" xml="./fushengxiang/ISCOM3024G-4C-DC-D(C.00).xml"/>
+  </li>
+  <li bom="101705000521">
+    <li review="default" product="ISCOM3052G-DC-D(C.01)" xml="./fushengxiang/ISCOM3052G-DC-D(C.01).xml"/>
+  </li>
+  <li bom="101708001210">
+    <li review="default" product="ISCOM3024G-4C-AC_DC(B.00)" xml="./fushengxiang/ISCOM3024G-4C-AC_DC(B.00).xml"/>
+  </li>
+  <li bom="101709000221">
+    <li review="default" product="ISCOM3048GF-4C-DC-D(C.01)" xml="./fushengxiang/ISCOM3048GF-4C-DC-D(C.01).xml"/>
+  </li>
+  <li bom="101625002000">
+    <li review="default" product="ISCOM2624G-4GE-HI-AC(A.04)" xml="./fushengxiang/ISCOM2624G-4GE-HI-AC(A.04).xml"/>
+  </li>
+  <li bom="101708002103">
+    <li review="default" product="ISCOM3024G-4GE-AC_DC(B.03)" xml="./fushengxiang/ISCOM3024G-4GE-AC_DC(B.03).xml"/>
+  </li>
+  <li bom="101625001208">
+    <li review="default" product="ISCOM2608G-2GE-PWR-AC(A.08)" xml="./fushengxiang/ISCOM2608G-2GE-PWR-AC(A.08).xml"/>
+    <li review="@BTL_115200" product="ISCOM2608G-2GE-PWR-AC(A.08)(BTL_115200)" xml="./fushengxiang/ISCOM2608G-2GE-PWR-AC(A.08)(BTL_115200).xml"/>
+    <li review="@SYSTEM_20180313" product="ISCOM2608G-2GE-PWR-AC(A.08)(SYSTEM_20180313)" xml="./fushengxiang/ISCOM2608G-2GE-PWR-AC(A.08)(SYSTEM_20180313).xml"/>
+    <li review="@SYSTEM_20180611" product="ISCOM2608G-2GE-PWR-AC(A.08)(SYSTEM_20180611)" xml="./fushengxiang/ISCOM2608G-2GE-PWR-AC(A.08)(SYSTEM_20180611).xml"/>
+  </li>
+  <li bom="101619001530">
+    <li review="default" product="ISCOM2128EA-MA-WP(B.10)" xml="./fushengxiang/ISCOM2128EA-MA-WP(B.10).xml"/>
+  </li>
+  <li bom="101625000403">
+    <li review="default" product="ISCOM2648G-4C-AC-S(A.03)" xml="./fushengxiang/ISCOM2648G-4C-AC-S(A.03).xml"/>
+  </li>
+  <li bom="101625001701">
+    <li review="default" product="ISCOM2624G-4GE-PWR-DC(A.01)" xml="./fushengxiang/ISCOM2624G-4GE-PWR-DC(A.01).xml"/>
+  </li>
+  <li bom="104101001101">
+    <li review="default" product="ISCOMS5600-52C-EI-48F-AC-D(A.01)" xml="./fushengxiang/ISCOMS5600-52C-EI-48F-AC-D(A.01).xml"/>
+  </li>
+  <li bom="104101002100">
+    <li review="default" product="ISCOMS5600-28C-EI-AC-S(A.00)" xml="./fushengxiang/ISCOMS5600-28C-EI-AC-S(A.00).xml"/>
+  </li>
+  <li bom="104101002000">
+    <li review="default" product="ISCOMS5600-28C-EI-AC-D(A.00)" xml="./fushengxiang/ISCOMS5600-28C-EI-AC-D(A.00).xml"/>
+  </li>
+  <li bom="101708001011">
+    <li review="default" product="ISCOM3024G-4C-AC-D(B.01)" xml="./fushengxiang/ISCOM3024G-4C-AC-D(B.01).xml"/>
+  </li>
+  <li bom="101622000204">
+    <li review="default" product="ISCOM2948GF-4C-DC-D(A.04)" xml="./fushengxiang/ISCOM2948GF-4C-DC-D(A.04).xml"/>
+    <li review="@SYSTEM_20180208" product="ISCOM2948GF-4C-DC-D(A.04)(SYSTEM_20180208)" xml="./fushengxiang/ISCOM2948GF-4C-DC-D(A.04)(SYSTEM_20180208).xml"/>
+    <li review="@REAP_1.2.3760a" product="ISCOM2948GF-4C-DC-D(A.04)(REAP_1.2.3760a)" xml="./fushengxiang/ISCOM2948GF-4C-DC-D(A.04)(REAP_1.2.3760a).xml"/>
+    <li review="@REAP_1.2.3644a" product="ISCOM2948GF-4C-DC-D(A.04)(REAP_1.2.3644a)" xml="./fushengxiang/ISCOM2948GF-4C-DC-D(A.04)(REAP_1.2.3644a).xml"/>
+  </li>
+  <li bom="121621900512">
+    <li review="default" product="ISCOMRAX711-AC-S-02(B.02)" xml="./fushengxiang/ISCOMRAX711-AC-S-02(B.02).xml"/>
+  </li>
+  <li bom="121621900212">
+    <li review="default" product="ISCOMRAX711-AC_DC-02(B.02)" xml="./fushengxiang/ISCOMRAX711-AC_DC-02(B.02).xml"/>
+  </li>
+  <li bom="101614001604">
+    <li review="default" product="ISCOM2924GF-4GE-DC-D(A.04)" xml="./fushengxiang/ISCOM2924GF-4GE-DC-D(A.04).xml"/>
+    <li review="@SYSTEM_20141104" product="ISCOM2924GF-4GE-DC-D(A.04)(SYSTEM_20141104)" xml="./fushengxiang/ISCOM2924GF-4GE-DC-D(A.04)(SYSTEM_20141104).xml"/>
+  </li>
+  <li bom="101708001111">
+    <li review="default" product="ISCOM3024G-4C-DC-D(B.01)" xml="./fushengxiang/ISCOM3024G-4C-DC-D(B.01).xml"/>
+  </li>
+  <li bom="101621001612">
+    <li review="default" product="ISCOMRAX711-AC-D(B.02)" xml="./fushengxiang/ISCOMRAX711-AC-D(B.02).xml"/>
+  </li>
+  <li bom="101614002203">
+    <li review="default" product="ISCOM2924G-4C-DC-D(A.03)" xml="./fushengxiang/ISCOM2924G-4C-DC-D(A.03).xml"/>
+  </li>
+  <li bom="111621001712">
+    <li review="default" product="ISCOMRAX711-DC-D-01(B.02)" xml="./fushengxiang/ISCOMRAX711-DC-D-01(B.02).xml"/>
+    <li review="@REAP_1.2.1455" product="ISCOMRAX711-DC-D-01(B.02)(REAP_1.2.1455)" xml="./fushengxiang/ISCOMRAX711-DC-D-01(B.02)(REAP_1.2.1455).xml"/>
+  </li>
+  <li bom="121621900312">
+    <li review="default" product="ISCOMRAX711-AC-D-02(B.02)" xml="./fushengxiang/ISCOMRAX711-AC-D-02(B.02).xml"/>
+  </li>
+  <li bom="121621001612">
+    <li review="default" product="ISCOMRAX711-AC-D-06(B.02)" xml="./fushengxiang/ISCOMRAX711-AC-D-06(B.02).xml"/>
+    <li review="@REAP_1.2.1097" product="ISCOMRAX711-AC-D-06(B.02)(REAP_1.2.1097)" xml="./fushengxiang/ISCOMRAX711-AC-D-06(B.02)(REAP_1.2.1097).xml"/>
+  </li>
+  <li bom="101622000104">
+    <li review="default" product="ISCOM2948GF-4C-AC-D(A.04)" xml="./fushengxiang/ISCOM2948GF-4C-AC-D(A.04).xml"/>
+    <li review="@SYSTEM_20170519" product="ISCOM2948GF-4C-AC-D(A.04)(SYSTEM_20170519)" xml="./fushengxiang/ISCOM2948GF-4C-AC-D(A.04)(SYSTEM_20170519).xml"/>
+  </li>
+  <li bom="101625000903">
+    <li review="default" product="ISCOM2624G-4C-DC(A.03)" xml="./fushengxiang/ISCOM2624G-4C-DC(A.03).xml"/>
+  </li>
+  <li bom="101600000040">
+    <li review="default" product="ISCOM2008-AC(E.00)" xml="./fushengxiang/ISCOM2008-AC(E.00).xml"/>
+  </li>
+  <li bom="101622000604">
+    <li review="default" product="ISCOM2948GF-4C-AC_DC(A.04)" xml="./fushengxiang/ISCOM2948GF-4C-AC_DC(A.04).xml"/>
+  </li>
+  <li bom="101608004240">
+    <li review="default" product="ISCOM2126EA-MA-AC(C.10)" xml="./fushengxiang/ISCOM2126EA-MA-AC(C.10).xml"/>
+  </li>
+  <li bom="101607000910">
+    <li review="default" product="ISCOM2118EA-MA-AC(B.00)" xml="./fushengxiang/ISCOM2118EA-MA-AC(B.00).xml"/>
+    <li review="@OA_1902140020" product="ISCOM2118EA-MA-AC(B.00)(OA_1902140020)" xml="./fushengxiang/ISCOM2118EA-MA-AC(B.00)(OA_1902140020).xml"/>
+  </li>
+  <li bom="101607001130">
+    <li review="default" product="ISCOM2118EA-MA-PWR-AC(C.00)" xml="./fushengxiang/ISCOM2118EA-MA-PWR-AC(C.00).xml"/>
+  </li>
+  <li bom="111625001010">
+    <li review="default" product="ISCOM2608G-2GE-AC-01(A.10)" xml="./fushengxiang/ISCOM2608G-2GE-AC-01(A.10).xml"/>
+    <li review="@SYSTEM_3.50.365_20180510" product="ISCOM2608G-2GE-AC-01(A.10)(SYSTEM_3.50.365_20180510)" xml="./fushengxiang/ISCOM2608G-2GE-AC-01(A.10)(SYSTEM_3.50.365_20180510).xml"/>
+  </li>
+  <li bom="101625001308">
+    <li review="default" product="ISCOM2608G-2GE-PWR-DC(A.08)" xml="./fushengxiang/ISCOM2608G-2GE-PWR-DC(A.08).xml"/>
+  </li>
+  <li bom="101619000510">
+    <li review="default" product="ISCOM2128GE-MA-PWR-AC(A.10)" xml="./fushengxiang/ISCOM2128GE-MA-PWR-AC(A.10).xml"/>
+  </li>
+  <li bom="101708001411">
+    <li review="default" product="ISCOM3024GF-4C-DC-D(C.01)" xml="./fushengxiang/ISCOM3024GF-4C-DC-D(C.01).xml"/>
+  </li>
+  <li bom="111621001812">
+    <li review="default" product="ISCOMRAX711-AC-S-01(B.02)" xml="./fushengxiang/ISCOMRAX711-AC-S-01(B.02).xml"/>
+  </li>
+  <li bom="101708001311">
+    <li review="default" product="ISCOM3024GF-4C-AC-D(C.01)" xml="./fushengxiang/ISCOM3024GF-4C-AC-D(C.01).xml"/>
+  </li>
+  <li bom="101608005810">
+    <li review="default" product="ISCOM2126F-MA-DC(B.10)" xml="./fushengxiang/ISCOM2126F-MA-DC(B.10).xml"/>
+  </li>
+  <li bom="101614000906">
+    <li review="default" product="ISCOM2924GF-4C-AC-D(A.06)" xml="./fushengxiang/ISCOM2924GF-4C-AC-D(A.06).xml"/>
+    <li review="@SYSTEM_20141104" product="ISCOM2924GF-4C-AC-D(A.06)(SYSTEM_20141104)" xml="./fushengxiang/ISCOM2924GF-4C-AC-D(A.06)(SYSTEM_20141104).xml"/>
+  </li>
+  <li bom="121614001106">
+    <li review="default" product="ISCOM2924GF-4C-DC-D-02(A.06)" xml="./fushengxiang/ISCOM2924GF-4C-DC-D-02(A.06).xml"/>
+  </li>
+  <li bom="101608005510">
+    <li review="default" product="ISCOM2126F-AC(B.10)" xml="./fushengxiang/ISCOM2126F-AC(B.10).xml"/>
+  </li>
+  <li bom="101614001306">
+    <li review="default" product="ISCOM2924GF-4C-AC_DC(A.06)" xml="./fushengxiang/ISCOM2924GF-4C-AC_DC(A.06).xml"/>
+  </li>
+  <li bom="101621001812">
+    <li review="default" product="ISCOMRAX711-AC-S(B.02)" xml="./fushengxiang/ISCOMRAX711-AC-S(B.02).xml"/>
+  </li>
+  <li bom="101625002300">
+    <li review="default" product="ISCOM2608G-2GE-HI-DC(A.10)" xml="./fushengxiang/ISCOM2608G-2GE-HI-DC(A.10).xml"/>
+  </li>
+  <li bom="111614001106">
+    <li review="default" product="ISCOM2924GF-4C-DC-D-01(A.06)" xml="./fushengxiang/ISCOM2924GF-4C-DC-D-01(A.06).xml"/>
+    <li review="@REAP_1.2.3324" product="ISCOM2924GF-4C-DC-D-01(A.06)(REAP_1.2.3324)" xml="./fushengxiang/ISCOM2924GF-4C-DC-D-01(A.06)(REAP_1.2.3324).xml"/>
+  </li>
+  <li bom="101619000330">
+    <li review="default" product="ISCOM2128EA-MA-DC(B.10)" xml="./fushengxiang/ISCOM2128EA-MA-DC(B.10).xml"/>
+  </li>
+  <li bom="101621000112">
+    <li review="default" product="ISCOMRAX711-AC_DC(B.02)" xml="./fushengxiang/ISCOMRAX711-AC_DC(B.02).xml"/>
+  </li>
+  <li bom="101608005610">
+    <li review="default" product="ISCOM2126F-DC(B.10)" xml="./fushengxiang/ISCOM2126F-DC(B.10).xml"/>
+  </li>
+  <li bom="121621900412">
+    <li review="default" product="ISCOMRAX711-DC-D-02(B.02)" xml="./fushengxiang/ISCOMRAX711-DC-D-02(B.02).xml"/>
+  </li>
+  <li bom="101608005502">
+    <li review="default" product="ISCOM2126F-AC(B.03)" xml="./fushengxiang/ISCOM2126F-AC(B.03).xml"/>
+  </li>
+  <li bom="101622000401">
+    <li review="default" product="ISCOM2948G-4C-DC-D(A.01)" xml="./fushengxiang/ISCOM2948G-4C-DC-D(A.01).xml"/>
+  </li>
+  <li bom="101708000501">
+    <li review="default" product="ISCOM3024-AC(A.03)" xml="./fushengxiang/ISCOM3024-AC(A.03).xml"/>
+  </li>
+  <li bom="101708000101">
+    <li review="default" product="ISCOM3024G-AC(A.03)" xml="./fushengxiang/ISCOM3024G-AC(A.03).xml"/>
+  </li>
+  <li bom="101705000422">
+    <li review="default" product="ISCOM3052G-AC-D(C.02)" xml="./fushengxiang/ISCOM3052G-AC-D(C.02).xml"/>
+  </li>
+  <li bom="101608005240">
+    <li review="default" product="ISCOM2126EA-MA-PWR-DC(C.10)" xml="./fushengxiang/ISCOM2126EA-MA-PWR-DC(C.10).xml"/>
+  </li>
+  <li bom="101709000422">
+    <li review="default" product="ISCOM3048G-4C-AC-D(C.02)" xml="./fushengxiang/ISCOM3048G-4C-AC-D(C.02).xml"/>
+  </li>
+  <li bom="104101000202">
+    <li review="default" product="ISCOMS5600-52C-EI-AC-S(A.02)" xml="./fushengxiang/ISCOMS5600-52C-EI-AC-S(A.02).xml"/>
+  </li>
+  <li bom="101618002810">
+    <li review="default" product="ISCOM2110G-AC(B.00)" xml="./fushengxiang/ISCOM2110G-AC(B.00).xml"/>
+  </li>
+  <li bom="101608005702">
+    <li review="default" product="ISCOM2126F-MA-AC(B.03)" xml="./fushengxiang/ISCOM2126F-MA-AC(B.03).xml"/>
+  </li>
+  <li bom="140207000340">
+    <li review="default" product="AlphaA28F(D.10)" xml="./fushengxiang/AlphaA28F(D.10).xml"/>
+  </li>
+  <li bom="104101000102">
+    <li review="default" product="ISCOMS5600-52C-EI-AC-D(A.02)" xml="./fushengxiang/ISCOMS5600-52C-EI-AC-D(A.02).xml"/>
+  </li>
+  <li bom="101612000140">
+    <li review="default" product="ISCOM2828F-DC(D.10)" xml="./fushengxiang/ISCOM2828F-DC(D.10).xml"/>
+  </li>
+  <li bom="101614001106">
+    <li review="default" product="ISCOM2924GF-4C-DC-D(A.06)" xml="./fushengxiang/ISCOM2924GF-4C-DC-D(A.06).xml"/>
+    <li review="@REAP_1.2.3760a" product="ISCOM2924GF-4C-DC-D(A.06)(REAP_1.2.3760a)" xml="./fushengxiang/ISCOM2924GF-4C-DC-D(A.06)(REAP_1.2.3760a).xml"/>
+  </li>
+  <li bom="101709002600">
+    <li review="default" product="ISCOM3048G-4C-PWR-AC-S(B.00)" xml="./fushengxiang/ISCOM3048G-4C-PWR-AC-S(B.00).xml"/>
+  </li>
+  <li bom="101705000522">
+    <li review="default" product="ISCOM3052G-DC-D(C.02)" xml="./fushengxiang/ISCOM3052G-DC-D(C.02).xml"/>
+  </li>
+  <li bom="111621001612">
+    <li review="default" product="ISCOMRAX711-AC-D-01(B.02)" xml="./fushengxiang/ISCOMRAX711-AC-D-01(B.02).xml"/>
+  </li>
+  <li bom="101709000522">
+    <li review="default" product="ISCOM3048G-4C-DC-D(C.02)" xml="./fushengxiang/ISCOM3048G-4C-DC-D(C.02).xml"/>
+  </li>
+  <li bom="104101001600">
+    <li review="default" product="ESW-SUB-8GF(A.00)" xml="./fushengxiang/ESW-SUB-8GF(A.00).xml"/>
+  </li>
+  <li bom="121621001712">
+    <li review="default" product="ISCOMRAX711-DC-D-06(B.02)" xml="./fushengxiang/ISCOMRAX711-DC-D-06(B.02).xml"/>
+  </li>
+  <li bom="121621900612">
+    <li review="default" product="ISCOMRAX711-DC-S-02(B.02)" xml="./fushengxiang/ISCOMRAX711-DC-S-02(B.02).xml"/>
+  </li>
+  <li bom="101608005520">
+    <li review="default" product="ISCOM2126F-AC(B.20)" xml="./fushengxiang/ISCOM2126F-AC(B.20).xml"/>
+  </li>
+  <li bom="104101001700">
+    <li review="default" product="ESW-SUB-2Q(A.00)" xml="./fushengxiang/ESW-SUB-2Q(A.00).xml"/>
+  </li>
+  <li bom="111614000906">
+    <li review="default" product="ISCOM2924GF-4C-AC-D-01(A.06)" xml="./fushengxiang/ISCOM2924GF-4C-AC-D-01(A.06).xml"/>
+    <li review="@REAP_20170519" product="ISCOM2924GF-4C-AC-D-01(A.06)(REAP_20170519)" xml="./fushengxiang/ISCOM2924GF-4C-AC-D-01(A.06)(REAP_20170519).xml"/>
+    <li review="@SYETEM_20180208" product="ISCOM2924GF-4C-AC-D-01(A.06)(SYETEM_20180208)" xml="./fushengxiang/ISCOM2924GF-4C-AC-D-01(A.06)(SYETEM_20180208).xml"/>
+  </li>
+  <li bom="140207000350">
+    <li review="default" product="AlphaA28F(D.20)" xml="./fushengxiang/AlphaA28F(D.20).xml"/>
+  </li>
+  <li bom="101608005620">
+    <li review="default" product="ISCOM2126F-DC(B.20)" xml="./fushengxiang/ISCOM2126F-DC(B.20).xml"/>
+  </li>
+  <li bom="101618001610">
+    <li review="default" product="ISCOM2110EA-MA-DC(B.00)" xml="./fushengxiang/ISCOM2110EA-MA-DC(B.00).xml"/>
+  </li>
+  <li bom="101614002303">
+    <li review="default" product="ISCOM2924G-4C-AC_DC(A.03)" xml="./fushengxiang/ISCOM2924G-4C-AC_DC(A.03).xml"/>
+  </li>
+  <li bom="101708000810">
+    <li review="default" product="ISCOM3024GF-DC-D(B.01)" xml="./fushengxiang/ISCOM3024GF-DC-D(B.01).xml"/>
+  </li>
+  <li bom="000000000001">
+    <li review="default" product="fushengxiang" xml="./fushengxiang/test.xml"/>
+  </li>
+  <li bom="101619000710">
+    <li review="default" product="ISCOM2128EA-MA-PWR-AC(A.10)" xml="./fushengxiang/ISCOM2128EA-MA-PWR-AC(A.10).xml"/>
+  </li>
+  <li bom="104101001001">
+    <li review="default" product="ISCOMS5600-28C-EI-24F-AC_DC(A.01)" xml="./fushengxiang/ISCOMS5600-28C-EI-24F-AC_DC(A.01).xml"/>
+  </li>
+  <li bom="101625002100">
+    <li review="default" product="ISCOM2624G-4GE-HI-DC(A.04)" xml="./fushengxiang/ISCOM2624G-4GE-HI-DC(A.04).xml"/>
+  </li>
+  <li bom="101709002002">
+    <li review="default" product="ISCOM3048XF-4Q-F-DC-D(A.05)" xml="./fushengxiang/ISCOM3048XF-4Q-F-DC-D(A.05).xml"/>
+  </li>
+  <li bom="101708002400">
+    <li review="default" product="ISCOM3024G-4C-PWR-AC-S(B.00)" xml="./fushengxiang/ISCOM3024G-4C-PWR-AC-S(B.00).xml"/>
+  </li>
+  <li bom="101708002210">
+    <li review="default" product="ISCOM3024G-4GF-PWR-AC-D(B.00)" xml="./fushengxiang/ISCOM3024G-4GF-PWR-AC-D(B.00).xml"/>
+  </li>
+  <li bom="101614001804">
+    <li review="default" product="ISCOM2924GF-4GE-AC_DC(A.04)" xml="./fushengxiang/ISCOM2924GF-4GE-AC_DC(A.04).xml"/>
+  </li>
+  <li bom="101221008201">
+    <li review="default" product="RCMS2911-16E1-4GE-BL-AC_DC(A.01)" xml="./fushengxiang/RCMS2911-16E1-4GE-BL-AC_DC(A.01).xml"/>
+  </li>
+  <li bom="101709002722">
+    <li review="default" product="ISCOM3048G-4C-AC-S(C.02)" xml="./fushengxiang/ISCOM3048G-4C-AC-S(C.02).xml"/>
+  </li>
+  <li bom="101625001007">
+    <li review="default" product="ISCOM2608G-2GE-AC(A.07)" xml="./fushengxiang/ISCOM2608G-2GE-AC(A.07).xml"/>
+  </li>
+  <li bom="101614000907">
+    <li review="default" product="ISCOM2924GF-4C-AC-D(A.07)" xml="./fushengxiang/ISCOM2924GF-4C-AC-D(A.07).xml"/>
+  </li>
+  <li bom="101614001605">
+    <li review="default" product="ISCOM2924GF-4GE-DC-D(A.05)" xml="./fushengxiang/ISCOM2924GF-4GE-DC-D(A.05).xml"/>
+  </li>
+  <li bom="140207002300">
+    <li review="default" product="ISCOM2924GF-4C-AC_DC(R.00)" xml="./fushengxiang/ISCOM2924GF-4C-AC_DC(R.00).xml"/>
+  </li>
+  <li bom="101614001307">
+    <li review="default" product="ISCOM2924GF-4C-AC_DC(A.07)" xml="./fushengxiang/ISCOM2924GF-4C-AC_DC(A.07).xml"/>
+  </li>
+  <li bom="121614000907">
+    <li review="default" product="ISCOM2924GF-4C-AC-D-02(A.07)" xml="./fushengxiang/ISCOM2924GF-4C-AC-D-02(A.07).xml"/>
+  </li>
+  <li bom="121614001107">
+    <li review="default" product="ISCOM2924GF-4C-DC-D-02(A.07)" xml="./fushengxiang/ISCOM2924GF-4C-DC-D-02(A.07).xml"/>
+  </li>
+  <li bom="101608005602">
+    <li review="default" product="ISCOM2126F-DC(B.03)" xml="./fushengxiang/ISCOM2126F-DC(B.03).xml"/>
+  </li>
+  <li bom="101708001220">
+    <li review="default" product="ISCOM3024G-4C-AC_DC(C.00)" xml="./fushengxiang/ISCOM3024G-4C-AC_DC(C.00).xml"/>
+  </li>
+  <li bom="101614001107">
+    <li review="default" product="ISCOM2924GF-4C-DC-D(A.07)" xml="./fushengxiang/ISCOM2924GF-4C-DC-D(A.07).xml"/>
+    <li review="@REAP_1.2.3644a" product="ISCOM2924GF-4C-DC-D(A.07)(REAP_1.2.3644a)" xml="./fushengxiang/ISCOM2924GF-4C-DC-D(A.07)(REAP_1.2.3644a).xml"/>
+  </li>
+  <li bom="121621900513">
+    <li review="default" product="ISCOMRAX711-AC-S-02(B.03)" xml="./fushengxiang/ISCOMRAX711-AC-S-02(B.03).xml"/>
+  </li>
+  <li bom="101612000050">
+    <li review="default" product="ISCOM2828F-AC(D.20)" xml="./fushengxiang/ISCOM2828F-AC(D.20).xml"/>
+  </li>
+  <li bom="101625001500">
+    <li review="default" product="ISCOM2648G-4GE-DC(A.00)" xml="./fushengxiang/ISCOM2648G-4GE-DC(A.00).xml"/>
+  </li>
+  <li bom="111625001007">
+    <li review="default" product="ISCOM2608G-2GE-AC-01(A.07)" xml="./fushengxiang/ISCOM2608G-2GE-AC-01(A.07).xml"/>
+  </li>
+  <li bom="111614000907">
+    <li review="default" product="ISCOM2924GF-4C-AC-D-01(A.07)" xml="./fushengxiang/ISCOM2924GF-4C-AC-D-01(A.07).xml"/>
+    <li review="@REAP_1.2.3617" product="ISCOM2924GF-4C-AC-D-01(A.07)(REAP_1.2.3617)" xml="./fushengxiang/ISCOM2924GF-4C-AC-D-01(A.07)(REAP_1.2.3617).xml"/>
+  </li>
+  <!--lilie-->
+  <li bom="unused" product="RC552-FE(B.11)" xml="./lilie/RC552-FE.xml"/>
+  <li bom="100504005940" product="RC551B-4FE-S1-AC" xml="./lilie/RC551B-4FE-S1-AC.xml"/>
+  <li bom="100504007140" product="RC551B-4FE-SS15-AC" xml="./lilie/RC551B-4FE-SS15-AC.xml"/>
+  <li bom="100504006140" product="RC551B-FE-S1-AC" xml="./lilie/RC551B-FE-S1-AC.xml"/>
+  <li bom="100504002721" product="RC551E-4GE-AC" xml="./lilie/RC551E-4GE-AC.xml"/>
+  <li bom="100504003121" product="RC551E-GE-AC" xml="./lilie/RC551E-GE-AC.xml"/>
+  <li bom="100504002940" product="RC551B-FE-AC" xml="./lilie/RC551B-FE-AC.xml"/>
+  <li bom="100504007321" product="RC551E-GE-SS13-AC" xml="./lilie/RC551E-GE-SS13-AC.xml"/>
+  <li bom="100504007521" product="RC551E-GE-SS15-AC" xml="./lilie/RC551E-GE-SS15-AC.xml"/>
+  <li bom="100504006540" product="RC551B-FE-SS13-AC" xml="./lilie/RC551B-FE-SS13-AC.xml"/>
+  <li bom="100504005121" product="RC551E-GE-S1-AC" xml="./lilie/RC551E-GE-S1-AC.xml"/>
+  <li bom="100504006940" product="RC551B-4FE-SS13-AC" xml="./lilie/RC551B-4FE-SS13-AC.xml"/>
+  <li bom="100504005221" product="RC551E-GE-S1-DC" xml="./lilie/RC551E-GE-S1-DC.xml"/>
+  <li bom="100504005321" product="RC551E-4GE-S1-AC" xml="./lilie/RC551E-4GE-S1-AC.xml"/>
+  <li bom="100504003040" product="RC551B-FE-DC" xml="./lilie/RC551B-FE-DC.xml"/>
+  <li bom="100504005521" product="RC551E-4GE-S1-DC +24V" xml="./lilie/RC551E-4GE-S1-DC +24V.xml"/>
+  <li bom="100504007721" product="RC551E-4GE-SS13-AC" xml="./lilie/RC551E-4GE-SS13-AC.xml"/>
+  <li bom="100504006740" product="RC551B-FE-SS15-AC" xml="./lilie/RC551B-FE-SS15-AC.xml"/>
+  <li bom="100000006320" product="RC001-1M-ACD" xml="./lilie/RC001-1M-ACD.xml"/>
+  <li bom="100504003340" product="RC551B-4FE-AC" xml="./lilie/RC551B-4FE-AC.xml"/>
+  <li bom="100504006240" product="RC551B-FE-S1-DC" xml="./lilie/RC551B-FE-S1-DC.xml"/>
+  <li bom="100504003621" product="RC551E-4GEF-AC" xml="./lilie/RC551E-4GEF-AC.xml"/>
+  <li bom="104005000501" product="Gazelle RP551BI-4FE-AC" xml="./lilie/GazelleRP551BI-4FE-AC.xml"/>
+  <li bom="100504009500" product="RC551B-8FE-AC" xml="./lilie/RC551B-8FE-AC.xml"/>
+  <li bom="100504007321" product="RC551E-GE-SS13-AC" xml="./lilie/RC551E-GE-SS13-AC.xml"/>
+  <li bom="100504002821" product="RC551E-4GE-DC" xml="./lilie/RC551E-4GE-DC.xml"/>
+  <li bom="100505003221" product="RC581-GE-AC" xml="./lilie/RC581-GE-AC.xml"/>
+  <li bom="100504003721" product="RC551E-4GEF-DC" xml="./lilie/RC551E-4GEF-DC.xml"/>
+  <!--luocheng-->
+  <li bom="101914000211" product="ISCOM5508-AC-D" xml="./luocheng/ISCOM5508-AC-D.xml"/>
+  <li bom="000000001889" product="ISCOM5508-GP-AC-D" xml="./luocheng/ISCOM5508-GP-AC-D.xml"/>
+  <li bom="101914001401" product="ISCOM5508-GP-AC-D" xml="./luocheng/ISCOM5508-GP-AC-D.xml"/>
+  <!--songxudong-->
+  <li bom="104050035122" product="Gazelle S1508i-2GF-4GE-AC" xml="./songxudong/GazelleS1508i-2GF-4GE-AC.xml"/>
+  <li bom="104050019710" product="Gazelle S1112i-4GF-8FE-PWR-AC" xml="./songxudong/GazelleS1112i-4GF-8FE-PWR-AC.xml"/>
+  <li bom="140214001110" product="RS-I-2308FE-PoE-DC48" xml="./songxudong/RS-I-2308FE-PoE-DC48.xml"/>
+  <li bom="104050010701" product="Gazelle S1010i-2FX-6FE-M-AC(A.01)" xml="./songxudong/GazelleS1010i-2FX-6FE-M-AC(A.01).xml"/>
+  <li bom="104050036803" product="Gazelle S1520i-4GF-8GE-DCW48(A.03)" xml="./songxudong/GazelleS1520i-4GF-8GE-DCW48(A.03).xml"/>
+  <li bom="104050036703" product="Gazelle S1520i-4GF-8GE-AC(A.03)" xml="./songxudong/GazelleS1520i-4GF-8GE-AC(A.03).xml"/>
+  <li bom="000000001840" product="Gazelle R102i-8FE(A.01)" xml="./songxudong/GazelleR102i-8FE(A.01).xml"/>
+  <li bom="104050041803" product="Gazelle 1020i-4GF-16GE-DCW48(A.03)" xml="./songxudong/GazelleS1020i-4GF-16GE-DCW48(A.03).xml"/>
+  <li bom="104055001110" product="Gazelle S1218i(B.00)" xml="./songxudong/GazelleS1218i(B.00).xml"/>
+  <li bom="304001001203" product="Gazelle R102i-8FE-MB(A2.0)" xml="./songxudong/GazelleR102i-8FE-MB(A2.0).xml"/>
+  <li bom="104050035222" product="Gazelle S1508i-2GF-4GE-DCW48(B.22)" xml="./songxudong/GazelleS1508i-2GF-4GE-DCW48(B.22).xml"/>
+  <li bom="104050037122" product="Gazelle S1508i-2GF-4GE-DCW24(B.22)" xml="./songxudong/GazelleS1508i-2GF-4GE-DCW24(B.22).xml"/>
+  <li bom="304001001301" product="Gazelle R102i-8FE-SUB(A.10)" xml="./songxudong/GazelleR102i-8FE-SUB(A1.0).xml"/>
+  <li bom="104050036902" product="Gazelle S1520i-4GF-16GE-AC(A.02)" xml="./songxudong/GazelleS1520i-4GF-16GE-AC(A.02).xml"/>
+  <li bom="104050009010" product="Gazelle S1003i-FX-2FE-M-DCW48(A.10)" xml="./songxudong/GazelleS1003i-FX-2FE-M-DCW48(A.10).xml"/>
+  <li bom="104050008701" product="Gazelle S1003i-FX-2FE-M-AC(A.01)" xml="./songxudong/GazelleS1003i-FX-2FE-M-AC(A.01).xml"/>
+  <li bom="104050012210" product="Gazelle S1003i-FX-2FE-SS13-AC(A.10)" xml="./songxudong/GazelleS1003i-FX-2FE-SS13-AC(A.10).xml"/>
+  <li bom="104050042200" product="Gazelle S1000i-2GF-4FE-LI-AC(A.00)" xml="./songxudong/GazelleS1000i-2GF-4FE-LI-AC(A.00).xml"/>
+  <li bom="104050022010" product="Gazelle S1003i-FX-2FE-SS15-AC(A.10)" xml="./songxudong/GazelleS1003i-FX-2FE-SS15-AC(A.10).xml"/>
+  <li bom="104050023600" product="Gazelle S1508i-8GF-AC(A.00)" xml="./songxudong/GazelleS1508i-8GF-AC(A.00).xml"/>
+  <li bom="104050041300" product="Gazelle S1000i-2GF-8FE-LI-AC(A.00)" xml="./songxudong/GazelleS1000i-2GF-8FE-LI-AC(A.00).xml"/>
+  <li bom="104050037002" product="Gazelle S1520i-4GF-16GE-DCW48(A.02)" xml="./songxudong/GazelleS1520i-4GF-16GE-DCW48(A.02).xml"/>
+  <li bom="104050042900" product="Gazelle S1500i-2GF-8GE-LI-AC(A.00)" xml="./songxudong/GazelleS1500i-2GF-8GE-LI-AC(A.00).xml"/>
+  <li bom="104050023710" product="Gazelle S1003i-FX-2FE-S1-AC(A.10)" xml="./songxudong/GazelleS1003i-FX-2FE-S1-AC(A.10).xml"/>
+  <li bom="104050042800" product="GazelleS1512i-4GF-8GE-PWR-DC48(A.00)" xml="./songxudong/GazelleS1512i-4GF-8GE-PWR-DC48(A.00).xml"/>
+  <li bom="104050044022" product="Gazelle S1010i-2FX-4FE-AC(B.22)" xml="./songxudong/GazelleS1010i-2FX-4FE-AC(B.22).xml"/>
+  <li bom="104050042700" product="Gazelle S1520i-12GF-16GE-DCW24(A.00)" xml="./songxudong/GazelleS1520i-12GF-16GE-DCW24(A.00).xml"/>
+  <li bom="104050041500" product="GazelleS1000i-4GF-16FE-LI-AC(A.00)" xml="./songxudong/GazelleS1000i-4GF-16FE-LI-AC(A.00).xml"/>
+  <li bom="104050042300" product="GazelleS1000i-4GX-16FE-LI-AC(A.00)" xml="./songxudong/GazelleS1000i-4GX-16FE-LI-AC(A.00).xml"/>
+  <li bom="304050001201" product="GazelleS1006i-2R(A1.1)" xml="./songxudong/GazelleS1006i-2R(A1.1).xml"/>
+  <li bom="104050045600" product="GazelleS1000i-2GF-8GE-LI-AC(A.00)" xml="./songxudong/GazelleS1000i-2GF-8GE-LI-AC(A.00).xml"/>
+  <li bom="304050008108" product="GazelleS1520i-4GF-16GE-MB(A1.7)" xml="./songxudong/GazelleS1520i-4GF-16GE-MB(A1.7).xml"/>
+  <li bom="354050008500" product="GazelleS1010i-4FX-6FE-MB-SS1(A1.1)" xml="./songxudong/GazelleS1010i-4FX-6FE-MB-SS1(A1.1).xml"/>
+  <li bom="104050043900" product="GazelleS1500i-2GF-8GE-PWR-LI-DC48(A.00)" xml="./songxudong/GazelleS1500i-2GF-8GE-PWR-LI-DC48(A.00).xml"/>
+  <li bom="104050045800" product="GazelleS1000i-2GF-4GE-LI-AC(A.00)" xml="./songxudong/GazelleS1000i-2GF-4GE-LI-AC(A.00).xml"/>
+  <li bom="104050046601" product="Gazelle S1010i-2FX-6FE-SS1-AC(A.01)" xml="./songxudong/GazelleS1010i-2FX-6FE-SS1-AC(A.01).xml"/>
+  <li bom="304050009004" product="GazelleS1520i-16GE-MB(A1.7)" xml="./songxudong/GazelleS1520i-16GE-MB(A1.7).xml"/>
+  <li bom="304055000300" product="GazelleS6028i-SUB-2SFP(A0.0)" xml="./songxudong/GazelleS6028i-SUB-2SFP(A0.0).xml"/>
+  <li bom="304050004405" product="GazelleS1112i-PWR-MB(A2.1)" xml="./songxudong/GazelleS1112i-PWR-MB(A2.1).xml"/>
+  <li bom="304055000102" product="GazelleS6028i-SUB-4GE(A1.0)" xml="./songxudong/GazelleS6028i-SUB-4GE(A1.0).xml"/>
+  <li bom="354052000500" product="GazelleS3028i-SUB-4SC-SS13(A3.0)" xml="./songxudong/GazelleS3028i-SUB-4SC-SS13(A3.0).xml"/>
+  <li bom="354052000200" product="GazelleS3028i-SUB-4SC-S2(A3.0)" xml="./songxudong/GazelleS3028i-SUB-4SC-S2(A3.0).xml"/>
+  <li bom="304051000501" product="GazelleS2028i-SUB-2GE(B1.0)" xml="./songxudong/GazelleS2028i-SUB-2GE(B1.0).xml"/>
+  <li bom="354050003000" product="GazelleS1010i-4FX-6FE-MB-S2-ST(A1.1)" xml="./songxudong/GazelleS1010i-4FX-6FE-MB-S2-ST(A1.1).xml"/>
+  <li bom="354051000300" product="GazelleS2026i-2FX-24FE-MB-S1(A1.0)" xml="./songxudong/GazelleS2026i-2FX-24FE-MB-S1(A1.0).xml"/>
+  <li bom="304051000113" product="GazelleS2028i-MB(B3.0)" xml="./songxudong/GazelleS2028i-MB(B3.0).xml"/>
+  <li bom="304051000600" product="GazelleS2028i-SUB-4FE(B0.0)" xml="./songxudong/GazelleS2028i-SUB-4FE(B0.0).xml"/>
+  <li bom="354052000400" product="GazelleS3028i-SUB-4SC-SS15(A3.0)" xml="./songxudong/GazelleS3028i-SUB-4SC-SS15(A3.0).xml"/>
+  <li bom="354051002200" product="GazelleS2028i-SUB-4FX-ST-M(B0.0)" xml="./songxudong/GazelleS2028i-SUB-4FX-ST-M(B0.0).xml"/>
+  <li bom="304055000209" product="GazelleS6028i-MB(A2.0)" xml="./songxudong/GazelleS6028i-MB(A2.0).xml"/>
+  <li bom="104050037302" product="GazelleS1520i-4GF-AC(A.02)" xml="./songxudong/GazelleS1520i-4GF-AC(A.02).xml"/>
+  <li bom="304052000502" product="GazelleS3028i-CU(A2.1)" xml="./songxudong/GazelleS3028i-CU(A2.1).xml"/>
+  <li bom="304050008204" product="Gazelle S1520i-4GF-16GE-SUB-16GE(A0.4)" xml="./songxudong/GazelleS1520i-4GF-16GE-SUB-16GE(A0.4).xml"/>
+  <li bom="104050045700">
+    <li review="default" product="GazelleS1000i-2GF-8GE-PWR-LI-DC48(A.00)" xml="./songxudong/GazelleS1000i-2GF-8GE-PWR-LI-DC48(A.00).xml"/>
+    <li review="@OA_1812180001" product="GazelleS1000i-2GF-8GE-PWR-LI-DC48(A.00)(OA_1812180001)" xml="./songxudong/GazelleS1000i-2GF-8GE-PWR-LI-DC48(A.00)(OA_1812180001).xml"/>
+  </li>
+  <!--tianmingqi-->
+  <li bom="140607000300">
+    <li review="default" product="S5560-24TS-AC-PWR(A.01)" xml="./tianmingqi/S5560-24TS-AC-PWR(A.01).xml"/>
+  </li>
+  <li bom="140607000200">
+    <li review="default" product="S5560-24TS-AC(A.04)" xml="./tianmingqi/S5560-24TS-AC(A.04).xml"/>
+  </li>
+  <li bom="140607000600">
+    <li review="default" product="S5560-24TQ-AC(A.03)" xml="./tianmingqi/S5560-24TQ-AC(A.03).xml"/>
+  </li>
+  <li bom="140607000500">
+    <li review="default" product="S5560-48TS-AC(A.01)" xml="./tianmingqi/S5560-48TS-AC(A.01).xml"/>
+  </li>
+  <li bom="140607000400">
+    <li review="default" product="S5560-48TQ-AC(A.03)" xml="./tianmingqi/S5560-48TQ-AC(A.03).xml"/>
+  </li>
+  <li bom="140607000700">
+    <li review="default" product="S6550-48TQ-AC-D(B.00)" xml="./tianmingqi/S6550-48TQ-AC-D(B.00).xml"/>
+  </li>
+  <li bom="140607000701">
+    <li review="default" product="S6550-48TQ-AC-D(B.01)" xml="./tianmingqi/S6550-48TQ-AC-D(B.00).xml"/>
+  </li>
+  <li bom="140607000900">
+    <li review="default" product="S6550-48XQ-AC-D(B.01)" xml="./tianmingqi/S6550-48XQ-AC-D(B.01).xml"/>
+  </li>
+  <li bom="140607000800">
+    <li review="default" product="S6550-24TQ-AC-D(B.00)" xml="./tianmingqi/S6550-24TQ-AC-D(B.00).xml"/>
+  </li>
+  <li bom="140607000801">
+    <li review="default" product="S6550-24TQ-AC-D(B.01)" xml="./tianmingqi/S6550-24TQ-AC-D(B.00).xml"/>
+  </li>
+  <li bom="140607000100">
+    <li review="default" product="S6550-24XQ-AC-D(B.02)" xml="./tianmingqi/S6550-24XQ-AC-D(B.02).xml"/>
+  </li>
+  <li bom="104010000102">
+    <li review="default" product="S6550-24XQ-AC-D(B.02)" xml="./tianmingqi/S6550-24XQ-AC-D(B.02).xml"/>
+  </li>
+  <li bom="101614002102">
+    <li review="default" product="S6550-24XQ-AC-D(B.02)" xml="./tianmingqi/test.xml"/>
+  </li>
+  <li bom="304052001201">
+    <li review="default" product="Gazelle S3028i-LED(A版)" xml="./tianmingqi/Gazelle-S3028i-LED(A).xml"/>
+  </li>
+  <li bom="304052000204">
+    <li review="default" product="Gazelle-S3028i-SUB-2GF(A版)" xml="./tianmingqi/Gazelle-S3028i-SUB-2GF(A).xml"/>
+  </li>
+  <li bom="104055000400">
+    <li review="default" product="Gazelle S6016i-12GE-M12-DC110/D(A版)" xml="./tianmingqi/Gazelle_S6016i-12GE-M12-DC110-D(A).xml"/>
+  </li>
+  <li bom="304051000501">
+    <li review="default" product="Gazelle-S2028i-SUB-2GE(B).xml(B版)" xml="./tianmingqi/Gazelle-S2028i-SUB-2GE(B).xml"/>
+  </li>
+  <li bom="304051000900">
+    <li review="default" product="Gazelle-S2028i-SUB-4FX-SFP(B版)" xml="./tianmingqi/Gazelle-S2028i-SUB-4FX-SFP(B).xml"/>
+  </li>
+  <li bom="301619000010">
+    <li review="default" product="ISCOM2128-I-MB(C版)" xml="./tianmingqi/ISCOM2128-I-MB(C).xml"/>
+  </li>
+  <li bom="354050004100">
+    <li review="default" product="Gazelle-S1010i-4FX-6FE-SUB-2FX-M(A版)" xml="./tianmingqi/Gazelle-S1010i-4FX-6FE-SUB-2FX-M(A).xml"/>
+  </li>
+  <li bom="304050009500">
+    <li review="default" product="Gazelle-S1010i-2GX-8FE-LI(A版)" xml="./tianmingqi/Gazelle-S1010i-2GX-8FE-LI(A).xml"/>
+  </li>
+  <li bom="301620000212">
+    <li review="default" product="ISCOM2108-I-4R-MB(B版)" xml="./tianmingqi/ISCOM2108-I-4R-MB(B).xml"/>
+  </li>
+  <li bom="301620000112">
+    <li review="default" product="ISCOM2108-I-4R-SR(B版)" xml="./tianmingqi/ISCOM2108-I-4R-SR(B).xml"/>
+  </li>
+  <!--wangxingang-->
+  <li bom="102407000010">
+    <li review="default" product="OPCOM3109-8E1-AC(B.00)" xml="./wangxingang/OPCOM3109-8E1-AC(B.00).xml"/>
+  </li>
+  <li bom="103003016200">
+    <li review="default" product="iTN8601-OTM4-LL-AC_DC(A.00)" xml="./wangxingang/iTN8601-OTM4-LL-AC_DC(A.00).xml"/>
+  </li>
+  <li bom="103003016000">
+    <li review="default" product="iTN8601-OTM4-LR-DC/D(A.00)" xml="./wangxingang/iTN8601-OTM4-LR-DC_D(A.00).xml"/>
+  </li>
+  <li bom="103003016500">
+    <li review="default" product="iTN8601-OTM4-LL-DC/D(A.00)" xml="./wangxingang/iTN8601-OTM4-LL-DC_D(A.00).xml"/>
+  </li>
+  <li bom="103003014700">
+    <li review="default" product="iTN8601-OTM4-SR-AC_DC(A.00)" xml="./wangxingang/iTN8601-OTM4-SR-AC_DC(A.00).xml"/>
+  </li>
+  <li bom="103003015200">
+    <li review="default" product="iTN8601-OTM4-SL-AC_DC(A.00)" xml="./wangxingang/iTN8601-OTM4-SL-AC_DC(A.00).xml"/>
+  </li>
+  <li bom="103003015700">
+    <li review="default" product="iTN8601-OTM4-LR-AC_DC(A.00)" xml="./wangxingang/iTN8601-OTM4-LR-AC_DC(A.00).xml"/>
+  </li>
+  <li bom="103003008510">
+    <li review="default" product="iTN8605-NO2D-AC_D(B.00)" xml="./wangxingang/iTN8605-NO2D-AC_D(B.00).xml"/>
+  </li>
+  <li bom="103003008610">
+    <li review="default" product="iTN8605-NO2D-AC_S(B.00)" xml="./wangxingang/iTN8605-NO2D-AC_S(B.00).xml"/>
+  </li>
+  <li bom="103003008710">
+    <li review="default" product="iTN8605-NO2D-DC_D(B.00)" xml="./wangxingang/iTN8605-NO2D-DC_D(B.00).xml"/>
+  </li>
+  <li bom="103003008810">
+    <li review="default" product="iTN8605-NO2D-DC_S(B.00)" xml="./wangxingang/iTN8605-NO2D-DC_S(B.00).xml"/>
+  </li>
+  <li bom="103003008910">
+    <li review="default" product="iTN8605-NO2D-AC_DC(B.00)" xml="./wangxingang/iTN8605-NO2D-AC_DC(B.00).xml"/>
+  </li>
+  <li bom="103003008511">
+    <li review="default" product="iTN8605-NO2D-AC_D(B.01)" xml="./wangxingang/iTN8605-NO2D-AC_D(B.01).xml"/>
+  </li>
+  <li bom="103003008611">
+    <li review="default" product="iTN8605-NO2D-AC_S(B.01)" xml="./wangxingang/iTN8605-NO2D-AC_S(B.01).xml"/>
+  </li>
+  <li bom="103003008711">
+    <li review="default" product="iTN8605-NO2D-DC_D(B.01)" xml="./wangxingang/iTN8605-NO2D-DC_D(B.01).xml"/>
+  </li>
+  <li bom="103003008811">
+    <li review="default" product="iTN8605-NO2D-DC_S(B.01)" xml="./wangxingang/iTN8605-NO2D-DC_S(B.01).xml"/>
+  </li>
+  <li bom="103003008911">
+    <li review="default" product="iTN8605-NO2D-AC_DC(B.01)" xml="./wangxingang/iTN8605-NO2D-AC_DC(B.01).xml"/>
+  </li>
+  <li bom="103003008520">
+    <li review="default" product="iTN8605-NO2D-AC_D(B.10)" xml="./wangxingang/iTN8605-NO2D-AC_D(B.10).xml"/>
+  </li>
+  <li bom="103003008620">
+    <li review="default" product="iTN8605-NO2D-AC_S(B.10)" xml="./wangxingang/iTN8605-NO2D-AC_S(B.10).xml"/>
+  </li>
+  <li bom="103003008720">
+    <li review="default" product="iTN8605-NO2D-DC_D(B.10)" xml="./wangxingang/iTN8605-NO2D-DC_D(B.10).xml"/>
+  </li>
+  <li bom="103003008820">
+    <li review="default" product="iTN8605-NO2D-DC_S(B.10)" xml="./wangxingang/iTN8605-NO2D-DC_S(B.10).xml"/>
+  </li>
+  <li bom="103003008920">
+    <li review="default" product="iTN8605-NO2D-AC_DC(B.10)" xml="./wangxingang/iTN8605-NO2D-AC_DC(B.10).xml"/>
+  </li>
+  <li bom="140415000910">
+    <li review="default" product="OEO6010B-AC_DC(B.00)" xml="./wangxingang/OEO6010B-AC_DC(B.00).xml"/>
+  </li>
+  <li bom="140415001010">
+    <li review="default" product="OP-GYF200BM-AC_DC(B.00)" xml="./wangxingang/OP-GYF200BM-AC_DC(B.00).xml"/>
+  </li>
+  <li bom="103003012210">
+    <li review="default" product="iTN8000-V-DC(B.00)" xml="./wangxingang/iTN8000-V-DC(B.00).xml"/>
+  </li>
+  <li bom="103003012200">
+    <li review="default" product="iTN8000-V-DC(A.00)" xml="./wangxingang/iTN8000-V-DC(A.00).xml"/>
+  </li>
+  <li bom="103003000101">
+    <li review="default" product="iTN8000-II-DC(A.01)" xml="./wangxingang/iTN8000-II-DC(A.01).xml"/>
+  </li>
+  <li bom="103003018101">
+    <li review="default" product="iTN8800(A.01)" xml="./wangxingang/iTN8800(A.01).xml"/>
+  </li>
+  <li bom="103003017900">
+    <li review="default" product="iTN8000-II-AC_D(A.01)" xml="./wangxingang/iTN8000-II-AC_D(A.01).xml"/>
+  </li>
+  <li bom="103003002211">
+    <li review="default" product="iTN8800-II-NXU(B.01)" xml="./wangxingang/iTN8800-II-NXU(B.01).xml"/>
+  </li>
+  <li bom="103003001611">
+    <li review="default" product="iTN8600-II-NXU(B.01)" xml="./wangxingang/iTN8600-II-NXU(B.01).xml"/>
+  </li>
+  <li bom="103003004102">
+    <li review="default" product="iTN8600-PX2(A.02)" xml="./wangxingang/iTN8600-PX2(A.02).xml"/>
+  </li>
+  <li bom="103003004103">
+    <li review="default" product="iTN8600-PX2(A.03)" xml="./wangxingang/iTN8600-PX2(A.03).xml"/>
+  </li>
+  <li bom="103003004104">
+    <li review="default" product="iTN8600-PX2(A.04)" xml="./wangxingang/iTN8600-PX2(A.04).xml"/>
+  </li>
+  <li bom="103003004105">
+    <li review="default" product="iTN8600-PX2(A.05)" xml="./wangxingang/iTN8600-PX2(A.05).xml"/>
+  </li>
+  <li bom="103003004004">
+    <li review="default" product="iTN8800-RX2(A.05)" xml="./wangxingang/iTN8800-RX2(A.05).xml"/>
+  </li>
+  <li bom="103003004010">
+    <li review="default" product="iTN8800-RX2(B.00)" xml="./wangxingang/iTN8800-RX2(B.00).xml"/>
+  </li>
+  <li bom="103003006713">
+    <li review="default" product="iTN8600-PG8(B.03)" xml="./wangxingang/iTN8600-PG8(B.03).xml"/>
+  </li>
+  <li bom="103003009302">
+    <li review="default" product="iTN8600-PG8T(A.02)" xml="./wangxingang/iTN8600-PG8T(A.02).xml"/>
+  </li>
+  <li bom="103003003903">
+    <li review="default" product="iTN8800-RG8(B.03)" xml="./wangxingang/iTN8800-RG8(B.03).xml"/>
+  </li>
+  <li bom="103003011002">
+    <li review="default" product="iTN8800-RG8T(A.02)" xml="./wangxingang/iTN8800-RG8T(A.02).xml"/>
+  </li>
+  <li bom="102405008820">
+    <li review="default" product="OPCOM3500E-EOS-8FE(C.00)" xml="./wangxingang/OPCOM3500E-EOS-8FE(C.00).xml"/>
+  </li>
+  <li bom="103001000602">
+    <li review="default" product="iTN2100-NMS(C.02)" xml="./wangxingang/iTN2100-NMS(C.02).xml"/>
+  </li>
+  <li bom="103003018001">
+    <li review="default" product="iTN8800-RXG8(A.01)" xml="./wangxingang/iTN8800-RXG8(A.01).xml"/>
+  </li>
+  <li bom="103003017101">
+    <li review="default" product="iTN8600-SS8(A.01)" xml="./wangxingang/iTN8600-SS8(A.01).xml"/>
+  </li>
+  <li bom="103003017110">
+    <li review="default" product="iTN8600-SS8(A.10)" xml="./wangxingang/iTN8600-SS8(A.10).xml"/>
+  </li>
+  <li bom="103003017111">
+    <li review="default" product="iTN8600-SS8(A.11)" xml="./wangxingang/iTN8600-SS8(A.11).xml"/>
+  </li>
+  <li bom="103003004110">
+    <li review="default" product="iTN8600-PX2(B.00)" xml="./wangxingang/iTN8600-PX2(B.00).xml"/>
+  </li>
+  <li bom="103003021110">
+    <li review="default" product="iTN8800-SLAX2(B.00)" xml="./wangxingang/iTN8800-SLAX2(B.00).xml"/>
+  </li>
+  <li bom="103003010401">
+    <li review="default" product="iTN8600-OTU5E(A.01)" xml="./wangxingang/iTN8600-OTU5E(A.01).xml"/>
+  </li>
+  <li bom="103003008401">
+    <li review="default" product="iTN8600-II-NTU(A.01)" xml="./wangxingang/iTN8600-II-NTU(A.01).xml"/>
+  </li>
+  <li bom="103003012510">
+    <li review="default" product="iTN8600-V-NTU(A.10)" xml="./wangxingang/iTN8600-V-NTU(A.10).xml"/>
+  </li>
+  <li bom="103003018603">
+    <li review="default" product="RG8(B.03)" xml="./wangxingang/RG8(B.03).xml"/>
+  </li>
+  <li bom="103003007810">
+    <li review="default" product="iTN8600-LGO2D(B.00)" xml="./wangxingang/iTN8600-LGO2D(B.00).xml"/>
+  </li>
+  <li bom="103003007803">
+    <li review="default" product="iTN8600-LGO2D(A.03)" xml="./wangxingang/iTN8600-LGO2D(A.03).xml"/>
+  </li>
+  <li bom="103003007703">
+    <li review="default" product="iTN8600-LEO2D(A.03)" xml="./wangxingang/iTN8600-LEO2D(A.03).xml"/>
+  </li>
+  <li bom="103003015000">
+    <li review="default" product="iTN8601-OTM4-SR-DC_D(A.00)" xml="./wangxingang/iTN8601-OTM4-SR-DC_D(A.00).xml"/>
+  </li>
+  <li bom="103003015500">
+    <li review="default" product="iTN8601-OTM4-SL-DC_D(A.00)" xml="./wangxingang/iTN8601-OTM4-SL-DC_D(A.00).xml"/>
+  </li>
+  <li bom="102406013411">
+    <li review="default" product="OPCOM3107-8E1-AC(C.01)" xml="./wangxingang/OPCOM3107-8E1-AC(C.01).xml"/>
+  </li>
+  <li bom="103003004204">
+    <li review="default" product="iTN8600-AO2D(A.04)" xml="./wangxingang/iTN8600-AO2D(A.04).xml"/>
+  </li>
+  <li bom="103003004205">
+    <li review="default" product="iTN8600-AO2D(A.05)" xml="./wangxingang/iTN8600-AO2D(A.05).xml"/>
+  </li>
+  <li bom="000000002053">
+    <li review="default" product="OPCOM3305-DFDNH-SCAB(C.01)" xml="./wangxingang/OPCOM3305-DFDNH-SCAB(C.01).xml"/>
+  </li>
+  <li bom="103003017001">
+    <li review="default" product="iTN8600-SH2E(B.01)" xml="./wangxingang/iTN8600-SH2E(B.01).xml"/>
+  </li>
+  <li bom="103003019900">
+    <li review="default" product="iTN8607-OG8C-DC_D(A.00)" xml="./wangxingang/iTN8607-OG8C-DC_D(A.00).xml"/>
+  </li>
+  <li bom="000000002003">
+    <li review="default" product="OPCOM3305-DFENH-SDAB(B.01)" xml="./wangxingang/OPCOM3305-DFENH-SDAB(B.01).xml"/>
+  </li>
+  <li bom="103003010800">
+    <li review="default" product="NXU(6I8)(F.01)" xml="./wangxingang/NXU(6I8)(F.01).xml"/>
+  </li>
+  <li bom="103003019800">
+    <li review="default" product="iTN8607-OG8C-AC_DC(A.00)" xml="./wangxingang/iTN8607-OG8C-AC_DC(A.00).xml"/>
+  </li>
+  <li bom="103003015300">
+    <li review="default" product="iTN8601-OTM4-SL-AC_D(A.00)" xml="./wangxingang/iTN8601-OTM4-SL-AC_D(A.00).xml"/>
+  </li>
+  <li bom="103003014800">
+    <li review="default" product="iTN8601-OTM4-SR-AC_D(A.00)" xml="./wangxingang/iTN8601-OTM4-SR-AC_D(A.00).xml"/>
+  </li>
+  <li bom="103003021320">
+    <li review="default" product="UXU1(C.00)" xml="./wangxingang/UXU1(C.00).xml"/>
+  </li>
+  <li bom="103003002220">
+    <li review="default" product="iTN8800-Ⅱ-NXU(C.00)" xml="./wangxingang/iTN8800-Ⅱ-NXU(C.00).xml"/>
+  </li>
+  <li bom="103003007920">
+    <li review="default" product="iTN8600-NO2D(B.00)" xml="./wangxingang/iTN8600-NO2D(B.00).xml"/>
+  </li>
+  <li bom="000000002088">
+    <li review="default" product="OPCOM3305-DFENH-SCAC(B.01)" xml="./wangxingang/OPCOM3305-DFENH-SCAC(B.01).xml"/>
+  </li>
+  <li bom="103003021321">
+    <li review="default" product="UXU1(C.01)" xml="./wangxingang/UXU1(C.01).xml"/>
+  </li>
+  <li bom="103003007003">
+    <li review="default" product="iTN8800-RE16(A.04)" xml="./wangxingang/iTN8800-RE16(A.04).xml"/>
+  </li>
+  <li bom="103003006502">
+    <li review="default" product="iTN8600-XD2D(A.02)" xml="./wangxingang/iTN8600-XD2D(A.02).xml"/>
+  </li>
+  <li bom="102406013801">
+    <li review="default" product="OPCOM3107-16E1-BL-DC(B.01)" xml="./wangxingang/OPCOM3107-16E1-BL-DC(B.01).xml"/>
+  </li>
+  <li bom="103003010501">
+    <li review="default" product="iTN8600-OBA(A.01)" xml="./wangxingang/iTN8600-OBA(A.01).xml"/>
+  </li>
+  <li bom="103003010601">
+    <li review="default" product="iTN8600-OPA(A.01)" xml="./wangxingang/iTN8600-OPA(A.01).xml"/>
+  </li>
+  <li bom="103003017201">
+    <li review="default" product="iTN8600-SQ4(A.01)" xml="./wangxingang/iTN8600-SQ4(A.01).xml"/>
+  </li>
+  <li bom="103003004604">
+    <li review="default" product="iTN8600-SG16(A.04)" xml="./wangxingang/iTN8600-SG16(A.04).xml"/>
+  </li>
+  <li bom="103003022001">
+    <li review="default" product="iTN8600-A-PG8(A.01)" xml="./wangxingang/iTN8600-A-PG8(A.01).xml"/>
+  </li>
+  <li bom="103003022100">
+    <li review="default" product="iTN8600-A-PX4(A.00)" xml="./wangxingang/iTN8600-A-PX4(A.00).xml"/>
+  </li>
+  <li bom="103003022200">
+    <li review="default" product="iTN8600-A-NXU(A.00)" xml="./wangxingang/iTN8600-A-NXU(A.00).xml"/>
+  </li>
+  <li bom="103003021800">
+    <li review="default" product="iTN8600-A-DC(A.00)" xml="./wangxingang/iTN8600-A-DC(A.00).xml"/>
+  </li>
+  <li bom="103003022300">
+    <li review="default" product="iTN8800-RX1(A.00)" xml="./wangxingang/iTN8800-RX1(A.00).xml"/>
+  </li>
+  <li bom="103003003910">
+    <li review="default" product="iTN8800-RG8(C.00)" xml="./wangxingang/iTN8800-RG8(C.00).xml"/>
+  </li>
+  <li bom="103003000110">
+    <li review="default" product="iTN8000-II-DC(C.00)" xml="./wangxingang/iTN8000-II-DC(C.00).xml"/>
+  </li>
+  <li bom="103003002230">
+    <li review="default" product="iTN8800-II-NXU(D.00)" xml="./wangxingang/iTN8800-II-NXU(D.00).xml"/>
+  </li>
+  <li bom="103003007102">
+    <li review="default" product="iTN8600-PG16E(A.02)" xml="./wangxingang/iTN8600-PG16E(A.02).xml"/>
+  </li>
+  <li bom="103003017410">
+    <li review="default" product="iTN8600-SG8(A.10)" xml="./wangxingang/iTN8600-SG8(A.10).xml"/>
+  </li>
+  <li bom="103003021501">
+    <li review="default" product="iTN8600-A-SH2(A.01)" xml="./wangxingang/iTN8600-A-SH2(A.01).xml"/>
+  </li>
+  <li bom="103003013301">
+    <li review="default" product="iTN8800-RF8(A.01)" xml="./wangxingang/iTN8800-RF8(A.01).xml"/>
+  </li>
+  <li bom="103003003920">
+    <li review="default" product="iTN8800-RG8(D.00)" xml="./wangxingang/iTN8800-RG8(D.00).xml"/>
+  </li>
+  <li bom="103003023000">
+    <li review="default" product="iTN8600-A-SG8D(A.00)" xml="./wangxingang/iTN8600-A-SG8D(A.00).xml"/>
+  </li>
+  <li bom="103003012001">
+    <li review="default" product="iTN8600-FDU(A.01)" xml="./wangxingang/iTN8600-FDU(A.01).xml"/>
+  </li>
+  <li bom="103003006804">
+    <li review="default" product="iTN8600-OLP(A.04)" xml="./wangxingang/iTN8600-OLP(A.04).xml"/>
+  </li>
+  <li bom="103003012301">
+    <li review="default" product="iTN8600-OBA20(A.01)" xml="./wangxingang/iTN8600-OBA20(A.01).xml"/>
+  </li>
+  <li bom="103003012601">
+    <li review="default" product="iTN8600-OLA20(A.01)" xml="./wangxingang/iTN8600-OLA20(A.01).xml"/>
+  </li>
+  <li bom="102405033000">
+    <li review="default" product="OPCOM3500E-8FX(A.00)" xml="./wangxingang/OPCOM3500E-8FX(A.00).xml"/>
+  </li>
+  <li bom="103003006602">
+    <li review="default" product="iTN8600-DM16E(A.02)" xml="./wangxingang/iTN8600-DM16E(A.02).xml"/>
+  </li>
+  <li bom="103003004502">
+    <li review="default" product="iTN8600-DD16E(A.02)" xml="./wangxingang/iTN8600-DD16E(A.02).xml"/>
+  </li>
+  <li bom="103003004810">
+    <li review="default" product="iTN8600-SH2(A.10)" xml="./wangxingang/iTN8600-SH2(A.10).xml"/>
+  </li>
+  <li bom="103003004703">
+    <li review="default" product="iTN8600-SS4(A.03)" xml="./wangxingang/iTN8600-SS4(A.03).xml"/>
+  </li>
+  <li bom="103003019500">
+    <li review="default" product="iTN8600-MX2(A.00)" xml="./wangxingang/iTN8600-MX2(A.00).xml"/>
+  </li>
+  <li bom="103003011110">
+    <li review="default" product="PAD500-220S48(B.00)" xml="./wangxingang/PAD500-220S48(B.00).xml"/>
+  </li>
+  <li bom="103003011101">
+    <li review="default" product="PAD500-220S48(A.01)" xml="./wangxingang/PAD500-220S48(A.01).xml"/>
+  </li>
+  <li bom="103003021400">
+    <li review="default" product="iTN8600-AO2DE(A.00)" xml="./wangxingang/iTN8600-AO2DE(A.00).xml"/>
+  </li>
+  <li bom="102406013511">
+    <li review="default" product="OPCOM3107-8E1-DC(C.01)" xml="./wangxingang/OPCOM3107-8E1-DC(C.01).xml"/>
+  </li>
+  <li bom="103003006712">
+    <li review="default" product="iTN8600-PG8(B.02)" xml="./wangxingang/iTN8600-PG8(B.02).xml"/>
+  </li>
+  <li bom="103003021003">
+    <li review="default" product="iTN8800-SLAG8(B.03)" xml="./wangxingang/iTN8800-SLAG8(B.03).xml"/>
+  </li>
+  <li bom="103003004402">
+    <li review="default" product="iTN8600-OMD8(A.02)" xml="./wangxingang/iTN8600-OMD8(A.02).xml"/>
+  </li>
+  <li bom="103003007202">
+    <li review="default" product="iTN8600-PE16-BL(A.02)" xml="./wangxingang/iTN8600-PE16-BL(A.02).xml"/>
+  </li>
+  <li bom="103003019600">
+    <li review="default" product="iTN8607-OG8C-AC_D(A.00)" xml="./wangxingang/iTN8607-OG8C-AC_D(A.00).xml"/>
+  </li>
+  <li bom="103003015800">
+    <li review="default" product="iTN8601-OTM4-LR-AC_D(A.00)" xml="./wangxingang/iTN8601-OTM4-LR-AC_D(A.00).xml"/>
+  </li>
+  <li bom="103003016300">
+    <li review="default" product="iTN8601-OTM4-LL-AC_D(A.00)" xml="./wangxingang/iTN8601-OTM4-LL-AC_D(A.00).xml"/>
+  </li>
+  <li bom="103003007601">
+    <li review="default" product="iTN8600-OTU5(A.01)" xml="./wangxingang/iTN8600-OTU5(A.01).xml"/>
+  </li>
+  <li bom="103003018311">
+    <li review="default" product="RS4(NXU)(B.01)" xml="./wangxingang/RS4(NXU)(B.01).xml"/>
+  </li>
+  <!--wuliuhe-->
+  <li bom="103002028200" product="iTN152-GE-AC" xml="./wuliuhe/iTN152-GE-AC.xml"/>
+  <li bom="103002001330" product="iTN123-4FE-AC" xml="./wuliuhe/iTN123-4FE-AC.xml"/>
+  <li bom="103002015120" product="iTN185-4GE-AC-S" xml="./wuliuhe/iTN185-4GE-AC-S.xml"/>
+  <li bom="103002006420" product="iTN167-4GC-AC-DC" xml="./wuliuhe/iTN167-4GC-AC-DC.xml"/>
+  <li bom="103002006120" product="iTN167-4GC-AC-S" xml="./wuliuhe/iTN167-4GC-AC-S.xml"/>
+  <li bom="103002006020" product="iTN167-4GC-AC-D" xml="./wuliuhe/iTN167-4GC-AC-D.xml"/>
+  <li bom="103002013420" product="iTN185-4GC-AC-S" xml="./wuliuhe/iTN185-4GC-AC-S.xml"/>
+  <li bom="103002001130" product="iTN123-FE-AC" xml="./wuliuhe/iTN123-FE-AC.xml"/>
+  <li bom="103002005600" product="iTN123-8FE-AC" xml="./wuliuhe/iTN123-8FE-AC.xml"/>
+  <li bom="140115001100" product="RTNSW151B" xml="./wuliuhe/RTNSW151B.xml"/>
+  <li bom="000000001449" product="iTN151-BBNNG-SAAA" xml="./wuliuhe/iTN151-BBNNG-SAAA.xml"/>
+  <li bom="103002013441" product="iTN185-4GC-AC-S-C.2X" xml="./wuliuhe/iTN185-4GC-AC-S(C.2X).xml"/>
+  <li bom="103002015141" product="iTN185-4GE-AC-S-C.2X" xml="./wuliuhe/iTN185-4GE-AC-S(C.2X).xml"/>
+  <li bom="103002029803" product="iTN185-A1L-AC" xml="./wuliuhe/iTN185-A1L-AC.xml"/>
+  <li bom="103002030021" product="iTN185-A2L-AC" xml="./wuliuhe/iTN185-A2L-AC.xml"/>
+  <li bom="103002028203" product="iTN152-GE-AC" xml="./wuliuhe/iTN152-GE-AC.xml"/>
+  <li bom="133002028601" product="RAX711-H-4GE-AC-S-05" xml="./wuliuhe/RAX711-H-4GE-AC-S-05.xml"/>
+  <li bom="103002000521" product="iTN161-4GE-AC" xml="./wuliuhe/iTN161-4GE-AC.xml"/>
+  <li bom="103002028720" product="iTN185-AC" xml="./wuliuhe/iTN185-AC.xml"/>
+  <li bom="103002011110" product="iTN167-4GE-AC-S" xml="./wuliuhe/iTN167-4GE-AC-S.xml"/>
+  <li bom="123002020900">
+    <li review="default" product="RAX711-L-4GC-AC-S-02" xml="./wuliuhe/RAX711-L-4GC-AC-S-02.xml"/>
+    <li review="RAX711-L_A_SYSTEM_5.5.13_20180720" product="720RAX711-L-4GC-AC-S-02" xml="./wuliuhe/0720RAX711-L-4GC-AC-S-02.xml"/>
+    <li review="RAX711-L_SYSTEM_5.4.101_20180105" product="0105RAX711-L-4GC-AC-S-02" xml="./wuliuhe/0105RAX711-L-4GC-AC-S-02.xml"/>
+    <li review="RAX711-L-4GC_UFINET_LI_1.0.0_20181119" product="colRAX711-L-4GC-AC-S-02" xml="./wuliuhe/colRAX711-L-4GC-AC-S-02.xml"/>
+  </li>
+  <li bom="103002008520" product="iTN167-4GC4E1-S-AC-S" xml="./wuliuhe/iTN167-4GC4E1-S-AC-S.xml"/>
+  <li bom="123002020400">
+    <li review="default" product="RAX711-L-4GE-AC-S-02" xml="./wuliuhe/RAX711-L-4GE-AC-S-02.xml"/>
+    <li review="RAX711-L-4GE_Covage_LI" product="CovageRAX711-L-4GE-AC-S-02" xml="./wuliuhe/CovageRAX711-L-4GE-AC-S-02.xml"/>
+  </li>
+  <li bom="123002022200" product="RAX711-L-4GC4E1-BL-S-AC_DC-02" xml="./wuliuhe/RAX711-L-4GC4E1-BL-S-AC_DC-02.xml"/>
+  <li bom="123002021000">
+    <li review="default" product="RAX711-L-4GC-DC-D-02" xml="./wuliuhe/RAX711-L-4GC-DC-D-02.xml"/>
+    <li review="RAX711-L-4GC_UFINET_LI_1.0.0_20181119" product="colRAX711-L-4GC-DC-D-02" xml="./wuliuhe/colRAX711-L-4GC-DC-D-02.xml"/>
+  </li>
+  <li bom="103002006020" product="iTN167-4GC-AC-D" xml="./wuliuhe/iTN167-4GC-AC-D.xml"/>
+  <li bom="123002020800">
+    <li review="default" product="RAX711-L-4GC-AC-D-02" xml="./wuliuhe/RAX711-L-4GC-AC-D-02.xml"/>
+    <li review="RAX711-L-4GC_UFINET_LI_1.0.0_20181119" product="colRAX711-L-4GC-AC-D-02" xml="./wuliuhe/colRAX711-L-4GC-AC-D-02.xml"/>
+  </li>
+  <li bom="103002028000" product="iTN165-2A-DC-S" xml="./wuliuhe/iTN165-2A-DC-S.xml"/>
+  <li bom="103002008420" product="iTN167-4GC4E1-S-AC-D" xml="./wuliuhe/iTN167-4GC4E1-S-AC-D.xml"/>
+  <li bom="103002007320" product="iTN167-4GC4E1-BL-S-AC-D" xml="./wuliuhe/iTN167-4GC4E1-BL-S-AC-D.xml"/>
+  <li bom="103002006120" product="iTN167-4GC-AC-S" xml="./wuliuhe/iTN167-4GC-AC-S.xml"/>
+  <li bom="103002027800" product="iTN165-2A-AC-S" xml="./wuliuhe/iTN165-2A-AC-S.xml"/>
+  <li bom="103002006220" product="iTN167-4GC-DC-D" xml="./wuliuhe/iTN167-4GC-DC-D.xml"/>
+  <li bom="123002021200">
+    <li review="default" product="RAX711-L-4GC-AC_DC-02" xml="./wuliuhe/RAX711-L-4GC-AC_DC-02.xml"/>
+    <li review="RAX711-L_SYSTEM_5.5.7_20180502" product="0502RAX711-L-4GC-AC_DC-02" xml="./wuliuhe/0502RAX711-L-4GC-AC_DC-02.xml"/>
+  </li>
+  <li bom="103002017620" product="iTN167-4GC-DC-S24V" xml="./wuliuhe/iTN167-4GC-DC-S24V.xml"/>
+  <li bom="103002013210" product="iTN185-4GE-DC(E.00)" xml="./wuliuhe/iTN185-4GE-DC(E.00).xml"/>
+  <li bom="103002013110">
+    <li review="default" product="iTN185-4GE-AC(E.00)" xml="./wuliuhe/iTN185-4GE-AC(E.00).xml"/>
+    <li review="123321" product="1iTN185-4GE-AC(E.00)" xml="./wuliuhe/1iTN185-4GE-AC(E.00).xml"/>
+    <li review="iTN185_E_PAF_6.5.212(C)_20180726" product="guangdongiTN185-4GE-AC(E.00)" xml="./wuliuhe/guangdongiTN185-4GE-AC(E.00).xml"/>
+    <li review="iTN185_E_PAF_6.5.214(C)_20180726" product="hebeiiTN185-4GE-AC(E.00)" xml="./wuliuhe/hebeiiTN185-4GE-AC(E.00).xml"/>
+  </li>
+  <li bom="103002027802" product="iTN165-2A-AC-S(A.06)" xml="./wuliuhe/iTN165-2A-AC-S(A.06).xml"/>
+  <li bom="103002011130" product="iTN167-4GE-AC-S(B.30)" xml="./wuliuhe/iTN167-4GE-AC-S(B.30).xml"/>
+  <li bom="000000001460" product="iTN151-DDNNH-SAAA(B.11)" xml="./wuliuhe/iTN151-DDNNH-SAAA(B.11).xml"/>
+  <li bom="123002022901">
+    <li review="default" product="RAX711-R-4GC-AC-S-02" xml="./wuliuhe/RAX711-R-4GC-AC-S-02.xml"/>
+    <li review="TN185_B_PAF_6.4.215（C）_20180726" product="MEXRAX711-R-4GC-AC-S-02" xml="./wuliuhe/MEXRAX711-R-4GC-AC-S-02.xml"/>
+  </li>
+  <li bom="103002006320" product="iTN167-4GC-DC-S" xml="./wuliuhe/iTN167-4GC-DC-S.xml"/>
+  <li bom="103002016010" product="iTN185-4GC4E1-S-AC-D" xml="./wuliuhe/iTN185-4GC4E1-S-AC-D.xml"/>
+  <li bom="103002024614">
+    <li review="default" product="iTN167-GC-AC" xml="./wuliuhe/iTN167-GC-AC.xml"/>
+    <li review="1706260001" product="shanghaiiTN167-GC-AC" xml="./wuliuhe/shanghaiiTN167-GC-AC.xml"/>
+  </li>
+  <li bom="113002025414" product="RAX701-GC-WP-01" xml="./wuliuhe/RAX701-GC-WP-01.xml"/>
+  <li bom="103002024714">
+    <li review="default" product="iTN167-GC-DC" xml="./wuliuhe/iTN167-GC-DC.xml"/>
+    <li review="1706260001" product="shanghaiiTN167-GC-DC" xml="./wuliuhe/shanghaiiTN167-GC-DC.xml"/>
+  </li>
+  <li bom="103002011010">
+    <li review="default" product="iTN167-4GE-AC-D" xml="./wuliuhe/iTN167-4GE-AC-D.xml"/>
+    <li review="default" product="iTN167-4GE-AC-D" xml="./wuliuhe/iTN167-4GE-AC-D.xml"/>
+    <li review="iTN-167;" product="iTN167-4GE-AC-D(A.03)(iTN-167)" xml="./wuliuhe/iTN167-4GE-AC-D(A.03)(iTN-167).xml"/>
+  </li>
+  <li bom="103002017410" product="iTN185-4GC4E1-BL-S-AC_DC" xml="./wuliuhe/iTN185-4GC4E1-BL-S-AC_DC.xml"/>
+  <li bom="103002017110" product="iTN185-4GC4E1-BL-S-AC-S" xml="./wuliuhe/iTN185-4GC4E1-BL-S-AC-S.xml"/>
+  <li bom="123002025414">
+    <li review="default" product="RAX701-GC-WP-02IP" xml="./wuliuhe/RAX701-GC-WP-02IP.xml"/>
+    <li review="RAX701-GC_A_SYSTEM_5.4.93(a)_20170929" product="RAX701-GC-WP-02GTD" xml="./wuliuhe/RAX701-GC-WP-02GTD.xml"/>
+    <li review="RAX701-GC_A_SYSTEM_5.4.101_20180105" product="oldRAX701-GC-WP-02" xml="./wuliuhe/oldRAX701-GC-WP-02.xml"/>
+    <li review="RAX701-GC_AutoCfgNoIP_LI_1.0.0_20190109" product="wuRAX701-GC-WP-02" xml="./wuliuhe/wuRAX701-GC-WP-02.xml"/>
+    <li review="RAX701-GC_UFINET_LI_1.0.0_20181205" product="colRAX701-GC-WP-02" xml="./wuliuhe/colRAX701-GC-WP-02.xml"/>
+  </li>
+  <li bom="121621900700" product="RPD0362-SI-48S12-02" xml="./wuliuhe/RPD0362-SI-48S12-02.xml"/>
+  <li bom="121621900800" product="RPA0362-SI-220S12-02" xml="./wuliuhe/RPA0362-SI-220S12-02.xml"/>
+  <li bom="103002011330" product="iTN167-4GE-DC-S(B.30)" xml="./wuliuhe/iTN167-4GE-DC-S(B.30).xml"/>
+  <li bom="103002029010" product="iTN185-4GC4E1-S-DC(B.10)" xml="./wuliuhe/iTN185-4GC4E1-S-DC(B.10).xml"/>
+  <li bom="103002016210" product="iTN185-4GC4E1-S-DC-D(B.10)" xml="./wuliuhe/iTN185-4GC4E1-S-DC-D(B.10).xml"/>
+  <li bom="103002000621" product="iTN161-4GE-DC" xml="./wuliuhe/iTN161-4GE-DC.xml"/>
+  <li bom="103002005121" product="iTN125-4FE-DC(+24V)" xml="./wuliuhe/iTN125-4FE-DC(+24V).xml"/>
+  <li bom="103002016010" product="iTN185-4GC4E1-S-AC-D" xml="./wuliuhe/iTN185-4GC4E1-S-AC-D.xml"/>
+  <li bom="103002016310" product="iTN185-4GC4E1-S-DC-S" xml="./wuliuhe/iTN185-4GC4E1-S-DC-S.xml"/>
+  <li bom="133002028902" product="RAX711-C-AC-D-05" xml="./wuliuhe/RAX711-C-AC-D-05.xml"/>
+  <li bom="123002025314" product="RAX701-GC-DC-02" xml="./wuliuhe/RAX701-GC-DC-02.xml"/>
+  <li bom="000000001514" product="iTN151-DFNNL-SAAA" xml="./wuliuhe/iTN151-DFNNL-SAAA.xml"/>
+  <li bom="103002016110" product="1iTN161-4GE-AC.xml" xml="./wuliuhe/1iTN161-4GE-AC.xml"/>
+  <li bom="103002027100" product="iTN165-1C-AC-S" xml="./wuliuhe/iTN165-1C-AC-S.xml"/>
+  <li bom="103002030900" product="iTN185-4GC-AC(E.00)" xml="./wuliuhe/iTN185-4GC-AC(E.00).xml"/>
+  <li bom="103002027122" product="iTN165-1C-AC-S" xml="./wuliuhe/iTN165-1C-AC-S.xml"/>
+  <li bom="103002028910" product="iTN185-4GC4E1-S-AC" xml="./wuliuhe/iTN185-4GC4E1-S-AC.xml"/>
+  <li bom="103002009400" product="iTN123-16FE-AC" xml="./wuliuhe/iTN123-16FE-AC.xml"/>
+  <li bom="103002015101" product="iTN185-4GE-AC-S" xml="./wuliuhe/iTN185-4GE-AC-S.xml"/>
+  <li bom="103002000321" product="iTN125-4FE-AC" xml="./wuliuhe/iTN125-4FE-AC.xml"/>
+  <li bom="103005001601" product="iTN331-2XG-AC_DC" xml="./wuliuhe/iTN331-2XG-AC_DC.xml"/>
+  <li bom="123002022801">
+    <li review="default" product="RAX711-R-4GC-AC-D-02" xml="./wuliuhe/RAX711-R-4GC-AC-D-02.xml"/>
+    <li review="iTN185_B_PAF_6.4.215(C)_20180726" product="baxiRAX711-R-4GC-AC-D-02" xml="./wuliuhe/baxiRAX711-R-4GC-AC-D-02.xml"/>
+  </li>
+  <li bom="103002016410" product="iTN185-4GC4E1-S-AC_DC" xml="./wuliuhe/iTN185-4GC4E1-S-AC_DC.xml"/>
+  <li bom="103000014500" product="iTN200-PWE3-8E1-BL" xml="./wuliuhe/iTN200-PWE3-8E1-BL.xml"/>
+  <li bom="123002021900" product="RAX711-L-4GC4E1-BL-S-AC-S-02" xml="./wuliuhe/RAX711-L-4GC4E1-BL-S-AC-S-02.xml"/>
+  <li bom="103002016110" product="iTN185-4GC4E1-S-AC-S" xml="./wuliuhe/iTN185-4GC4E1-S-AC-S.xml"/>
+  <li bom="103002013400" product="iTN185-4GC-AC-S" xml="./wuliuhe/iTN185-4GC-AC-S.xml"/>
+  <li bom="133002029102" product="RAX711-C-DC-D-05" xml="./wuliuhe/RAX711-C-DC-D-05.xml"/>
+  <li bom="103002008420" product="iTN167-4GC4E1-S-DC-S" xml="./wuliuhe/iTN167-4GC4E1-S-DC-S.xml"/>
+  <li bom="123002021600" product="RAX711-L-4GC4E1-S-DC-S-02" xml="./wuliuhe/RAX711-L-4GC4E1-S-DC-S-02.xml"/>
+  <li bom="103002001230" product="iTN123-FE-DC" xml="./wuliuhe/iTN123-FE-DC.xml"/>
+  <li bom="123002030802" product="RAX711-C-AC_DC-02" xml="./wuliuhe/RAX711-C-AC_DC-02.xml"/>
+  <li bom="133002024200" product="RAX711-R-4GC4E1-BL-S-AC_DC-07" xml="./wuliuhe/RAX711-R-4GC4E1-BL-S-AC_DC-07.xml"/>
+  <li bom="133002022700" product="RAX711-R-4GE-AC_DC-07" xml="./wuliuhe/RAX711-R-4GE-AC_DC-07.xml"/>
+  <li bom="123002030502" product="RAX711-C-AC-D-02" xml="./wuliuhe/RAX711-C-AC-D-02.xml"/>
+  <li bom="123002030702" product="RAX711-C-DC-D-02" xml="./wuliuhe/RAX711-C-DC-D-02.xml"/>
+  <li bom="103002027810" product="iTN165-2A-AC-S(H.04)" xml="./wuliuhe/iTN165-2A-AC-S(H.04).xml"/>
+  <li bom="123002020700" product="RAX711-L-4GE-AC_DC-02" xml="./wuliuhe/RAX711-L-4GE-AC_DC-02.xml"/>
+  <li bom="103002008820" product="iTN167-4GC4E1-S-AC_DC" xml="./wuliuhe/iTN167-4GC4E1-S-AC_DC.xml"/>
+  <li bom="123002021800" product="RAX711-L-4GC4E1-BL-S-AC-D-02" xml="./wuliuhe/RAX711-L-4GC4E1-BL-S-AC-D-02.xml"/>
+  <li bom="123002030402" product="RAX711-C-AC-S-02" xml="./wuliuhe/RAX711-C-AC-S-02.xml"/>
+  <li bom="103002029110" product="iTN-185-AC" xml="./wuliuhe/iTN-185-AC.xml"/>
+  <li bom="103002029110" product="iTN-185-DC" xml="./wuliuhe/iTN-185-DC.xml"/>
+  <li bom="103000002515" product="iTN203-4GF-AC-D" xml="./wuliuhe/iTN203-4GF-AC-D.xml"/>
+  <li bom="103005000201" product="iTN331-4GF-DC-D" xml="./wuliuhe/iTN331-4GF-DC-D.xml"/>
+  <li bom="133002029002" product="RAX711-C-AC-S-05" xml="./wuliuhe/RAX711-C-AC-S-05.xml"/>
+  <li bom="103000015400" product="iTN1300-AC-I" xml="./wuliuhe/iTN1300-AC-I.xml"/>
+  <li bom="103000015500" product="iTN1300-DC-I" xml="./wuliuhe/iTN1300-DC-I.xml"/>
+  <li bom="103002030502" product="RAX711-C-AC-D" xml="./wuliuhe/RAX711-C-AC-D.xml"/>
+  <li bom="103000011301" product="iTN201-2XG-R-DC-D" xml="./wuliuhe/iTN201-2XG-R-DC-D.xml"/>
+  <li bom="103005000101" product="iTN331-4GF-AC-D" xml="./wuliuhe/iTN331-4GF-AC-D.xml"/>
+  <li bom="103005000301" product="iTN331-4GF-AC-S" xml="./wuliuhe/iTN331-4GF-AC-S.xml"/>
+  <li bom="123002020300" product="RAX711-L-4GE-AC-D-02" xml="./wuliuhe/RAX711-L-4GE-AC-D-02.xml"/>
+  <li bom="103000004515" product="iTN203-4GF-AC_DC" xml="./wuliuhe/iTN203-4GF-AC_DC.xml"/>
+  <li bom="133002029302" product="RAX711-C-AC_DC-05" xml="./wuliuhe/RAX711-C-AC_DC-05.xml"/>
+  <li bom="103002029001" product="iTN185-4GC4E1-S-DC(A.01)" xml="./wuliuhe/iTN185-4GC4E1-S-DC(A.01).xml"/>
+  <li bom="133002029702" product="RAX711-C-AC-D-07" xml="./wuliuhe/RAX711-C-AC-D-07.xml"/>
+  <li bom="133002030102" product="RAX711-C-AC_DC-07" xml="./wuliuhe/RAX711-C-AC_DC-07.xml"/>
+  <li bom="103000006617" product="iTN203-2XG-AC-D" xml="./wuliuhe/iTN203-2XG-AC-D.xml"/>
+  <li bom="103002031000" product="iTN185-4GC-DC(E.00)" xml="./wuliuhe/iTN185-4GC-DC(E.00).xml"/>
+  <li bom="103000015100" product="iTN1300-HELWD-I" xml="./wuliuhe/iTN1300-HELWD-I.xml"/>
+  <li bom="103000004915" product="iTN203-4GF-DC-S" xml="./wuliuhe/iTN203-4GF-DC-S.xml"/>
+  <li bom="103005001001" product="iTN331-2XG-AC-D" xml="./wuliuhe/iTN331-2XG-AC-D.xml"/>
+  <!--xujunmao-->
+  <li bom="000000000962" product="MSG2100E-EPON-8V-AC" xml="./xujunmao/MSG2100E-EPON-8V-AC.xml"/>
+  <li bom="000E5E-001739" product="MSG2200-T4(T.00)GZ02" xml="./xujunmao/MSG2200-T4(T.00)GZ02.xml"/>
+  <li bom="000E5E-001750" product="MSG2200-T4(T.10)SH02" xml="./xujunmao/MSG2200-T4(T.10)SH02.xml"/>
+  <li bom="000E5E-001784" product="MSG2200-T4(T.11)SH02" xml="./xujunmao/MSG2200-T4(T.11)SH02.xml"/>
+  <li bom="000E5E-001738" product="MSG2200-T4(T.00)QH01" xml="./xujunmao/MSG2200-T4(T.00)QH01.xml"/>
+  <li bom="000E5E-001758" product="MSG2100E-UPON-8V-AC(T.00)CQ01" xml="./xujunmao/MSG2100E-UPON-8V-AC(T.00)CQ01.xml"/>
+  <li bom="000E5E-001681" product="MSG2100E-UPON-8V-AC(T.00)ZJ01" xml="./xujunmao/MSG2100E-UPON-8V-AC(T.00)ZJ01.xml"/>
+  <li bom="000E5E-001848" product="MSG2100E-UPON-4V(T.00)HE01" xml="./xujunmao/MSG2100E-UPON-4V(T.00)HE01.xml"/>
+  <li bom="000E5E-001728" product="MSG2100E-UPON-4V(T.00)GD01" xml="./xujunmao/MSG2100E-UPON-4V(T.00)GD01.xml"/>
+  <li bom="000E5E-001775" product="MSG2100E-UPON-8V-AC(T.10)JS01" xml="./xujunmao/MSG2100E-UPON-8V-AC(T.10)JS01.xml"/>
+  <li bom="000E5E-001859" product="MSG2200-T4(T.11)GX01" xml="./xujunmao/MSG2200-T4(T.11)GX01.xml"/>
+  <li bom="000E5E-001901" product="MSG2100E-UPON-8V-AC(T.10)ZJ01" xml="./xujunmao/MSG2100E-UPON-8V-AC(T.10)ZJ01.xml"/>
+  <li bom="000000002016" product="MSG2100E-UPON-8V-AC(E.00)YF01" xml="./xujunmao/MSG2100E-UPON-8V-AC(E.00)YF01.xml"/>
+  <li bom="000E5E-002007" product="MSG2100E-UPON-8V-AC(T.00)AH01" xml="./xujunmao/MSG2100E-UPON-8V-AC(T.00)AH01.xml"/>
+  <li bom="000E5E-001727" product="MSG2100E-UPON-16V-AC(T.00)GD01" xml="./xujunmao/MSG2100E-UPON-16V-AC(T.00)GD01.xml"/>
+  <li bom="000E5E-001730" product="MSG2200-T4(T.00)GD01" xml="./xujunmao/MSG2200-T4(T.00)GD01.xml"/>
+  <li bom="000E5E-001941" product="MSG2200-T4(T.11)HN01" xml="./xujunmao/MSG2200-T4(T.11)HN01.xml"/>
+  <li bom="000E5E-001988" product="MSG2200-T4(T.12)HN01" xml="./xujunmao/MSG2200-T4(T.12)HN01.xml"/>
+  <li bom="000E5E-001975" product="MSG2200-T4(T.12)SH02" xml="./xujunmao/MSG2200-T4(T.12)SH02.xml"/>
+  <li bom="000E5E-002004" product="MSG2200-T3(C.01)YN02" xml="./xujunmao/MSG2200-T3(C.01)YN02.xml"/>
+  <li bom="000E5E-002110" product="MSG2100E-UPON-8V-AC(T.11)JX01" xml="./xujunmao/MSG2100E-UPON-8V-AC(T.11)JX01.xml"/>
+  <li bom="000000002025" product="MSG2200-T4(K.30)SC02" xml="./xujunmao/MSG2200-T4(K.30)SC02.xml"/>
+  <li bom="000000002184" product="MSG2600E-XES-8E8V-WS3(A.00)SH11" xml="./xujunmao/MSG2600E-XES-8E8V-WS3(A.00)SH11.xml"/>
+</root>

@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root>
+  <li name="showmesarea" value="False"/>
+  <li name="mode" value="single"/>
+  <li name="protocol" value="serial"/>
+  <li name="initwinnum" value="1"/>
+  <li name="autosn" value="False"/>
+  <li name="autoworkstage" value="False"/>
+  <li name="stationcode" value="SZ301"/>
+  <li name="linecode" value="FC"/>
+  <li name="operators" value="3"/>
+  <li name="worktable" value="BJWORK1513152"/>
+  <li name="wn" value="007229"/>
+  <li name="wnpasswd" value=""/>
+  <li name="autopos" value="False"/>
+  <li name="posx" value="100"/>
+  <li name="posy" value="30"/>
+</root>
