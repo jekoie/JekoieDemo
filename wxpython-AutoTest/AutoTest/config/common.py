@@ -7,21 +7,21 @@ class Static(object):
 
     #正式日志服务器
     db = {
-        'host': '192.168.60.52',
-        'user': 'raisecom',
-        'passwd': 'raisecom@666',
-        'name': 'raisecom',
-        'port': 3306,
-        'charset': 'utf8',
-        'type': mysql
+        'host': '',
+        'user': '',
+        'passwd': '',
+        'name': '',
+        'port': '',
+        'charset': '',
+        'type': ''
     }
 
     #测试数据库
     test_db = {
-        'host': '192.168.60.52',
-        'user': 'raisecom',
-        'passwd': 'raisecom@666',
-        'name': 'raisecom_test',
+        'host': '',
+        'user': '',
+        'passwd': '',
+        'name': '',
         'port': 3306,
         'charset': 'utf8',
         'type': mysql
@@ -29,10 +29,10 @@ class Static(object):
 
     #正式MES数据库
     mes_db = {
-        'host': '192.168.60.241',
-        'user': 'geekinterface',
-        'passwd': 'pass@123^&*',
-        'name': 'raisecom',
+        'host': '',
+        'user': '',
+        'passwd': '',
+        'name': '',
         'port': 1521,
         'charset': 'utf8',
         'type': oracle
@@ -40,10 +40,10 @@ class Static(object):
 
     #测试MES数据库
     mes_test_db = {
-        'host': '192.168.60.23',
-        'user': 'dmsnew_copy',
-        'passwd': 'pass',
-        'name': 'raisecom',
+        'host': '',
+        'user': '',
+        'passwd': '',
+        'name': '',
         'port': 1521,
         'charset': 'utf8',
         'type': oracle
