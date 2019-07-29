@@ -1,0 +1,5 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root>
+  <li win="0" parity="N" baudrate="9600" name="COM2" bytesize="8" timeout="1" stopbits="1"/>
+  <li win="1" parity="N" baudrate="115200" name="COM5" bytesize="8" timeout="1" stopbits="1"/>
+</root>

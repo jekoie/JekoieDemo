@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<send data="" frameheader="AAAA" funchar="01" type="connect"/>
+	<send data="" frameheader="AAAA" funchar="02" type="optional"/>
+	<send data="" frameheader="AAAA" funchar="03" type="next"/>
+	<send data="" frameheader="AAAA" funchar="04" type="retry"/>
+
+	<recv header="0xFFF1" funchar="0x01">
+		<data bytepos="0,1" msg="软件测试机型805"  convert="int" value="805" />
+		<data bytepos="2"   msg="软件当前版本1"  convert="int" value="2" />
+	</recv>
+
+	<recv header="0xFFF1" funchar="0x02">
+		<data bytepos="0" bitpos="0" msg="上位机是否配置" />
+	</recv>
+
+</root>
