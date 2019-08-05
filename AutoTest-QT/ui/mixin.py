@@ -1,7 +1,13 @@
 import re
+import arrow
 from lxml import etree
 from bitstring import BitArray
 from config.config import Config
+from functools import wraps, partial
+import inspect
+import traceback
+import logging
+from pubsub import pub
 
 class XMLParser:
     AHeader  = 'header'
@@ -77,11 +83,45 @@ class BytesBuffer:
     def frames(self):
         return self.frame_list
 
-
 def convert(type_, bytedata:BitArray):
     if type_ == 'int':
         return str(bytedata.int)
     else:
         return bytedata
 
+def parse_datetime(value):
+    a = arrow.get(value)
+    return a.format('YYYY-MM-DD HH:mm:ss')
 
+class DebugClass:
+    def __init__(self, cls, debug=True):
+        self.debug = debug
+        wraps(cls)(self)
+        for funname, fun in inspect.getmembers(cls):
+            if not funname.startswith('__') and inspect.isfunction(fun):
+                fun = self.debugfun(fun)
+                setattr(cls, funname, fun)
+
+    def __call__(self, *args, **kwargs):
+        return self.__wrapped__(*args, **kwargs)
+
+    def debugfun(self, func=None, *, level=logging.ERROR):
+        if func is None:
+            return partial(self.debugfun, level=level)
+
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            value = None
+            if self.debug:
+                try:
+                    value = func(*args, **kwargs)
+                except Exception as e:
+                    print(traceback.format_exc())
+                    pub.sendMessage(Config.TOPIC_EXCEPTION,  triggered=True)
+                    Config.LOGGER.log(level, traceback.format_exc())
+            else:
+                value = func(*args, **kwargs)
+
+            return value
+
+        return wrapper

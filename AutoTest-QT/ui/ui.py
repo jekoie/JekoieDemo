@@ -2,18 +2,22 @@ import os
 import pandas as pd
 from communicate.communicate import DevStatus
 from config.config import Config
-from PyQt5.QtCore import Qt, QThread, QSysInfo
+from PyQt5.QtCore import Qt, QThread, QSysInfo, QSize, QAbstractTableModel, QVariant
 from PyQt5.QtWidgets import (QDialog, QFormLayout, QComboBox, QGroupBox, QHBoxLayout, QRadioButton,QVBoxLayout, QFileDialog,
-                             QDialogButtonBox, QFrame, QLabel, QPushButton, QMenu, QTableWidget, QHeaderView, QTabWidget,
-                             QAbstractItemView, QTableWidgetItem, QMessageBox, QTextEdit, QListWidget, QStackedWidget)
+                             QDialogButtonBox, QFrame, QLabel, QPushButton, QMenu, QTableWidget, QHeaderView, QTabWidget, QStyle,
+                             QAbstractItemView, QTableWidgetItem, QMessageBox, QTextEdit, QListWidget, QStackedWidget, QLineEdit
+                             ,QTableView, QApplication)
 from PyQt5.QtGui import QPalette, QColor, QIcon
 from serial.tools import list_ports
 from script.script import Script
 from bitstring import BitArray
 from ui import mixin
 from pubsub import pub
+from db import db
+import io
 import traceback
 
+@mixin.DebugClass
 class MonitorWidget(QFrame):
     def __init__(self, dev):
         super().__init__()
@@ -62,6 +66,7 @@ class MonitorWidget(QFrame):
             self.binEditor.append('接收：{}'.format(bin_data))
             self.byteEditor.append('接收：{}'.format(byte_data))
 
+@mixin.DebugClass
 class DebugDialog(QDialog):
     prev_actived = False #控制单例
     prev_window = None
@@ -99,8 +104,8 @@ class DebugDialog(QDialog):
         __class__.prev_actived = False
         Config.QSETTING.setValue('MainWindow/DebugDialog/geometry', self.saveGeometry())
 
-
 #设置对话框
+@mixin.DebugClass
 class SettingDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent=parent)
@@ -156,7 +161,6 @@ class SettingDialog(QDialog):
         Config.INITWIN_NUM = 1
         self.show_mode_gb.setEnabled(False)
 
-
     def onTwoWindow(self, checked):
         Config.INITWIN_NUM = 2
         self.show_mode_gb.setEnabled(True)
@@ -179,6 +183,7 @@ class SettingDialog(QDialog):
             Config.PRODUCT_XML_CHANGED = False
 
 #串口设置对话框
+@mixin.DebugClass
 class SerialSettingDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent=parent)
@@ -208,6 +213,7 @@ class SerialSettingDialog(QDialog):
         return {'name':self.port_cb.currentText(), 'baudrate':self.baud_cb.currentText() }
 
 #测试单元页面
+@mixin.DebugClass
 class TestUnitFrame(QFrame):
     def __init__(self, win_idx:int):
         super().__init__()
@@ -297,27 +303,23 @@ class TestUnitFrame(QFrame):
         dlg.move(event.globalPos())
         dev = Config.RC[self.win_idx]['dev']
         if dlg.exec():
-            try:
-                settings = dlg.getValue()
-                dev.apply_settings(**settings)
-                if dev.status == DevStatus.opened:
-                    dev.close()
-                dev.connect()
-                if dev.status == DevStatus.exception:
-                    self.com_label.setText('{}[error]'.format(settings['name']))
-                    self.status_label.setText('串口异常')
-                    self.status_label.setStyleSheet('color: red;')
-                else:
-                    self.com_label.setText('{name}[{baudrate}]'.format(**settings))
-                    self.status_label.setStyleSheet('')
-                    self.status_label.setText('连接成功')
-                    if Config.INITWIN_NUM == 2 and not Config.SCREEN_MODE:
-                        tab = Config.RC['tab']
-                        tab.setCurrentIndex(self.win_idx)
-                        tab.setTabText(self.win_idx, settings['name'])
-            except Exception as e:
-                import traceback
-                print(traceback.format_exc())
+            settings = dlg.getValue()
+            dev.apply_settings(**settings)
+            if dev.status == DevStatus.opened:
+                dev.close()
+            dev.connect()
+            if dev.status == DevStatus.exception:
+                self.com_label.setText('{}[error]'.format(settings['name']))
+                self.status_label.setText('串口异常')
+                self.status_label.setStyleSheet('color: red;')
+            else:
+                self.com_label.setText('{name}[{baudrate}]'.format(**settings))
+                self.status_label.setStyleSheet('')
+                self.status_label.setText('连接成功')
+                if Config.INITWIN_NUM == 2 and not Config.SCREEN_MODE:
+                    tab = Config.RC['tab']
+                    tab.setCurrentIndex(self.win_idx)
+                    tab.setTabText(self.win_idx, settings['name'])
 
     def onDisconnect(self):
         dev = Config.RC[self.win_idx]['dev']
@@ -348,6 +350,7 @@ class TestUnitFrame(QFrame):
                 df.to_excel(filename)
 
 #测试结果页面
+@mixin.DebugClass
 class TestResultFrame(QFrame):
     def __init__(self, win_idx:int):
         super().__init__()
@@ -382,6 +385,7 @@ class TestResultFrame(QFrame):
         layout.addWidget(self.table)
         layout.addWidget(self.stat_lable)
         self.setLayout(layout)
+        self.restoreQSetting()
 
     def onUnitTest(self, win):
         if self.win_idx == win.win_idx:
@@ -448,3 +452,248 @@ class TestResultFrame(QFrame):
     def setRowColor(self, row:int, color:QColor):
         for col in range(self.table.columnCount()):
             self.table.item(row, col).setBackground(color)
+
+    def restoreQSetting(self):
+        state = Config.QSETTING.value('MainWindow/TestResultFrame/Header/state')
+        if state:
+            self.table.horizontalHeader().restoreState(state)
+
+    def __del__(self):
+        Config.QSETTING.setValue('MainWindow/TestResultFrame/Header/state', self.table.horizontalHeader().saveState())
+
+#登录对话框
+@mixin.DebugClass
+class LoginDialog(QDialog):
+    def __init__(self, parent=None, title='登录'):
+        super().__init__(parent=parent)
+        self.setWindowTitle(title)
+        self.setWindowFlags(self.windowFlags()&~(Qt.WindowContextHelpButtonHint|Qt.WindowCloseButtonHint))
+        self.setAttribute(Qt.WA_DeleteOnClose)
+
+        self.username = QLineEdit(placeholderText='用户名')
+        self.password = QLineEdit(echoMode=QLineEdit.Password, placeholderText='密码')
+
+        layout = QFormLayout()
+        layout.setSizeConstraint(QFormLayout.SetFixedSize)
+        layout.addRow('用户名:', self.username)
+        layout.addRow('密码:', self.password)
+
+        buttons = QDialogButtonBox(QDialogButtonBox.Ok|QDialogButtonBox.Cancel)
+        layout.addRow(buttons)
+
+        buttons.accepted.connect(self.accept)
+        buttons.rejected.connect(self.reject)
+        self.setLayout(layout)
+
+class TableMsgWidget(QLabel):
+    def __init__(self):
+        super().__init__()
+        icon = self.style().standardIcon(QStyle.SP_FileLinkIcon)
+        self.setPixmap(icon.pixmap(icon.actualSize(QSize(16, 16))))
+        self.setAlignment(Qt.AlignCenter)
+
+@mixin.DebugClass
+class PandasModel(QAbstractTableModel):
+    def __init__(self, buf: str):
+        super().__init__()
+        self.readFromBuf(buf)
+
+    def rowCount(self, parent=None, *args, **kwargs):
+        return self._data.index.size
+
+    def columnCount(self, parent=None, *args, **kwargs):
+        return self._data.columns.size
+
+    def headerData(self, section, orientation, role=Qt.DisplayRole):
+        if orientation == Qt.Horizontal and role == Qt.DisplayRole:
+            return str(self._data.columns[section])
+
+        if orientation == Qt.Vertical and role == Qt.DisplayRole:
+            return str(section + 1)
+
+    def data(self, index, role=Qt.DisplayRole):
+        if index.isValid():
+            if role == Qt.DisplayRole:
+                return QVariant(str(self._data.iat[index.row(), index.column()] ))
+        return QVariant()
+
+    def readFromBuf(self, buf):
+        csv_buf = io.StringIO()
+        csv_buf.write(buf)
+        csv_buf.seek(0)
+        self._data = pd.read_csv(csv_buf)
+
+class TableMsgWidow(QDialog):
+    prev_actived = False  # 控制单例
+    prev_window = None
+    def __init__(self, content: str , title='测试项信息'):
+        super().__init__(parent=None)
+        self.setWindowFlags(Qt.Window)
+        self.setAttribute(Qt.WA_DeleteOnClose)
+        self.setWindowTitle(title)
+        __class__.prev_actived = True
+        __class__.prev_window = self
+
+        self.table = QTableView()
+        self.table.horizontalHeader().setHighlightSections(True)
+        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
+        self.table.horizontalHeader().setStretchLastSection(True)
+        self.table.verticalHeader().setVisible(True)
+        self.restoreQsetting()
+
+        self.table.setModel( PandasModel(content) )
+
+        if QSysInfo.productType() == 'windows' and QSysInfo.productVersion() == '10':
+            self.table.horizontalHeader().setStyleSheet("QHeaderView::section { border: 1px solid #D8D8D8; }")
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.table)
+        self.setLayout(layout)
+
+    def changeModel(self, content:'csv_string'):
+        self.table.setModel(PandasModel(content))
+
+    def closeEvent(self, event):
+        super().closeEvent(event)
+        __class__.prev_actived = False
+        Config.QSETTING.setValue('MainWindow/SearchWindow/MsgWin/Header/state', self.table.horizontalHeader().saveState())
+        Config.QSETTING.setValue('MainWindow/SearchWindow/MsgWin/geometry', self.saveGeometry())
+
+    def restoreQsetting(self):
+        geometry = Config.QSETTING.value('MainWindow/SearchWindow/MsgWin/geometry')
+        header_state = Config.QSETTING.value('MainWindow/SearchWindow/MsgWin/Header/state')
+        if geometry:
+            self.restoreGeometry(geometry)
+
+        if header_state:
+            self.table.horizontalHeader().restoreState(header_state)
+
+#数据记录查询
+@mixin.DebugClass
+class SearchWindow(QDialog):
+    prev_actived = False #控制单例
+    prev_window = None
+    def __init__(self, parent=None, title='记录查询'):
+        super().__init__(parent=parent)
+        __class__.prev_actived = True
+        __class__.prev_window = self
+
+        self.setWindowTitle(title)
+        self.setWindowFlags(Qt.Window)
+        self.setAttribute(Qt.WA_DeleteOnClose)
+        self.search_button = QPushButton('查询')
+        self.search_button.clicked.connect(self.onSearch)
+
+        header_lables = ['PK', 'ID', '产品', '版本', '开始时间', '结束时间', '总时间', '结果', '信息']
+        self.table = QTableWidget(1, len(header_lables))
+        self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.table.setHorizontalHeaderLabels(header_lables)
+        self.table.horizontalHeader().setHighlightSections(True)
+        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
+        self.table.horizontalHeader().setStretchLastSection(True)
+        self.table.verticalHeader().setVisible(False)
+        self.table.cellDoubleClicked.connect(self.onCellClicked)
+        self.table.hideColumn(0)
+        self.idx = 0
+
+        if QSysInfo.productType() == 'windows' and QSysInfo.productVersion() == '10':
+            self.table.horizontalHeader().setStyleSheet("QHeaderView::section { border: 1px solid #D8D8D8; }")
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.search_button)
+        layout.addWidget(self.table)
+
+        self.setLayout(layout)
+        self.restoreQsetting()
+
+    def onCellClicked(self, row, col):
+        if col == 8:
+            pk_item = self.table.item(row, 0)
+            pk = int(pk_item.text())
+            q = db.LocalProductionRecord.get_by_id(pk)
+
+            if not TableMsgWidow.prev_actived:
+                self.msgwin = TableMsgWidow(q.msg)
+                self.msgwin.show()
+            else:
+                QApplication.setActiveWindow(TableMsgWidow.prev_window)
+                TableMsgWidow.prev_window.changeModel(q.msg)
+
+    def onSearch(self, checked:bool):
+        query = db.LocalProductionRecord.select()
+        self.table.setRowCount(query.count())
+        self.idx = 0
+        for q in query:
+            self.addRow(q)
+            self.idx += 1
+
+    def addRow(self, query):
+        pk_item = QTableWidgetItem(str(query.id))
+        id_item = QTableWidgetItem(str(self.idx + 1))
+        model_item = QTableWidgetItem(str(query.model))
+        version_item = QTableWidgetItem(str(query.version))
+        start_time_item = QTableWidgetItem(mixin.parse_datetime(query.start_time))
+        end_time = QTableWidgetItem(mixin.parse_datetime(query.end_time))
+        total_time = QTableWidgetItem(str(query.total_time))
+        result = QTableWidgetItem(str(query.result))
+        msg = TableMsgWidget()
+
+        self.table.setItem(self.idx, 0, pk_item)
+        self.table.setItem(self.idx, 1, id_item)
+        self.table.setItem(self.idx, 2, model_item)
+        self.table.setItem(self.idx, 3, version_item)
+        self.table.setItem(self.idx, 4, start_time_item)
+        self.table.setItem(self.idx, 5, end_time)
+        self.table.setItem(self.idx, 6, total_time)
+        self.table.setItem(self.idx, 7, result)
+        self.table.setCellWidget(self.idx, 8, msg)
+
+    def restoreQsetting(self):
+        geometry = Config.QSETTING.value('MainWindow/SearchWindow/geometry')
+        header_state = Config.QSETTING.value('MainWindow/SearchWindow/Header/state')
+        if geometry:
+            self.restoreGeometry(geometry)
+
+        if header_state:
+            self.table.horizontalHeader().restoreState(header_state)
+
+    def closeEvent(self, event):
+        super().closeEvent(event)
+        __class__.prev_actived = False
+        Config.QSETTING.setValue('MainWindow/SearchWindow/geometry', self.saveGeometry())
+        Config.QSETTING.setValue('MainWindow/SearchWindow/Header/state', self.table.horizontalHeader().saveState())
+
+class ExceptionWindow(QDialog):
+    prev_actived = False #控制单例
+    prev_window = None
+    def __init__(self, parent=None, title='异常信息'):
+        super().__init__(parent=parent)
+        __class__.prev_actived = True
+        __class__.prev_window = self
+        self.setWindowTitle(title)
+        self.setWindowFlags(Qt.Window)
+        self.setAttribute(Qt.WA_DeleteOnClose)
+
+        self.textEdit = QTextEdit(readOnly=True)
+        self.textEdit.setText(Config.DEBUG_HANDLER.getvalue() )
+
+        pub.subscribe(self.onExcption, Config.TOPIC_EXCEPTION)
+        layout = QVBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.textEdit)
+        self.setLayout(layout)
+        self.restoreQsetting()
+
+    def closeEvent(self, event):
+        super().closeEvent(event)
+        __class__.prev_actived = False
+        Config.QSETTING.setValue('MainWindow/ExceptionWindow/geometry', self.saveGeometry())
+
+    def restoreQsetting(self):
+        geometry = Config.QSETTING.value('MainWindow/ExceptionWindow/geometry')
+        if geometry:
+            self.restoreGeometry(geometry)
+
+    def onExcption(self, triggered):
+        self.textEdit.setText(Config.DEBUG_HANDLER.getvalue())
+

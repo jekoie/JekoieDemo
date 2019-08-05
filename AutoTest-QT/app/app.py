@@ -1,14 +1,14 @@
-from ui import ui
+from ui import ui, mixin
 from config.config import Config
 from PyQt5.QtWidgets import (QMainWindow, QSplitter, QApplication, QFrame, QHBoxLayout,
-                             QTabWidget, QSystemTrayIcon, QMenu, QAction, qApp)
-from PyQt5.QtCore import Qt, QDir
+                             QTabWidget, QSystemTrayIcon, QMenu, QAction)
+from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 import socket
 import platform
 
-
 #测试单元区域
+@mixin.DebugClass
 class TestUnitArea(QFrame):
     def __init__(self):
         super().__init__()
@@ -25,6 +25,7 @@ class TestUnitArea(QFrame):
         self.setLayout(layout)
 
 #测试结果区域
+@mixin.DebugClass
 class TestResultArea(QFrame):
     def __init__(self):
         super().__init__()
@@ -57,6 +58,7 @@ class TestResultArea(QFrame):
             layout.addWidget(win0)
 
 #主程序窗口
+@mixin.DebugClass
 class MainWindow(QMainWindow):
     EXIT_CODE_REBOOT = 520
     def __init__(self):
@@ -74,7 +76,8 @@ class MainWindow(QMainWindow):
 
         tool_menu = QMenu('工具', self.menuBar())
         tool_menu.addAction('数据监视', self.onDebugWindow)
-        # tool_menu.addAction('运行信息', self.onProcessWindow)
+        tool_menu.addAction('记录查询', self.onViewData)
+        tool_menu.addAction('异常信息', self.onExceptionWindow)
 
         setting_menu = QMenu('选项', self.menuBar())
         setting_menu.addAction('参数设置', self.onSetting)
@@ -103,7 +106,21 @@ class MainWindow(QMainWindow):
             QApplication.setActiveWindow(ui.DebugDialog.prev_window)
             ui.DebugDialog.prev_window.showNormal()
 
-    def onProcessWindow(self):pass
+    def onViewData(self):
+        if not ui.SearchWindow.prev_actived:
+            self.searchWin = ui.SearchWindow()
+            self.searchWin.show()
+        else:
+            QApplication.setActiveWindow(ui.SearchWindow.prev_window)
+            ui.SearchWindow.prev_window.showNormal()
+
+    def onExceptionWindow(self):
+        if not ui.ExceptionWindow.prev_actived:
+            self.excptionWin = ui.ExceptionWindow()
+            self.excptionWin.show()
+        else:
+            QApplication.setActiveWindow(ui.ExceptionWindow.prev_window)
+            ui.ExceptionWindow.prev_window.showNormal()
 
     def restoreQSettings(self):
         main_win_geo = Config.QSETTING.value('MainWindow/geometry')
@@ -119,12 +136,9 @@ class MainWindow(QMainWindow):
 
     def onRestart(self):
         QApplication.exit(self.EXIT_CODE_REBOOT)
-        # QApplication.exit(self.EXIT_CODE_REBOOT)
-        # qApp.exit(self.EXIT_CODE_REBOOT)
 
     def onAbout(self):
         pass
-        # dlg = QMessageBox.about(None, '关于', open(Config.ABOUT_HTML, encoding='utf-8').read() )
 
     def createSystemTray(self):
         self.systray = QSystemTrayIcon(self)
@@ -159,7 +173,7 @@ class MainWindow(QMainWindow):
         Config.QSETTING.setValue('MainWindow/geometry', self.saveGeometry())
         Config.QSETTING.setValue('MainWindow/CenterWidget/state', self.spliter.saveState())
         Config.finalize()
-        self.systray.hide()
+        self.systray.deleteLater()
 
     def closeEvent(self, event):
         Config.QSETTING.setValue('MainWindow/geometry', self.saveGeometry())

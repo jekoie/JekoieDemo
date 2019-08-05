@@ -8,6 +8,7 @@ from communicate.communicate import SerialCommunicate
 from lxml.etree import _ElementTree
 from datetime import datetime
 from PyQt5.QtCore import QSettings
+from db import db
 
 class Logger(object):
     def __init__(self, name, file, level):
@@ -59,6 +60,7 @@ class BaseConfig:
 
     #pubsub主题
     TOPIC_STARTTEST = 'TOPIC_STARTTEST'
+    TOPIC_EXCEPTION = 'TOPIC_EXCEPTION'
 
     #程序配置文件变量
     #窗口数量（可变）
@@ -90,6 +92,17 @@ class BaseConfig:
     #QSettings
     QSETTING = QSettings(ORGANIZATION, APP_NAME)
 
+    #远程数据库，记录生产记录
+    REMOTE_LOG_DB = 'bona'
+    REMOTE_LOG_IP = '127.0.0.1'
+    REMOTE_LOG_USER = 'root'
+    REMOTE_LOG_PASSWORD = 'test'
+    REMOTE_LOG_PORT = 3306
+    REMOTE_LOG_CHARSET = 'utf8'
+
+    #本地数据库
+    LOCAL_LOG_DB = None
+
 #程序配置类
 class Config(BaseConfig):
 
@@ -102,14 +115,17 @@ class Config(BaseConfig):
         cls.CONFIG_XML = os.path.join(cls.APP_DIR, 'setting', 'config.xml')
         cls.ABOUT_HTML = os.path.join(cls.APP_DIR, 'setting', 'about.html')
 
-        cls.LOGO_IMG = os.path.join(cls.APP_DIR, 'image', 'logo.jpg')
+        cls.LOGO_IMG = os.path.join(cls.APP_DIR, 'image', 'logo.png')
         cls.PASS_IMG = os.path.join(cls.APP_DIR, 'image', 'pass.png')
         cls.FAIL_IMG = os.path.join(cls.APP_DIR, 'image', 'fail.png')
         cls.WARNING_IMG = os.path.join(cls.APP_DIR, 'image', 'warning.png')
 
+        cls.LOCAL_LOG_DB = os.path.normpath(os.path.join(cls.TMP_DIR, 'bona.db'))
+
         cls.initialize_xml()
         cls.initialize_variable()
         cls.initialize_device()
+        cls.initialize_database()
 
     @classmethod
     def initialize_xml(cls):
@@ -136,6 +152,15 @@ class Config(BaseConfig):
             cls.RC.update({win_idx:{'dev':dev}})
 
     @classmethod
+    def initialize_database(cls):
+        db.remotedb.init(cls.REMOTE_LOG_DB, host=cls.REMOTE_LOG_IP, user=cls.REMOTE_LOG_USER, password=cls.REMOTE_LOG_PASSWORD,
+                         port=cls.REMOTE_LOG_PORT, charset=cls.REMOTE_LOG_CHARSET)
+        db.remotedb.connect(True)
+
+        db.localdb.init(cls.LOCAL_LOG_DB)
+        db.localdb.connect(True)
+
+    @classmethod
     def finalize(cls):
         #保存程序变量 到 config.xml
         with AppSettingReader() as reader:
@@ -153,6 +178,8 @@ class Config(BaseConfig):
 
         Config.DEV_XML_TREE.write(Config.DEV_XML, encoding='utf-8', pretty_print=True, xml_declaration=True)
 
+        #关闭数据库
+        db.remotedb.close()
 
 #应用程序参数读取类
 class AppSettingReader(object):

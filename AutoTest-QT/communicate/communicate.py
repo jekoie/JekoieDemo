@@ -25,13 +25,16 @@ class SerialCommunicate(QObject):
         self.apply_settings(**self.settings)
 
     def apply_settings(self, **kwargs):
-        for k, v in kwargs.items():
-            if isinstance(v, str) and v.isdigit():
-                kwargs[k] = int(v)
+        try:
+            for k, v in kwargs.items():
+                if isinstance(v, str) and v.isdigit():
+                    kwargs[k] = int(v)
 
-        self.dev.port = kwargs.get('name', '')
-        self.settings.update(kwargs)
-        self.dev.apply_settings(self.settings)
+            self.dev.port = kwargs.get('name', '')
+            self.settings.update(kwargs)
+            self.dev.apply_settings(self.settings)
+        except Exception as e:
+            self.status = DevStatus.exception
 
     def get_settings(self):
         tmp_setings = dict(self.settings)

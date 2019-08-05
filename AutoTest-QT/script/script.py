@@ -1,15 +1,17 @@
 import os
+import io
 import random
-import traceback
 import datetime
 from PyQt5.QtCore import  QThread, pyqtSignal
 from faker import Faker
 import pandas as pd
 from communicate.communicate import SerialCommunicate
 from ui.mixin import *
+from db import db
 
 fake = Faker('zh_CN')
 
+@DebugClass
 class Script(QThread):
     sig_data = pyqtSignal(list)
     sig_finish = pyqtSignal(bool)
@@ -18,8 +20,6 @@ class Script(QThread):
         super().__init__()
         self.dev = dev
         self.win_idx = win_idx
-        #'线运行标记'
-        self.runnig  = True
         #串口数据缓存区
         self.buffer = BytesBuffer(b'\xff')
         #产品文件
@@ -28,6 +28,8 @@ class Script(QThread):
         self.frameheader_recv_dict = {}
         #记录数据结果
         self.result_list = []
+        #
+        self.runnig = True
 
     def stop(self):
         self.runnig = False
@@ -51,7 +53,7 @@ class Script(QThread):
             self.result_list.append([msg, msg, False])
             self.sig_data.emit([msg, msg, False])
 
-    def recv_check(self, frame: bytearray):
+    def recv_check(self, frame: bytes):
         if frame:
             frameheader = frame[:self.xml.frameheader_length]
             if frameheader in self.frameheader_recv_dict:
@@ -60,34 +62,37 @@ class Script(QThread):
                     self.recv_item_check(childItem, frame)
 
     def run(self):
-        try:
-            self.frameheader_recv_dict = self.xml.frameheader_recv()
-            while self.runnig:
-                self.buffer.extend( self.dev.read_available() )
-                self.recv_check( self.buffer.currentFrame )
-                self.msleep(100)
+        start_time = datetime.datetime.now()
+        self.frameheader_recv_dict = self.xml.frameheader_recv()
+        while self.runnig:
+            self.buffer.extend( self.dev.read_available() )
+            self.recv_check( self.buffer.currentFrame )
+            self.msleep(100)
 
-            # for i in range(random.randrange(30, 100)):
-            #     self.sig_data.emit([fake.name(), fake.address(), random.choice([True, False]) ])
-            #     self.msleep(100)
+        # for i in range(random.randrange(30, 100)):
+        #     self.sig_data.emit([fake.name(), fake.address(), random.choice([True, False]) ])
+        #     self.msleep(100)
 
-            result = random.choice([True, False])
-            self.sig_finish.emit(result)
-            self.saveResultLocal(result)
-        except Exception as e:
-            print(traceback.format_exc())
-            Config.LOGGER.error(traceback.format_exc())
-        finally:
-            self.runnig = False
 
-    def saveResultLocal(self, result):
+        result = random.choice([True, False])
+        end_time = datetime.datetime.now()
+        self.sig_finish.emit(result)
+        self.storeTestResult(result, start_time, end_time)
+
+    def storeTestResult(self, result, start_time, end_time):
         df = pd.DataFrame(self.result_list, columns=['测试项', '信息', '结果'])
         df = df.replace([True, False], ['PASS', 'FAIL'])
 
-        now = datetime.datetime.now()
-        fileDir = os.path.join(Config.TMP_DIR, Config.PRODUCT_MODEL, str(now.year), str(now.month), str(now.day) )
-        os.makedirs(fileDir, exist_ok=True)
 
-        fileName = os.path.join(fileDir, '{}_{}_{}{}.xlsx'.format(Config.PRODUCT_MODEL, now.strftime('%Y%m%d_%H%M%S'), result, self.win_idx))
-        df.to_excel(fileName)
+        msgbuf = io.StringIO()
+        df.to_csv(msgbuf, index=False)
+
+        total_time = (end_time - start_time).seconds
+        db.remotedb.create_tables([db.RemoteProductionRecord])
+        db.RemoteProductionRecord.create(msg=msgbuf.getvalue(), result=result, model=Config.PRODUCT_MODEL, version='1.0',
+                                         start_time=start_time, end_time=end_time, total_time=total_time)
+
+        db.localdb.create_tables([db.LocalProductionRecord])
+        db.LocalProductionRecord.create(msg=msgbuf.getvalue(), result=result, model=Config.PRODUCT_MODEL, version='1.0',
+                                         start_time=start_time, end_time=end_time, total_time=total_time)
 
