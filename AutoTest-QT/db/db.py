@@ -41,3 +41,7 @@ class LocalProductionRecord(ProductionRecord):
 class RemoteProductionRecord(ProductionRecord):
     class Meta:
         database = remotedb
+
+class Information(Model):
+    id = AutoField()
+    production_id = ForeignKeyField(ProductionRecord, backref='infos')

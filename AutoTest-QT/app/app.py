@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import (QMainWindow, QSplitter, QApplication, QFrame, QHBox
                              QTabWidget, QSystemTrayIcon, QMenu, QAction)
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
+from ui.barcode import CodeDialog
 import socket
 import platform
 
@@ -77,6 +78,7 @@ class MainWindow(QMainWindow):
         tool_menu = QMenu('工具', self.menuBar())
         tool_menu.addAction('数据监视', self.onDebugWindow)
         tool_menu.addAction('记录查询', self.onViewData)
+        tool_menu.addAction('条码打印', self.onPrintBarCode)
         tool_menu.addAction('异常信息', self.onExceptionWindow)
 
         setting_menu = QMenu('选项', self.menuBar())
@@ -113,6 +115,14 @@ class MainWindow(QMainWindow):
         else:
             QApplication.setActiveWindow(ui.SearchWindow.prev_window)
             ui.SearchWindow.prev_window.showNormal()
+
+    def onPrintBarCode(self):
+        if not CodeDialog.prev_actived:
+            self.codeWin = CodeDialog()
+            self.codeWin.show()
+        else:
+            QApplication.setActiveWindow(CodeDialog.prev_window)
+            CodeDialog.prev_window.showNormal()
 
     def onExceptionWindow(self):
         if not ui.ExceptionWindow.prev_actived:
