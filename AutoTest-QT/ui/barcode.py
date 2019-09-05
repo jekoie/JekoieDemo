@@ -51,7 +51,7 @@ class BarcodeWiget(Base):
         'text': ''}
 
 class QRCodeWidget(Base):
-    def __init__(self, content='https://u.wechat.com/MMaMEFxydYCexFFnrGjiigE'):
+    def __init__(self, content='wxp://f2f0z7PHJ3rnH7GjfiUZTeJP90a_AG4_iFrx'):
         super().__init__()
         self.qrcode = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4 )
         self.qrcode.add_data(content)

@@ -153,9 +153,9 @@ class Config(BaseConfig):
 
     @classmethod
     def initialize_database(cls):
-        db.remotedb.init(cls.REMOTE_LOG_DB, host=cls.REMOTE_LOG_IP, user=cls.REMOTE_LOG_USER, password=cls.REMOTE_LOG_PASSWORD,
-                         port=cls.REMOTE_LOG_PORT, charset=cls.REMOTE_LOG_CHARSET)
-        db.remotedb.connect(True)
+        # db.remotedb.init(cls.REMOTE_LOG_DB, host=cls.REMOTE_LOG_IP, user=cls.REMOTE_LOG_USER, password=cls.REMOTE_LOG_PASSWORD,
+        #                  port=cls.REMOTE_LOG_PORT, charset=cls.REMOTE_LOG_CHARSET)
+        # db.remotedb.connect(True)
 
         db.localdb.init(cls.LOCAL_LOG_DB)
         db.localdb.connect(True)

@@ -9,8 +9,8 @@ class DevStatus(Enum):
     exception = auto() #异常
 
 class SerialCommunicate(QObject):
-    received = pyqtSignal(bytes)
-    transmited = pyqtSignal(bytes)
+    writeSig = pyqtSignal(bytes)
+    readSig = pyqtSignal(bytes)
     def __init__(self, **kwargs):
         """
         :param kwargs:
@@ -55,10 +55,12 @@ class SerialCommunicate(QObject):
 
     def read_line(self, fix:bool=False):
         data = self.dev.readline()
+        self.readSig.emit(data)
         return data
 
     def read_until(self, match:bytes, size:int, fix:bool=False):
         data = self.dev.read_until(terminator=match, size=size)
+        self.readSig.emit(data)
         return data
 
     def read_available(self, fix:bool=False):
@@ -66,13 +68,15 @@ class SerialCommunicate(QObject):
             data = self.dev.read(self.dev.in_waiting)
         else:
             data = b''
-        self.transmited.emit(data)
+        self.readSig.emit(data)
         return data
 
     def write(self, data:bytes):
+        self.writeSig.emit(data)
         return self.dev.write(data)
 
     def write_line(self, data:bytes, linefeed:bytes=b'\n'):
+        self.writeSig.emit(data+linefeed)
         return self.dev.write(data+linefeed)
 
     @property

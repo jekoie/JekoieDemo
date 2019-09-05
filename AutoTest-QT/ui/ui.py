@@ -2,12 +2,12 @@ import os
 import pandas as pd
 from communicate.communicate import DevStatus
 from config.config import Config
-from PyQt5.QtCore import Qt, QThread, QSysInfo, QSize, QAbstractTableModel, QVariant
+from PyQt5.QtCore import Qt, QThread, QSysInfo, QSize, QAbstractTableModel, QVariant, QStringListModel
 from PyQt5.QtWidgets import (QDialog, QFormLayout, QComboBox, QGroupBox, QHBoxLayout, QRadioButton,QVBoxLayout, QFileDialog,
                              QDialogButtonBox, QFrame, QLabel, QPushButton, QMenu, QTableWidget, QHeaderView, QTabWidget, QStyle,
                              QAbstractItemView, QTableWidgetItem, QMessageBox, QTextEdit, QListWidget, QStackedWidget, QLineEdit
-                             ,QTableView, QApplication)
-from PyQt5.QtGui import QPalette, QColor, QIcon
+                             ,QTableView, QApplication, QWidget, QCompleter)
+from PyQt5.QtGui import QPalette, QColor, QTextDocument
 from serial.tools import list_ports
 from script.script import Script
 from bitstring import BitArray
@@ -17,20 +17,91 @@ from db import db
 import io
 import traceback
 
+class FindTextEdit(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.isHide = True
+
+        self.searchLineEdit = QLineEdit(placeholderText='search', returnPressed=self.handle_search)
+        self.searchLineEdit.setStyleSheet('.QLineEdit {border-radius: 5px;}')
+        self.searchCompleter = QCompleter()
+        self.searchCompleter.setFilterMode(Qt.MatchContains)
+        self.searchList = QStringListModel()
+        self.searchCompleter.setModel(self.searchList)
+        self.searchCompleter.setMaxVisibleItems(10)
+        self.searchLineEdit.setCompleter(self.searchCompleter)
+
+        self.prevButton = QPushButton('<', clicked=self.handle_backward)
+        self.nextButton = QPushButton('>', clicked=self.handle_forward)
+        self.textEdit = QTextEdit(readOnly=True)
+
+
+
+        hlayout = QHBoxLayout()
+        hlayout.setSpacing(0)
+        hlayout.setContentsMargins(0 ,0, 0, 0)
+        hlayout.addWidget(self.searchLineEdit)
+        hlayout.addSpacing(10)
+        hlayout.addWidget(self.prevButton)
+        hlayout.addWidget(self.nextButton)
+
+        layout = QVBoxLayout()
+        layout.setSpacing(0)
+        layout.setContentsMargins(0, 0, 0, 0)
+
+        layout.addLayout(hlayout)
+        layout.addWidget(self.textEdit)
+        self.hideSearch()
+        self.setLayout(layout)
+
+    def append(self, text):
+        self.textEdit.append(text)
+
+    def hideSearch(self):
+        self.searchLineEdit.setVisible(not self.isHide)
+        self.prevButton.setVisible(not self.isHide)
+        self.nextButton.setVisible(not self.isHide)
+        self.isHide = not self.isHide
+        self.update()
+
+    def handle_search(self):
+        self.handle_find()
+
+    def handle_forward(self, checked):
+        self.handle_find()
+
+    def handle_backward(self, checked):
+        self.handle_find(QTextDocument.FindBackward)
+
+    def handle_find(self, findflag=0):
+        searchText = self.searchLineEdit.text()
+        stringList = self.searchList.stringList()
+        stringList.append(searchText)
+        self.searchList.setStringList(list(set(stringList)))
+        _ = self.textEdit.find(searchText) if findflag == 0 else self.textEdit.find(searchText, findflag)
+
+    def keyPressEvent(self, e):
+        if e.modifiers() & Qt.CTRL and e.key() == Qt.Key_F:
+            self.hideSearch()
+        elif e.modifiers() & Qt.CTRL and e.key() == Qt.Key_C:
+            self.textEdit.clear()
+
+        e.accept()
+
 @mixin.DebugClass
 class MonitorWidget(QFrame):
     def __init__(self, dev):
         super().__init__()
         self.dev = dev
-        self.buffer = mixin.BytesBuffer(b'\xff')
+        self.buffer = mixin.BytesBuffer()
 
         self.listWidget = QListWidget()
         self.listWidget.setFixedWidth(80)
         self.listWidget.addItems(['Byte', 'Hex', 'Bin'])
 
-        self.hexEditor = QTextEdit(readOnly=True)
-        self.byteEditor = QTextEdit(readOnly=True)
-        self.binEditor = QTextEdit(readOnly=True)
+        self.hexEditor = FindTextEdit()
+        self.byteEditor = FindTextEdit()
+        self.binEditor = FindTextEdit()
 
         self.stackWidget = QStackedWidget()
         self.stackWidget.addWidget(self.byteEditor)
@@ -46,12 +117,29 @@ class MonitorWidget(QFrame):
         self.listWidget.currentRowChanged.connect(self.stackWidget.setCurrentIndex)
         self.listWidget.setCurrentRow(1)
 
-        self.dev.transmited.connect(self.onReceived)
+        self.dev.readSig.connect(self.onReceived)
+        self.dev.writeSig.connect(self.onSend)
         self.setLayout(layout)
+
+    def onSend(self, data):
+        current_frame = data
+        if current_frame:
+            bit_frame = BitArray(current_frame)
+            hex_data = bit_frame.hex.upper()
+            hex_data = [hex_data[i:i + 2] for i in range(0, len(hex_data), 2)]
+            hex_data = ' '.join(hex_data)
+
+            byte_data = str(bit_frame.tobytes())
+            bin_data = [bit_frame.bin[i:i + 8] for i in range(0, len(bit_frame.bin), 8)]
+            bin_data = ' '.join(bin_data)
+
+            self.hexEditor.append('发送：{}'.format(hex_data))
+            self.binEditor.append('发送：{}'.format(bin_data))
+            self.byteEditor.append('发送：{}'.format(byte_data))
 
     def onReceived(self, data):
         self.buffer.extend(data)
-        current_frame = self.buffer.currentFrame
+        current_frame = self.buffer.currentFrame()
         if current_frame:
             bit_frame = BitArray(current_frame)
             hex_data = bit_frame.hex.upper()

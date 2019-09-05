@@ -175,7 +175,7 @@ class MainWindow(QMainWindow):
         if reason in [QSystemTrayIcon.DoubleClick, QSystemTrayIcon.Trigger]:
             self.showNormal()
 
-    def stayOnTop(self):
+    def stayOnTop(self, checked):
         self.setWindowFlag(Qt.WindowStaysOnTopHint, self.sender().isChecked() )
         self.show()
 

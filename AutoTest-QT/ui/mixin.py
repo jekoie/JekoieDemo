@@ -15,12 +15,16 @@ class XMLParser:
     Abytepos = 'bytepos'
     Abitpos = 'bitpos'
     AValue = 'value'
+    AValueRange = 'value_range'
     AConvert = 'convert'
+    AMsg = 'msg'
+    ATag = 'tag'
 
     def __init__(self):
         if Config.PRODUCT_XML_CHANGED:
             Config.PRODUCT_XML_CHANGED = False
-            self.tree = etree.parse(Config.PRODUCT_XML)
+            parser = etree.XMLParser(encoding='utf-8', remove_blank_text=True, remove_comments=True)
+            self.tree = etree.parse(Config.PRODUCT_XML, parser=parser)
             Config.PRODUCT_XML_TREE = self.tree
         else:
             self.tree = Config.PRODUCT_XML_TREE
@@ -30,6 +34,25 @@ class XMLParser:
 
         self._recv_path = './recv'
         self._send_path = './send'
+        self._option = './option'
+
+        self.default_send_frameheader = None
+        self.default_recv_frameheader = None
+        self.send_checksum_func = None
+        self.recv_checksum_func = None
+
+        self.initialize_option()
+
+    def initialize_option(self):
+        option_ele = self.root.find(self._option)
+        if option_ele is not None:  #选取配置的帧信息
+            self.default_send_frameheader = option_ele.get('send_frameheader')
+            self.default_recv_frameheader = option_ele.get('recv_frameheader')
+            self.send_checksum_func = option_ele.get('send_checksum')
+            self.recv_checksum_func = option_ele.get('recv_checksum')
+        else:   #使用默认的帧信息
+            self.default_send_frameheader = '0xAAAA'
+            self.default_recv_frameheader = '0xFFF1'
 
     def iter_recv(self):
         return self.root.iterfind(self._recv_path)
@@ -40,54 +63,78 @@ class XMLParser:
     def frameheader_recv(self):
         frameheader_recv_dict = {}
         for recv_item in self.iter_recv():
-            header = BitArray('{},{}'.format(recv_item.get(self.AHeader), recv_item.get(self.AFunchar)))
+            header = BitArray('{},{}'.format(recv_item.get(self.AHeader, self.default_recv_frameheader), recv_item.get(self.AFunchar)))
             frameheader_recv_dict[header.bytes] = recv_item
 
         return frameheader_recv_dict
 
 class BytesBuffer:
-    def __init__(self, header_sign:bytes):
-        self.header_sign = header_sign
+    HEADER_SENDER = None
+    HEADER_RECVER = None
+    def __init__(self):
         self.buffer = bytearray()
         self.frame_list = []
+
+    @classmethod
+    def set_header(cls, sender, recver):
+        if isinstance(sender, str):
+            cls.HEADER_SENDER = BitArray(sender).tobytes()
+        elif isinstance(sender, bytes):
+            cls.HEADER_SENDER = sender
+
+        if isinstance(recver, str):
+            cls.HEADER_RECVER = BitArray(recver).tobytes()
+        elif isinstance(recver, bytes):
+            cls.HEADER_RECVER = recver
 
     def extend(self, data:bytes):
         self.buffer.extend(data)
 
-    @property
     def firstFrame(self):
         if len(self.frame_list):
             return self.frame_list[0]
         else:
             return b''
 
-    @property
     def lastFrame(self):
         if len(self.frame_list):
             return self.frame_list[-1]
         else:
             return b''
 
-    @property
-    def currentFrame(self):
-        pattern = b'%b.+?(?=%b)' % (self.header_sign, self.header_sign)
+    def currentFrame(self, header='recver'):
+        if header == 'recver':
+            header = self.HEADER_RECVER
+        elif header == 'sender':
+            header = self.HEADER_SENDER
+
+        pattern = b'%b.+?(?=%b)' % (header, header)
         match = re.search(pattern, self.buffer)
         if match:
             frame = match.group()
-            self.buffer = self.buffer.replace(frame, b'')
+            self.buffer = self.buffer.replace(frame, b'', 1)
             self.frame_list.append(frame)
             return frame
         return b''
 
-    @property
     def frames(self):
         return self.frame_list
 
-def convert(type_, bytedata:BitArray):
-    if type_ == 'int':
-        return str(bytedata.int)
-    else:
-        return bytedata
+
+def convert(item, bytedata: BitArray):
+    convert_method = item.get(XMLParser.AConvert, 'int') #type:str
+    if convert_method == 'uint':
+        return bytedata.int
+    elif convert_method == 'int':
+        return bytedata.uint
+    elif 'ad' in convert_method:
+        vh, vl = bytedata[0:8], bytedata[8:16] #type:BitArray
+        _, _ = vh.insert(0x00, 0), vl.insert(0x00, 0)
+        ad = vh<<8 | vl
+        *_, divisor, multiplier = convert_method.split(',')
+        print('xml_tag', item.get('tag'), 'bytedata', [bytedata], 'vh', [vh], 'vl', [vl])
+        return (ad.uint/float(divisor))*float(multiplier)
+
 
 def parse_datetime(value):
     a = arrow.get(value)
