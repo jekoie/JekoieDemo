@@ -179,7 +179,7 @@ class Config(BaseConfig):
         Config.DEV_XML_TREE.write(Config.DEV_XML, encoding='utf-8', pretty_print=True, xml_declaration=True)
 
         #关闭数据库
-        db.remotedb.close()
+        # db.remotedb.close()
 
 #应用程序参数读取类
 class AppSettingReader(object):

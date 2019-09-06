@@ -8,6 +8,7 @@ import inspect
 import traceback
 import logging
 from pubsub import pub
+import traceback
 
 class XMLParser:
     AHeader  = 'header'
@@ -108,33 +109,33 @@ class BytesBuffer:
         elif header == 'sender':
             header = self.HEADER_SENDER
 
-        pattern = b'%b.+?(?=%b)' % (header, header)
-        match = re.search(pattern, self.buffer)
-        if match:
-            frame = match.group()
-            self.buffer = self.buffer.replace(frame, b'', 1)
-            self.frame_list.append(frame)
-            return frame
-        return b''
+        # pattern = b'%b.+?(?=%b)' % (header, header)
+        # match = re.search(pattern, self.buffer, re.S)
+        # if match:
+        #     frame = match.group()
+        #     self.buffer = self.buffer.replace(frame, b'', 1)
+        #     self.frame_list.append(frame)
+        #     return frame
+
+        frame = b''
+        try:
+            match_header = re.search(header, self.buffer, re.S)
+            if match_header:
+                # funchar 1byte: self.buffer[match_header.end()]
+                # datalen 1byte
+                datalen = self.buffer[match_header.end() + 1]
+                #checksum 1byte:
+                frame = self.buffer[match_header.start():match_header.end() + 1 + 1 + datalen + 1]
+                self.frame_list.append(frame)
+                self.buffer = self.buffer.replace(frame, b'', 1)
+        except Exception:
+            print(traceback.format_exc())
+            frame = b''
+
+        return bytes(frame)
 
     def frames(self):
         return self.frame_list
-
-
-def convert(item, bytedata: BitArray):
-    convert_method = item.get(XMLParser.AConvert, 'int') #type:str
-    if convert_method == 'uint':
-        return bytedata.int
-    elif convert_method == 'int':
-        return bytedata.uint
-    elif 'ad' in convert_method:
-        vh, vl = bytedata[0:8], bytedata[8:16] #type:BitArray
-        _, _ = vh.insert(0x00, 0), vl.insert(0x00, 0)
-        ad = vh<<8 | vl
-        *_, divisor, multiplier = convert_method.split(',')
-        print('xml_tag', item.get('tag'), 'bytedata', [bytedata], 'vh', [vh], 'vl', [vl])
-        return (ad.uint/float(divisor))*float(multiplier)
-
 
 def parse_datetime(value):
     a = arrow.get(value)

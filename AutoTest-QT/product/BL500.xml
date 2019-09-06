@@ -14,6 +14,9 @@
         <data bytepos="4" convert="int" value="0"  tag="软件当前版本Version3" msg="期望值:{expect}, 实际值:{real}"/>
     </recv>
 
+    <recv funchar="0x02" tag="" />
+    <recv funchar="0x03" tag="" />
+
     <recv funchar="0x04" tag="扫地机PCB电源检测">
         <data bytepos="13, 14" convert="ad, 4096, 33" value="1-100"  tag="电池电压VBAT_P" msg="期望值：{expect}, 实际值：{real}" />
         <data bytepos="15, 16" convert="ad, 4096, 6.6" value="1-100" tag="电池电压使能控制VBAT" msg="期望值：{expect}, 实际值：{real}" />
@@ -33,9 +36,9 @@
     <recv funchar="0x06" tag="扫地机软件版本信息">
         <data bytepos="0,1" convert="int" value="803"  tag="扫地机软件版本" msg="期望值:{expect}, 实际值:{real}"/>
 
-<!--        <data bytepos="2-5" convert="int" value="803"  tag="软件版本" msg="期望值:{expect}, 实际值:{real}"/>-->
-<!--        <data bytepos="6-17" convert="int" value="803"  tag="机器id" msg="期望值:{expect}, 实际值:{real}"/>-->
-<!--        <data bytepos="18" convert="int" value="803"  tag="机器类型" msg="期望值:{expect}, 实际值:{real}"/>-->
+        <data bytepos="2-5" convert="hex" value=""  tag="软件版本" msg="期望值:{expect}, 实际值:{real}"/>
+        <data bytepos="6-17" convert="hex" value=""  tag="机器id" msg="期望值:{expect}, 实际值:{real}"/>
+        <data bytepos="18" convert="int" value="1"  tag="机器类型" msg="期望值:{expect}, 实际值:{real}"/>
     </recv>
 
     <recv funchar="0x07" tag="电池充电模拟">
@@ -206,7 +209,6 @@
     <recv funchar="0x1C" tag="预留"/>
     <recv funchar="0x1D" tag="预留"/>
 
-
     <recv funchar="0x1E" tag="左独立防碰测试">
         <data bitpos="0, 0"  convert="int" value="1"  tag="左独立防碰信号检测" msg="期望值:{expect}, 实际值:{real}" />
 
@@ -214,7 +216,7 @@
         <data bytepos="5, 6" convert="ad, 4096, 330" value="1-100"  tag="左独立防碰红外发射电流 MIN" msg="期望值:{expect}, 实际值:{real}"/>
     </recv>
 
-    <recv funchar="0xFD" tag="测试结束" />
+<!--    <recv funchar="0xFD" tag="测试结束" />-->
 
     <recv funchar="0xFE" tag="测试异常">
         <data bitpos="0, 0"  convert="int" value="1"  tag="测试中途，测试机接收不到上位机信号" msg="期望值:{expect}, 实际值:{real}" />

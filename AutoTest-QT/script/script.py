@@ -45,49 +45,15 @@ class Script(QThread):
         if len(frame_data) != data_len:
             raise RuntimeError('recv frame:{}, data:{}, date_len{}'.format(BitArray(frame), BitArray(frame_data), data_len ))
 
-        result = False
-        convert_value = None
-        if XMLParser.Abytepos in item.keys():
-            bytepos = item.get(XMLParser.Abytepos)
-            bytepos_list = bytepos.split(',')
-            bytedata = BitArray()
-            try:
-                for pos in  bytepos_list:
-                    bytedata.append('uint:8={}'.format(frame_data[int(pos)]) )
-            except Exception:
-                raise RuntimeError('frame:{}, frame_data:{}, bytepos:{}, tag:{}'.format(frame, frame_data, bytepos_list, item.get(XMLParser.ATag,  '')))
-
-            convert_value = convert(item, bytedata)
-        elif XMLParser.Abitpos in item.keys():
-            byte_pos, bit_pos = item.get(XMLParser.Abitpos).split(',')
-            bytedata =  BitArray('uint:8={}'.format( frame_data[int(byte_pos)]) )
-            bitdata = bytedata[int(bit_pos): int(bit_pos)+1]
-            convert_value = convert(item, bitdata)
+        convert_value = mix.convert_value(frame_data, item)
 
         #v = "1, 2, 3, 9-15"
-        #['1', ' 2', ' 3', ' 9-15'], 任意值比较
-        if XMLParser.AValue in item.keys():
-            value = item.get(XMLParser.AValue, '')
-            if ',' in value or '-' in value:
-                for value_str in value.split(','):
-                    if '-' not in value_str:
-                        value_str = value_str.replace(' ', '')
-                        if int(value_str) == convert_value:
-                            result = True
-                            break
-                    elif '-' in value_str:
-                        value_str = value_str.replace(' ', '')
-                        min_str, max_str = value_str.split('-')
-                        if int(min_str) <= convert_value <= int(max_str):
-                            result = True
-                            break
-            else:
-                if int(value) == convert_value:
-                    result = True
+        result = mix.value_compare(convert_value, item)
 
         msg = item.get(XMLParser.AMsg, '')
         tag = item.get(XMLParser.ATag,  '')
         recvitem_tag = recvitem.get(XMLParser.ATag, '')
+        funchar = recvitem.get(XMLParser.AFunchar, '')
 
         value = item.get(XMLParser.AValue, '')
         if msg.count('{') == 2:
@@ -97,24 +63,27 @@ class Script(QThread):
         elif msg.count('{') == 1 and 'real' in msg:
             msg = msg.format(expect=value)
 
-        tag = '[{}]{}'.format(recvitem_tag, tag)
+        tag = '[{}, {}]{}'.format(recvitem_tag, funchar, tag)
         self.result_list.append([tag, msg, result])
         self.sig_data.emit([tag, msg, result])
+
 
     def recv_check(self, frame: bytes):
         if frame:
             frameheader = frame[:self.xml.frameheader_length]
+            print('frameheader', frameheader, 'frame', frame)
             if frameheader in self.frameheader_recv_dict:
                 recv_item = self.frameheader_recv_dict[frameheader]
                 for childItem in recv_item.iterchildren():
                     self.recv_item_check(recv_item, childItem, frame)
                 mix.send_command(self.dev, self.xml, 'next')
+                print('frameheader', frameheader, 'frame', [frame])
 
     def run(self):
         start_time = datetime.datetime.now()
         self.frameheader_recv_dict = self.xml.frameheader_recv()
 
-        mix.send_command(self.dev, self.xml, 'stop')
+        # mix.send_command(self.dev, self.xml, 'stop')
         mix.send_command(self.dev, self.xml, 'connect')
         while self.runnig:
             self.buffer.extend( self.dev.read_available() )

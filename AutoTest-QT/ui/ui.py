@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import (QDialog, QFormLayout, QComboBox, QGroupBox, QHBoxLa
                              QDialogButtonBox, QFrame, QLabel, QPushButton, QMenu, QTableWidget, QHeaderView, QTabWidget, QStyle,
                              QAbstractItemView, QTableWidgetItem, QMessageBox, QTextEdit, QListWidget, QStackedWidget, QLineEdit
                              ,QTableView, QApplication, QWidget, QCompleter)
-from PyQt5.QtGui import QPalette, QColor, QTextDocument
+from PyQt5.QtGui import QPalette, QColor, QTextDocument, QIcon
 from serial.tools import list_ports
 from script.script import Script
 from bitstring import BitArray
@@ -20,7 +20,7 @@ import traceback
 class FindTextEdit(QWidget):
     def __init__(self):
         super().__init__()
-        self.isHide = True
+        self.isHide = False
 
         self.searchLineEdit = QLineEdit(placeholderText='search', returnPressed=self.handle_search)
         self.searchLineEdit.setStyleSheet('.QLineEdit {border-radius: 5px;}')
@@ -34,8 +34,6 @@ class FindTextEdit(QWidget):
         self.prevButton = QPushButton('<', clicked=self.handle_backward)
         self.nextButton = QPushButton('>', clicked=self.handle_forward)
         self.textEdit = QTextEdit(readOnly=True)
-
-
 
         hlayout = QHBoxLayout()
         hlayout.setSpacing(0)
@@ -78,13 +76,28 @@ class FindTextEdit(QWidget):
         stringList = self.searchList.stringList()
         stringList.append(searchText)
         self.searchList.setStringList(list(set(stringList)))
-        _ = self.textEdit.find(searchText) if findflag == 0 else self.textEdit.find(searchText, findflag)
+
+        # _ = self.textEdit.find(searchText) if findflag == 0 else self.textEdit.find(searchText, findflag)
+
+        textCurosr = self.textEdit.textCursor()
+        document = self.textEdit.document()
+        if findflag == 0:
+            hi_cursor = document.find(searchText, textCurosr)
+            textCurosr.setPosition(hi_cursor.position())
+        else:
+            hi_cursor = document.find(searchText, textCurosr, findflag)
+            textCurosr.setPosition(hi_cursor.anchor() - 1)
+
+        extraSelection = QTextEdit.ExtraSelection()
+        extraSelection.cursor = hi_cursor
+        extraSelection.format.setBackground(Qt.red)
+
+        self.textEdit.setTextCursor(textCurosr)
+        self.textEdit.setExtraSelections([extraSelection])
 
     def keyPressEvent(self, e):
         if e.modifiers() & Qt.CTRL and e.key() == Qt.Key_F:
             self.hideSearch()
-        elif e.modifiers() & Qt.CTRL and e.key() == Qt.Key_C:
-            self.textEdit.clear()
 
         e.accept()
 
