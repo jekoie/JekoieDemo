@@ -1,5 +1,4 @@
 <?xml version='1.0' encoding='utf-8'?>
 <root>
-    <li product="BL500" path="./product/BL500.xml" />
-    <li product="BL501" path="./product/BL501.xml" />
+    <li product="BL803" path="./product/BL803.xml" />
 </root>
