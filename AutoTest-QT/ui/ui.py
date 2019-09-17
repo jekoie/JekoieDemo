@@ -275,6 +275,9 @@ class SettingDialog(QDialog):
             if os.path.exists(xmlpath):
                 Config.PRODUCT_XML = xmlpath
                 Config.PRODUCT_XML_CHANGED = True
+                #更新第一次运行标志
+                for win_idx in range(Config.FIXED_WIN_NUM):
+                    Config.RC[win_idx]['first'] = True
             else:
                 QMessageBox.critical(self, '文件', '{} 文件不存在'.format(xmlpath))
                 Config.PRODUCT_XML = None
@@ -389,7 +392,6 @@ class TestUnitFrame(QFrame):
         menu.addAction('设置', lambda : self.onSetting(event) )
         menu.addAction('断开连接', self.onDisconnect)
         menu.addAction('重新连接', self.onReconnect)
-        menu.addAction('结果导出', self.onExportResult)
 
         item.setEnabled(False)
         menu.move(event.globalPos())
@@ -440,15 +442,6 @@ class TestUnitFrame(QFrame):
                 self.status_label.setStyleSheet('color: red;')
                 self.status_label.setText('重连失败')
 
-    def onExportResult(self):
-        result = Config.RC[self.win_idx].get('result', None)
-        result_list = Config.RC[self.win_idx].get('result_list', None)
-        if result and result_list:
-            filename = QFileDialog.getSaveFileName(self, '另存为', filter='Excel (*.xlsx)')[0]
-            if filename:
-                df = pd.DataFrame(result_list, columns=['测试项', '信息', '结果'])
-                df = df.replace([True, False], ['PASS', 'FAIL'])
-                df.to_excel(filename)
 
 #测试结果页面
 @mixin.DebugClass
@@ -462,7 +455,6 @@ class TestResultFrame(QFrame):
         self.table_default_row = 1
         self.table_default_col = 4
         self.testunitframe = None
-        self.result_list = []
 
         self.table = QTableWidget(self.table_default_row, self.table_default_col)
         self.table.hideColumn(self.table_default_col - 1)
@@ -496,7 +488,6 @@ class TestResultFrame(QFrame):
             self.testunitframe = win
             self.testunitframe.setStyleSheet('')
             self.stat_lable.hide()
-            self.result_list.clear()
             self.table.setRowCount(0)
             self.testunitframe.script.sig_finish.connect(self.threadFinish)
             self.testunitframe.script.sig_data.connect(self.recvThreadData)
@@ -504,8 +495,9 @@ class TestResultFrame(QFrame):
             if Config.INITWIN_NUM == 2 and not Config.SCREEN_MODE:
                 self.parent().parent().setCurrentIndex(self.win_idx)
 
-    def threadFinish(self, result):
-        self.stat_lable.setText('总测试项:{} PASS项:{} FAIL项:{}'.format(self.table_current_idx, self.pass_item_count, self.fail_item_count))
+    def threadFinish(self, result_dict):
+        result, total_time = result_dict['result'], result_dict['total_time']
+        self.stat_lable.setText('总测试项:{} PASS项:{} FAIL项:{} 时间:{}s'.format(self.table_current_idx, self.pass_item_count, self.fail_item_count, total_time))
         self.table.setRowCount(self.table_current_idx)
         self.table.sortByColumn(3, Qt.AscendingOrder)
         self.stat_lable.show()
@@ -514,18 +506,15 @@ class TestResultFrame(QFrame):
         #显示结果和颜色
         palette = QPalette()
         if result:
-            palette.setColor(QPalette.Window, Qt.green)
+            palette.setColor(QPalette.Window, Config.COLOR_GREEN)
             self.testunitframe.status_label.setText('PASS')
-            Config.RC[self.win_idx].update({'result':'PASS', 'result_list': self.result_list})
         else:
-            palette.setColor(QPalette.Window, Qt.red)
+            palette.setColor(QPalette.Window, Config.COLOR_RED)
             self.testunitframe.status_label.setText('FAIL')
-            Config.RC[self.win_idx].update({'result': 'FAIL', 'result_list': self.result_list})
 
         self.testunitframe.setPalette(palette)
 
     def recvThreadData(self, data):
-        self.result_list.append(data)
         #行数不够，新增一行
         if self.table_current_idx > self.table.rowCount() - 1:
             self.table.insertRow(self.table_current_idx)
@@ -539,12 +528,12 @@ class TestResultFrame(QFrame):
         if data[2]:
             self.table.setItem(self.table_current_idx, 3, QTableWidgetItem('1'))
             index_item.setIcon(QIcon(Config.PASS_IMG))
-            self.setRowColor(self.table_current_idx, Qt.green)
+            self.setRowColor(self.table_current_idx, Config.COLOR_GREEN)
             self.pass_item_count += 1
         else:
             self.table.setItem(self.table_current_idx, 3, QTableWidgetItem('0'))
             index_item.setIcon(QIcon(Config.FAIL_IMG))
-            self.setRowColor(self.table_current_idx, Qt.red)
+            self.setRowColor(self.table_current_idx, Config.COLOR_RED)
             self.fail_item_count += 1
 
         self.table.scrollToBottom()

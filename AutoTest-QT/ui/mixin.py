@@ -16,10 +16,12 @@ class XMLParser:
     Abytepos = 'bytepos'
     Abitpos = 'bitpos'
     AValue = 'value'
-    AValueRange = 'value_range'
     AConvert = 'convert'
     AMsg = 'msg'
     ATag = 'tag'
+    AStore = 'store'
+    AFlag = 'flag'
+    ASend = 'send_cmd'
 
     def __init__(self):
         if Config.PRODUCT_XML_CHANGED:
@@ -117,6 +119,7 @@ class BytesBuffer:
         #     self.frame_list.append(frame)
         #     return frame
 
+
         frame = b''
         try:
             match_header = re.search(header, self.buffer, re.S)
@@ -126,10 +129,14 @@ class BytesBuffer:
                 datalen = self.buffer[match_header.end() + 1]
                 #checksum 1byte:
                 frame = self.buffer[match_header.start():match_header.end() + 1 + 1 + datalen + 1]
-                self.frame_list.append(frame)
-                self.buffer = self.buffer.replace(frame, b'', 1)
+
+                #校验数据帧长度
+                if len(frame) != len(header) + 1 + 1 + datalen + 1:
+                    frame = b''
+                else:
+                    self.frame_list.append(frame)
+                    self.buffer = self.buffer.replace(frame, b'', 1)
         except Exception:
-            print(traceback.format_exc())
             frame = b''
 
         return bytes(frame)

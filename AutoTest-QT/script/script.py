@@ -2,6 +2,7 @@ import os
 import io
 import random
 import datetime
+import time
 from PyQt5.QtCore import  QThread, pyqtSignal
 from faker import Faker
 import pandas as pd
@@ -11,16 +12,15 @@ from . import mix
 from db import db
 from lxml import etree
 
-fake = Faker('zh_CN')
-
 @DebugClass
 class Script(QThread):
     sig_data = pyqtSignal(list)
-    sig_finish = pyqtSignal(bool)
-
+    sig_finish = pyqtSignal(dict) # {'result':True, 'total_time': 10s}
     def __init__(self, dev: SerialCommunicate, win_idx: int):
         super().__init__()
         self.dev = dev
+        self.dev.dev.reset_input_buffer()
+        self.dev.dev.reset_output_buffer()
         self.win_idx = win_idx
         #产品文件
         self.xml = XMLParser()
@@ -31,19 +31,21 @@ class Script(QThread):
         self.frameheader_recv_dict = {}
         #记录数据结果
         self.result_list = []
-        #
+        #运行标记
         self.runnig = True
+        #存储产品变量
+        self.dict = {}
+        #总结果
+        self.result = True
 
     def stop(self):
         self.runnig = False
+        self.result = False
 
     def recv_item_check(self, recvitem, item, frame: bytes):
         checksum = frame[-1]
         data_len = frame[self.xml.frameheader_length]
         frame_data = frame[self.xml.frameheader_length+1: -1]
-
-        if len(frame_data) != data_len:
-            raise RuntimeError('recv frame:{}, data:{}, date_len{}'.format(BitArray(frame), BitArray(frame_data), data_len ))
 
         convert_value = mix.convert_value(frame_data, item)
 
@@ -54,6 +56,9 @@ class Script(QThread):
         tag = item.get(XMLParser.ATag,  '')
         recvitem_tag = recvitem.get(XMLParser.ATag, '')
         funchar = recvitem.get(XMLParser.AFunchar, '')
+        store_value = item.get(XMLParser.AStore, '')
+        if store_value:
+            self.dict[store_value] = convert_value
 
         value = item.get(XMLParser.AValue, '')
         if msg.count('{') == 2:
@@ -67,43 +72,55 @@ class Script(QThread):
         self.result_list.append([tag, msg, result])
         self.sig_data.emit([tag, msg, result])
 
-
     def recv_check(self, frame: bytes):
         if frame:
             frameheader = frame[:self.xml.frameheader_length]
-            print('frameheader', frameheader, 'frame', frame)
             if frameheader in self.frameheader_recv_dict:
                 recv_item = self.frameheader_recv_dict[frameheader]
                 for childItem in recv_item.iterchildren():
                     self.recv_item_check(recv_item, childItem, frame)
-                mix.send_command(self.dev, self.xml, 'next')
-                print('frameheader', frameheader, 'frame', [frame])
+                self.response_frame(recv_item)
+
+    def response_frame(self, recv_item):
+        if XMLParser.AFlag in recv_item.keys() and 'stop' in recv_item.get(XMLParser.AFlag):
+            self.runnig = False
+
+        if XMLParser.ASend in recv_item.keys() and 'filter' in recv_item.get(XMLParser.ASend):
+            mix.send_command(self.dev, self.xml, 'filter')
+        else:
+            mix.send_command(self.dev, self.xml, 'next')
+
+    def connect_test(self):
+        first = Config.RC[self.win_idx]['first']
+        if first:
+            mix.send_command(self.dev, self.xml, 'connect')
+            self.msleep(500)
+            mix.send_command(self.dev, self.xml, 'test')
+            Config.RC[self.win_idx]['first'] = False
+        else:
+            mix.send_command(self.dev, self.xml, 'test')
 
     def run(self):
         start_time = datetime.datetime.now()
         self.frameheader_recv_dict = self.xml.frameheader_recv()
-
-        # mix.send_command(self.dev, self.xml, 'stop')
-        mix.send_command(self.dev, self.xml, 'connect')
+        self.connect_test()
         while self.runnig:
             self.buffer.extend( self.dev.read_available() )
             self.recv_check( self.buffer.currentFrame() )
-            # self.msleep(100)
 
-        # for i in range(random.randrange(30, 100)):
-        #     self.sig_data.emit([fake.name(), fake.address(), random.choice([True, False]) ])
-        #     self.msleep(100)
-
-
-        result = random.choice([True, False])
+        result_item_list = []
+        for result_item in self.result_list:
+            result_item_list.append(result_item[2])
+        result = False if False in result_item_list else True
+        result = result and self.result
         end_time = datetime.datetime.now()
-        self.sig_finish.emit(result)
+        self.sig_finish.emit({'result':result, 'total_time': (end_time - start_time).seconds })
         self.storeTestResult(result, start_time, end_time)
 
     def storeTestResult(self, result, start_time, end_time):
+        if len(self.result_list) == 0: return None
         df = pd.DataFrame(self.result_list, columns=['测试项', '信息', '结果'])
         df = df.replace([True, False], ['PASS', 'FAIL'])
-
 
         msgbuf = io.StringIO()
         df.to_csv(msgbuf, index=False)

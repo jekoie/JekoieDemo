@@ -34,7 +34,6 @@ def send_command(dev: SerialCommunicate, xml: XMLParser, type_: str):
     final_data = valid_data + checksum_data
     dev.write(final_data.tobytes())
 
-
 def convert(item, bytedata: BitArray):
     convert_method = item.get(XMLParser.AConvert, 'int') #type:str
     if convert_method == 'int':
@@ -71,7 +70,6 @@ def convert_value(frame_data, item):
         bytedata = BitArray('uint:8={}'.format(frame_data[int(byte_pos)]))
         bitdata = bytedata[int(bit_pos): int(bit_pos) + 1]
         convert_value = convert(item, bitdata)
-
     return convert_value
 
 
@@ -100,6 +98,8 @@ def value_compare(convert_value, item) -> bool:
         elif isinstance(convert_value, (str) ):
             if TYPE(value) == convert_value:
                 result = True
+    else:
+        result = True
 
     return result
 

@@ -8,6 +8,7 @@ from communicate.communicate import SerialCommunicate
 from lxml.etree import _ElementTree
 from datetime import datetime
 from PyQt5.QtCore import QSettings
+from PyQt5.QtGui import QColor
 from db import db
 
 class Logger(object):
@@ -73,6 +74,10 @@ class BaseConfig:
     #显示方式： 分页显示，分屏显示
     SCREEN_MODE = False
 
+    #颜色
+    COLOR_GREEN = QColor('#006600')
+    COLOR_RED = QColor('#C80000')
+
     #应用程序信息
     ORGANIZATION = 'bona'
     APP_NAME = 'AutoTest'
@@ -86,7 +91,7 @@ class BaseConfig:
     DEBUG_HANDLER = io.StringIO()
     LOGGER = Logger( __name__ , DEBUG_HANDLER, logging.DEBUG).logger
 
-    #RC {0:{'win':'', 'page':'', 'dev':'', 'result':'', 'result_list'}, 'tab':'' }
+    #RC {0:{'win':'', 'page':'', 'dev':''}, 'tab':'' }
     RC = defaultdict(dict)
 
     #QSettings
@@ -149,7 +154,7 @@ class Config(BaseConfig):
             dev_item = Config.DEV_XML_TREE.find('//li[@win="{}"]'.format(win_idx))
             dev = SerialCommunicate(**dev_item.attrib)
             dev.connect()
-            cls.RC.update({win_idx:{'dev':dev}})
+            cls.RC.update({win_idx:{'dev':dev, 'first': True}})
 
     @classmethod
     def initialize_database(cls):
