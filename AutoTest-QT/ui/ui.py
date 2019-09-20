@@ -275,9 +275,6 @@ class SettingDialog(QDialog):
             if os.path.exists(xmlpath):
                 Config.PRODUCT_XML = xmlpath
                 Config.PRODUCT_XML_CHANGED = True
-                #更新第一次运行标志
-                for win_idx in range(Config.FIXED_WIN_NUM):
-                    Config.RC[win_idx]['first'] = True
             else:
                 QMessageBox.critical(self, '文件', '{} 文件不存在'.format(xmlpath))
                 Config.PRODUCT_XML = None
@@ -455,6 +452,7 @@ class TestResultFrame(QFrame):
         self.table_default_row = 1
         self.table_default_col = 4
         self.testunitframe = None
+        self.table_order = Qt.AscendingOrder
 
         self.table = QTableWidget(self.table_default_row, self.table_default_col)
         self.table.hideColumn(self.table_default_col - 1)
@@ -462,6 +460,7 @@ class TestResultFrame(QFrame):
         self.table.horizontalHeader().setStretchLastSection(True)
         self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
         self.table.horizontalHeader().setHighlightSections(True)
+
         self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.table.verticalHeader().setVisible(False)
         self.table.resizeRowsToContents()

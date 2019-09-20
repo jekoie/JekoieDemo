@@ -66,7 +66,7 @@ class Script(QThread):
         elif msg.count('{') == 1 and 'expect' in msg:
             msg = msg.format(expect=value)
         elif msg.count('{') == 1 and 'real' in msg:
-            msg = msg.format(expect=value)
+            msg = msg.format(real=convert_value)
 
         tag = '[{}, {}]{}'.format(recvitem_tag, funchar, tag)
         self.result_list.append([tag, msg, result])
@@ -91,14 +91,9 @@ class Script(QThread):
             mix.send_command(self.dev, self.xml, 'next')
 
     def connect_test(self):
-        first = Config.RC[self.win_idx]['first']
-        if first:
-            mix.send_command(self.dev, self.xml, 'connect')
-            self.msleep(500)
-            mix.send_command(self.dev, self.xml, 'test')
-            Config.RC[self.win_idx]['first'] = False
-        else:
-            mix.send_command(self.dev, self.xml, 'test')
+        mix.send_command(self.dev, self.xml, 'connect')
+        self.msleep(500)
+        mix.send_command(self.dev, self.xml, 'test')
 
     def run(self):
         start_time = datetime.datetime.now()

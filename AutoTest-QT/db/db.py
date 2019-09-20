@@ -18,7 +18,6 @@ class User(BaseModel):
         database = localdb
 
 def generate_tables(model):
-    # return 'production{}'.format(datetime.now().year)
     return 'production'
 
 class ProductionRecord(BaseModel):

@@ -7,48 +7,47 @@
     <send data="" funchar="0x03" len="0x00" type="next" />
     <send data="" funchar="0x07" len="0x00" type="test" />
 
-    <recv funchar="0x01" tag="程序版本检测">
+    <recv funchar="0x01" tag="QC程序版本检测">
         <data bytepos="0,1" convert="uint" value="803"  tag="扫地机软件版本" msg="期望值:{expect}, 实际值:{real}"/>
-
-        <data bytepos="2" convert="uint" value="0"  tag="软件当前版本Version1" msg="期望值:{expect}, 实际值:{real}"/>
-        <data bytepos="3" convert="uint" value="0"  tag="软件当前版本Version2" msg="期望值:{expect}, 实际值:{real}"/>
-        <data bytepos="4" convert="uint" value="0"  tag="软件当前版本Version3" msg="期望值:{expect}, 实际值:{real}"/>
+        <data bytepos="2-4" convert="{0}.{1}.{2}" tag="QC软件版本" msg="实际值:{real}" />
     </recv>
 
     <recv funchar="0x02" tag="筛选功能"  send_cmd="filter" />
     <recv funchar="0x03" tag="响应信号" />
 
     <recv funchar="0x04" tag="扫地机PCB电源检测">
-        <data bytepos="13, 14" convert="ad, 4096, 33" value="1-100"  tag="电池电压VBAT_P" msg="期望值：{expect}, 实际值：{real}" />
-        <data bytepos="15, 16" convert="ad, 4096, 6.6" value="1-100" tag="电池电压使能控制VBAT" msg="期望值：{expect}, 实际值：{real}" />
-        <data bytepos="17, 18" convert="ad, 4096, 6.6" value="1-100" tag="DC-DC电路使能VCC_5V 1" msg="期望值：{expect}, 实际值：{real}" />
-        <data bytepos="19, 20" convert="ad, 4096, 6.6" value="1-100" tag="DC-DC电路使能VCC_5V 2" msg="期望值：{expect}, 实际值：{real}" />
-        <data bytepos="21, 22" convert="ad, 4096, 6.6" value="1-100" tag="SW_5V(使能控制) 1" msg="期望值：{expect}, 实VAT际值：{real}" />
-        <data bytepos="23, 24" convert="ad, 4096, 6.6" value="1-100" tag="SW_5V(使能控制) 2" msg="期望值：{expect}, 实际值：{real}" />
-        <data bytepos="25, 26" convert="ad, 4096, 3.3" value="1-100" tag="纽扣电池电压 H" msg="期望值：{expect}, 实际值：{real}" />
-    </recv>>
+        <data bytepos="13, 14" convert="ad, 4096, 33" value="15.5-17"  tag="电池电压VBAT_P" msg="期望值：{expect}, 实际值：{real:.2f}V" />
+        <data bytepos="15, 16" convert="ad, 4096, 33" value="15.5-17" tag="电池电压使能控制VBAT" msg="期望值：{expect}, 实际值：{real:.2f}V" />
+
+        <data bytepos="17, 18" convert="ad, 4096, 6.6" value="0-1.5" tag="DC-DC电路使能VCC_5V OFF" msg="期望值：{expect}, 实际值：{real:.2f}V" />
+        <data bytepos="19, 20" convert="ad, 4096, 6.6" value="4.8-5.2" tag="DC-DC电路使能VCC_5V ON" msg="期望值：{expect}, 实际值：{real:.2f}V" />
+
+        <data bytepos="21, 22" convert="ad, 4096, 6.6" value="0-0.75" tag="SW_5V(使能控制) OFF" msg="期望值：{expect}, 实VAT际值：{real:.2f}V" />
+        <data bytepos="23, 24" convert="ad, 4096, 6.6" value="4.8-5.2" tag="SW_5V(使能控制) ON" msg="期望值：{expect}, 实际值：{real:.2f}V" />
+        <data bytepos="25, 26" convert="ad, 4096, 3.3" value="2.7-3.3" tag="纽扣电池电压" msg="期望值：{expect}, 实际值：{real:.2f}V" />
+    </recv>
 
     <recv funchar="0x05" tag="单片机工作状态检测">
-        <data bytepos="2" convert="uint" value="1-100"  tag="单片机晶振频率" msg="期望值：{expect}, 实际值：{real}" />
-        <data bytepos="3, 4" convert="ad, 4096, 3.3" value="1-100"  tag="单片机供电电源" msg="期望值：{expect}, 实际值：{real}" />
-        <data bytepos="5, 6" convert="ad, 4096, 3.3" value="1-100"  tag="单片机AD参考电压" msg="期望值：{expect}, 实际值：{real}" />
+        <data bytepos="3, 4" convert="ad, 4096, 3.3" value="3-3.4"  tag="单片机供电电源" msg="期望值：{expect}, 实际值：{real:.2f}V" />
+        <data bytepos="5, 6" convert="ad, 4096, 3.3" value="3-3.4"  tag="单片机AD Ref参考电压" msg="期望值：{expect}, 实际值：{real:.2f}V" />
     </recv>
 
     <recv funchar="0x06" tag="扫地机软件版本信息">
         <data bytepos="0,1" convert="uint" value="803"  tag="扫地机软件版本" msg="期望值:{expect}, 实际值:{real}"/>
 
-        <data bytepos="2-5" convert="hex" value=""  tag="软件版本" msg="期望值:{expect}, 实际值:{real}"/>
-        <data bytepos="6-17" convert="hex" value=""  tag="机器id" msg="期望值:{expect}, 实际值:{real}"  store="@CHIPID" />
+        <data bytepos="2-5" convert="hex"   tag="软件版本" msg="期望值:{expect}, 实际值:{real}"/>
+        <data bytepos="6-17" convert="hex"  tag="机器id" msg="实际值:{real}"  store="@CHIPID" />
         <data bytepos="18" convert="uint" value="1"  tag="机器类型" msg="期望值:{expect}, 实际值:{real}" />
     </recv>
 
+    <!--韦工-->
     <recv funchar="0x07" tag="电池充电模拟">
-        <data bitpos="0, 1" convert="uint" value="1"  tag="充电检测" msg="期望值:{expect}, 实际值:{real}"/>
+        <data bytepos="0" convert="uint" value="3"  tag="充电检测" msg="期望值:{expect}, 实际值:{real}"/>
 
-        <data bytepos="6, 7" convert="ad, 4096, 3.33" value="1-100"  tag="电池电压" msg="期望值:{expect}, 实际值:{real}"/>
-        <data bytepos="8, 9" convert="ad, 4096, 3.33" value="1-100"  tag="运放参考电压" msg="期望值:{expect}, 实际值:{real}"/>
-        <data bytepos="10, 11" convert="ad, 4096, 3.33" value="1-100"  tag="电池温度" msg="期望值:{expect}, 实际值:{real}"/>
-        <data bytepos="12, 13" convert="ad, 4096, 3.33" value="1-100"  tag="充电电流" msg="期望值:{expect}, 实际值:{real}"/>
+        <data bytepos="6, 7" convert="ad, 4096, 33.3"   tag="电池电压" msg="实际值:{real:.2f}V"/>
+        <data bytepos="8, 9" convert="ad, 4096, 3.33"  tag="运放参考电压" msg="实际值:{real:.2f}V"/>
+        <data bytepos="3" convert="uint" value="23-33"  tag="电池温度" msg="期望值:{expect}, 实际值:{real}"/>
+        <data bytepos="12, 13" convert="ad, 4096, 1731.6" value="550-800"  tag="充电电流" msg="期望值:{expect}, 实际值:{real:.2f}mA"/>
     </recv>
 
     <recv funchar="0x08" tag="前挡红外检测">
@@ -58,28 +57,34 @@
         <data bitpos="10, 3" convert="uint" value="1"  tag="左防碰检测" msg="期望值:{expect}, 实际值:{real}" />
         <data bitpos="10, 4" convert="uint" value="1"  tag="右防碰检测" msg="期望值:{expect}, 实际值:{real}" />
 
-        <data bytepos="11, 12" convert="ad, 4096, 3.3" value="1-100"  tag="前挡红外发射电流1 MAX (电池16.8V满电)" msg="期望值：{expect}, 实际值：{real}" />
-        <data bytepos="13, 14" convert="ad, 4096, 3.3" value="1-100"  tag="前挡红外发射电流2 MAX (电池16.8V满电)" msg="期望值：{expect}, 实际值：{real}" />
-        <data bytepos="15, 16" convert="ad, 4096, 3.3" value="1-100"  tag="前挡红外发射电流1 MAX (电池13.6V低电)" msg="期望值：{expect}, 实际值：{real}" />
-        <data bytepos="17, 18" convert="ad, 4096, 3.3" value="1-100"  tag="前挡红外发射电流2 MAX (电池13.6V低电)" msg="期望值：{expect}, 实际值：{real}" />
-        <data bytepos="19, 20" convert="ad, 4096, 3.3" value="1-100"  tag="前挡板3.3V电源" msg="期望值：{expect}, 实际值：{real}" />
-        <data bytepos="29, 30" convert="ad, 4096, 3.3" value="1-100"  tag="前挡红外发射电流1 MIN(电池16.8V满电)" msg="期望值：{expect}, 实际值：{real}" />
-        <data bytepos="31, 32" convert="ad, 4096, 3.3" value="1-100"  tag="前挡红外发射电流2 MIN(电池16.8V满电)" msg="期望值：{expect}, 实际值：{real}" />
-        <data bytepos="33, 34" convert="ad, 4096, 3.3" value="1-100"  tag="前挡红外发射电流1 MIN(电池13.6V低电)" msg="期望值：{expect}, 实际值：{real}" />
-        <data bytepos="35, 36" convert="ad, 4096, 3.3" value="1-100"  tag="前挡红外发射电流2 MIN(电池13.6V低电)" msg="期望值：{expect}, 实际值：{real}" />
+        <data bytepos="11, 12" convert="ad, 4096, 330" value="55-75"  tag="前挡红外发射电流1(电池16.8V)" msg="期望值：{expect}, 实际值：{real:.2f}mA" />
+        <data bytepos="29, 30" convert="ad, 4096, 330" value="0-22"  tag="前挡红外发射电流1(电池16.8V)" msg="期望值：{expect}, 实际值：{real:.2f}mA" />
+
+        <data bytepos="13, 14" convert="ad, 4096, 330" value="55-75"  tag="前挡红外发射电流2(电池16.8V)" msg="期望值：{expect}, 实际值：{real:.2f}mA" />
+        <data bytepos="31, 32" convert="ad, 4096, 330" value="0-22"  tag="前挡红外发射电流2(电池16.8V)" msg="期望值：{expect}, 实际值：{real:.2f}mA" />
+
+        <data bytepos="15, 16" convert="ad, 4096, 330" value="55-75"  tag="前挡红外发射电流1(电池13.6V)" msg="期望值：{expect}, 实际值：{real:.2f}mA" />
+        <data bytepos="33, 34" convert="ad, 4096, 330" value="0-22"  tag="前挡红外发射电流1(电池13.6V)" msg="期望值：{expect}, 实际值：{real:.2f}mA" />
+
+        <data bytepos="17, 18" convert="ad, 4096, 330" value="55-75"  tag="前挡红外发射电流2(电池13.6V)" msg="期望值：{expect}, 实际值：{real:.2f}mA" />
+        <data bytepos="35, 36" convert="ad, 4096, 330" value="0-22"  tag="前挡红外发射电流2(电池13.6V)" msg="期望值：{expect}, 实际值：{real:.2f}mA" />
+
+        <data bytepos="19, 20" convert="ad, 4096, 3.3" value="3-3.4"  tag="前挡板3.3V电源" msg="期望值：{expect}, 实际值：{real:.2f}V" />
+
     </recv>
 
     <recv funchar="0x09" tag="跌落测试">
         <data bitpos="4, 0" convert="uint" value="1"  tag="前跌落检测" msg="期望值:{expect}, 实际值:{real}"/>
         <data bitpos="4, 1" convert="uint" value="1"  tag="左前防碰检测" msg="期望值:{expect}, 实际值:{real}"/>
         <data bitpos="4, 2" convert="uint" value="1"  tag="右前跌落检测" msg="期望值:{expect}, 实际值:{real}"/>
-        <data bitpos="4, 3" convert="uint" value="1"  tag="左后跌落检测" msg="期望值:{expect}, 实际值:{real}"/>
-        <data bitpos="4, 4" convert="uint" value="1"  tag="右后跌落检测" msg="期望值:{expect}, 实际值:{real}"/>
+        <data bitpos="4, 3" convert="uint" value="0"  tag="左后跌落检测" msg="期望值:{expect}, 实际值:{real}"/>
+        <data bitpos="4, 4" convert="uint" value="0"  tag="右后跌落检测" msg="期望值:{expect}, 实际值:{real}"/>
 
-        <data bytepos="5, 6" convert="ad, 4096, 3.3" value="1-100"  tag="跌落灯红外发射电流(电池16.8V满电) MAX" msg="期望值:{expect}, 实际值:{real}"/>
-        <data bytepos="7, 8" convert="ad, 4096, 3.3" value="1-100"  tag="跌落灯红外发射电流(电池13.6V低电) MAX" msg="期望值:{expect}, 实际值:{real}"/>
-        <data bytepos="13, 14" convert="ad, 4096, 3.3" value="1-100"  tag="跌落灯红外发射电流(电池16.8V满电) MIN" msg="期望值:{expect}, 实际值:{real}"/>
-        <data bytepos="15, 16" convert="ad, 4096, 3.3" value="1-100"  tag="跌落灯红外发射电流(电池13.6V低电) MIN" msg="期望值:{expect}, 实际值:{real}"/>
+        <data bytepos="5, 6" convert="ad, 4096, 330" value="55-75"  tag="跌落灯红外发射电流(电池16.8V)" msg="期望值:{expect}, 实际值:{real:.2f}mA"/>
+        <data bytepos="13, 14" convert="ad, 4096, 330" value="0-22"  tag="跌落灯红外发射电流(电池16.8V)" msg="期望值:{expect}, 实际值:{real:.2f}mA"/>
+
+        <data bytepos="7, 8" convert="ad, 4096, 330" value="55-75"  tag="跌落灯红外发射电流(电池13.6V)" msg="期望值:{expect}, 实际值:{real:.2f}mA"/>
+        <data bytepos="15, 16" convert="ad, 4096, 330" value="0-22"  tag="跌落灯红外发射电流(电池13.6V)" msg="期望值:{expect}, 实际值:{real:.2f}mA"/>
     </recv>
 
     <recv funchar="0x0A" tag="碰撞检测">
@@ -90,7 +95,7 @@
     <recv funchar="0x0B" tag="尘盒检测">
         <data bitpos="0, 0" convert="uint" value="1"  tag="尘盒放置检测" msg="期望值:{expect}, 实际值:{real}"/>
         <data bitpos="0, 1" convert="uint" value="1"  tag="吸扫模式切换检测" msg="期望值:{expect}, 实际值:{real}"/>
-        <data bitpos="0, 2" convert="uint" value="1"  tag="灰尘检测" msg="期望值:{expect}, 实际值:{real}"/>
+        <data bitpos="0, 2" convert="uint" value="0"  tag="灰尘检测" msg="期望值:{expect}, 实际值:{real}"/>
     </recv>
 
     <recv funchar="0x0C" tag="显示板检测">
@@ -112,11 +117,11 @@
         <data bitpos="5, 3" convert="uint" value="1"  tag="左2遥控红外数据接收" msg="期望值:{expect}, 实际值:{real}"/>
         <data bitpos="5, 4" convert="uint" value="1"  tag="右2遥控红外数据接收" msg="期望值:{expect}, 实际值:{real}"/>
 
-        <data bytepos="6, 7" convert="ad, 4096, 3.3" value="1-100"  tag="顶遥控IR接收头供电电压" msg="期望值:{expect}, 实际值:{real}"/>
-        <data bytepos="8, 9" convert="ad, 4096, 6.6" value="1-100"  tag="左遥控IR接收头供电电压" msg="期望值:{expect}, 实际值:{real}"/>
-        <data bytepos="10, 11" convert="ad, 4096, 6.6" value="1-100" tag="右遥控IR接收头供电电压" msg="期望值:{expect}, 实际值:{real}"/>
-        <data bytepos="12, 13" convert="ad, 4096, 6.6" value="1-100" tag="左遥控（预留）IR接收头供电电压" msg="期望值:{expect}, 实际值:{real}"/>
-        <data bytepos="14, 15" convert="ad, 4096, 6.6" value="1-100" tag="右遥控（预留）IR接收头供电电压" msg="期望值:{expect}, 实际值:{real}"/>
+        <data bytepos="6, 7" convert="ad, 4096, 3.3" value="3-3.4"  tag="顶遥控IR接收头供电电压" msg="期望值:{expect}, 实际值:{real:.2f}V"/>
+        <data bytepos="8, 9" convert="ad, 4096, 6.6" value="4.8-5.2"  tag="左遥控IR接收头供电电压" msg="期望值:{expect}, 实际值:{real:.2f}V"/>
+        <data bytepos="10, 11" convert="ad, 4096, 6.6" value="4.8-5.2" tag="右遥控IR接收头供电电压" msg="期望值:{expect}, 实际值:{real:.2f}V"/>
+        <data bytepos="12, 13" convert="ad, 4096, 6.6" value="4.8-5.2" tag="左遥控（预留）IR接收头供电电压" msg="期望值:{expect}, 实际值:{real:.2f}V"/>
+        <data bytepos="14, 15" convert="ad, 4096, 6.6" value="4.8-5.2" tag="右遥控（预留）IR接收头供电电压" msg="期望值:{expect}, 实际值:{real:.2f}V"/>
     </recv>
 
      <recv funchar="0x0E" tag="RTC检测">
@@ -127,62 +132,60 @@
         <data bitpos="0, 0" convert="uint" value="1"  tag="正转检测" msg="期望值:{expect}, 实际值:{real}"/>
         <data bitpos="0, 1" convert="uint" value="1"  tag="反转检测" msg="期望值:{expect}, 实际值:{real}"/>
         <data bitpos="0, 2" convert="uint" value="1"  tag="跌落检测" msg="期望值:{expect}, 实际值:{real}"/>
-        <data bitpos="0, 3" convert="uint" value="1"  tag="过载（1A不动作）" msg="期望值:{expect}, 实际值:{real}"/>
-        <data bitpos="0, 4" convert="uint" value="1"  tag="过载（1A不动作）" msg="期望值:{expect}, 实际值:{real}"/>
+        <data bitpos="0, 3" convert="uint" value="0"  tag="过载（1A不动作）" msg="期望值:{expect}, 实际值:{real}"/>
+        <data bitpos="0, 4" convert="uint" value="1"  tag="过载（1.2A动作）" msg="期望值:{expect}, 实际值:{real}"/>
 
-        <data bytepos="5, 6" convert="ad, 4096, 3.3" value="1-100"  tag="正转驱动电压峰值" msg="期望值:{expect}, 实际值:{real}"/>
-        <data bytepos="7, 8" convert="ad, 4096, 3.3" value="1-100"  tag="反转驱动电压峰值" msg="期望值:{expect}, 实际值:{real}"/>
+        <data bytepos="5, 6" convert="ad, 4096, 33" value="15-17"  tag="正转驱动电压峰值" msg="期望值:{expect}, 实际值:{real:.2f}V"/>
+        <data bytepos="7, 8" convert="ad, 4096, 33" value="15-17"  tag="反转驱动电压峰值" msg="期望值:{expect}, 实际值:{real:.2f}V"/>
      </recv>
 
     <recv funchar="0x10" tag="左轮组检测">
         <data bitpos="0, 0" convert="uint" value="1"  tag="正转检测" msg="期望值:{expect}, 实际值:{real}"/>
         <data bitpos="0, 1" convert="uint" value="1"  tag="反转检测" msg="期望值:{expect}, 实际值:{real}"/>
         <data bitpos="0, 2" convert="uint" value="1"  tag="跌落检测" msg="期望值:{expect}, 实际值:{real}"/>
-        <data bitpos="0, 3" convert="uint" value="1"  tag="过载（1A不动作）" msg="期望值:{expect}, 实际值:{real}"/>
-        <data bitpos="0, 4" convert="uint" value="1"  tag="过载（1A不动作）" msg="期望值:{expect}, 实际值:{real}"/>
+        <data bitpos="0, 3" convert="uint" value="0"  tag="过载（1A不动作）" msg="期望值:{expect}, 实际值:{real}"/>
+        <data bitpos="0, 4" convert="uint" value="1"  tag="过载（1.2A动作）" msg="期望值:{expect}, 实际值:{real}"/>
 
-        <data bytepos="5, 6" convert="ad, 4096, 3.3" value="1-100"  tag="正转驱动电压峰值" msg="期望值:{expect}, 实际值:{real}"/>
-        <data bytepos="7, 8" convert="ad, 4096, 3.3" value="1-100"  tag="反转驱动电压峰值" msg="期望值:{expect}, 实际值:{real}"/>
+        <data bytepos="5, 6" convert="ad, 4096, 33" value="15-17"  tag="正转驱动电压峰值" msg="期望值:{expect}, 实际值:{real:.2f}V"/>
+        <data bytepos="7, 8" convert="ad, 4096, 33" value="15-17"  tag="反转驱动电压峰值" msg="期望值:{expect}, 实际值:{real:.2f}V"/>
      </recv>
 
     <recv funchar="0x11" tag="右边刷检测">
         <data bitpos="4, 0" convert="uint" value="1"  tag="边刷过载（130mA不动作)" msg="期望值:{expect}, 实际值:{real}"/>
         <data bitpos="4, 1" convert="uint" value="1"  tag="边刷过载（150mA动作" msg="期望值:{expect}, 实际值:{real}"/>
 
-        <data bytepos="5, 6" convert="ad, 4096, 3.3" value="1-100"  tag="驱动电压使能(开路)" msg="期望值:{expect}, 实际值:{real}"/>
-        <data bytepos="7, 8" convert="ad, 4096, 3.3" value="1-100"  tag="驱动电压使能(闭路)" msg="期望值:{expect}, 实际值:{real}"/>
+        <data bytepos="5, 6" convert="ad, 4096, 33" value="0-1"  tag="驱动电压使能 OFF" msg="期望值:{expect}, 实际值:{real:.2f}V"/>
+        <data bytepos="7, 8" convert="ad, 4096, 33" value="15-17"  tag="驱动电压使能 ON" msg="期望值:{expect}, 实际值:{real:.2f}V"/>
     </recv>
 
     <recv funchar="0x12" tag="左边刷检测">
         <data bitpos="4, 0" convert="uint" value="1"  tag="边刷过载（130mA不动作)" msg="期望值:{expect}, 实际值:{real}"/>
-        <data bitpos="4, 1" convert="uint" value="1"  tag="边刷过载（150mA动作" msg="期望值:{expect}, 实际值:{real}"/>
+        <data bitpos="4, 1" convert="uint" value="1"  tag="边刷过载（150mA动作)" msg="期望值:{expect}, 实际值:{real}"/>
 
-        <data bytepos="5, 6" convert="ad, 4096, 3.3" value="1-100"  tag="驱动电压使能(开路)" msg="期望值:{expect}, 实际值:{real}"/>
-        <data bytepos="7, 8" convert="ad, 4096, 3.3" value="1-100"  tag="驱动电压使能(闭路)" msg="期望值:{expect}, 实际值:{real}"/>
+        <data bytepos="5, 6" convert="ad, 4096, 33" value="0-1"  tag="驱动电压使能 OFF" msg="期望值:{expect}, 实际值:{real:.2f}V"/>
+        <data bytepos="7, 8" convert="ad, 4096, 33" value="15-17"  tag="驱动电压使能 ON" msg="期望值:{expect}, 实际值:{real:.2f}V"/>
     </recv>
 
+    <!--韦工-->
      <recv funchar="0x13" tag="风扇检测">
-         <data bytepos="8, 9" convert="uint" value="1-100"  tag="风机速度反馈" msg="期望值:{expect}, 实际值:{real}"/>
+         <data bytepos="8, 9" convert="uint" value="100-500"  tag="风机速度反馈" msg="期望值:{expect}, 实际值:{real}"/>
 
-         <data bytepos="10, 11" convert="ad, 4096, 3.3" value="1-100"  tag="驱动电压使能(开路)" msg="期望值:{expect}, 实际值:{real}"/>
-         <data bytepos="12, 13" convert="ad, 4096, 3.3" value="1-100"  tag="驱动电压使能(闭路)" msg="期望值:{expect}, 实际值:{real}"/>
+         <data bytepos="10, 11" convert="ad, 4096, 33" value="0-1"  tag="驱动电压使能 OFF" msg="期望值:{expect}, 实际值:{real:.2f}V"/>
+         <data bytepos="12, 13" convert="ad, 4096, 33" value="15-17"  tag="驱动电压使能 ON" msg="期望值:{expect}, 实际值:{real:.2f}V"/>
 
-         <data bytepos="14, 15" convert="ad, 4096, 33" value="1-100"  tag="风机过载（1A不动作)" msg="期望值:{expect}, 实际值:{real}"/>
-         <data bytepos="16, 17" convert="ad, 4096, 33" value="1-100"  tag="风机过载（1.5A动作)" msg="期望值:{expect}, 实际值:{real}"/>
-         <data bytepos="18, 19" convert="ad, 4096, 33" value="1-100"  tag="风机过载解除恢复(1A不动作）" msg="期望值:{expect}, 实际值:{real}"/>
-         <data bytepos="20, 21" convert="ad, 4096, 33" value="1-100"  tag="风机过载解除恢复(1.5A不动作）" msg="期望值:{expect}, 实际值:{real}"/>
      </recv>
 
+    <!--韦工-->
     <recv funchar="0x14" tag="滚刷检测">
         <data bitpos="0, 0" convert="uint" value="1"  tag="正转检测" msg="期望值:{expect}, 实际值:{real}"/>
         <data bitpos="0, 1" convert="uint" value="1"  tag="反转检测" msg="期望值:{expect}, 实际值:{real}"/>
 
         <data bytepos="3, 4" convert="uint" value="1-100" tag="速度反馈" msg="期望值:{expect}, 实际值:{real}" />
-        <data bytepos="5, 6" convert="uint" value="1-100" tag="滚刷过载（1A不动作)" msg="期望值:{expect}, 实际值:{real}" />
-        <data bytepos="7, 8" convert="uint" value="1-100" tag="滚刷过载（1.2A动作" msg="期望值:{expect}, 实际值:{real}" />
+        <data bytepos="5, 6" convert="uint" value="105-150" tag="滚刷过载（1A不动作)" msg="期望值:{expect}, 实际值:{real}" />
+        <data bytepos="7, 8" convert="uint" value="50-500" tag="滚刷过载（1.2A动作)" msg="期望值:{expect}, 实际值:{real}" />
 
-        <data bytepos="9, 10" convert="ad, 4096, 3.3" value="1-100" tag="正转驱动电压峰值" msg="期望值:{expect}, 实际值:{real}" />
-        <data bytepos="11, 12" convert="ad, 4096, 3.3" value="1-100" tag="反转驱动电压峰值" msg="期望值:{expect}, 实际值:{real}" />
+        <data bytepos="9, 10" convert="ad, 4096, 33" value="1-100" tag="正转驱动电压峰值" msg="期望值:{expect}, 实际值:{real:.2f}V" />
+        <data bytepos="11, 12" convert="ad, 4096, 33" value="1-100" tag="反转驱动电压峰值" msg="期望值:{expect}, 实际值:{real:.2f}V" />
     </recv>
 
     <recv funchar="0x15" tag="语音检测">
@@ -190,17 +193,16 @@
     </recv>
 
     <recv funchar="0x16" tag="陀螺仪检测">
-        <data bytepos="2"  convert="uint" value="1"  tag="16MHz晶振" msg="期望值:{expect}, 实际值:{real}" />
         <data bitpos="3, 0"  convert="uint" value="1"  tag="通信是否正常" msg="期望值:{expect}, 实际值:{real}" />
 
-        <data bytepos="4, 5" convert="ad, 4096, 3.3" value="1-100"  tag="陀螺仪电源使能（DISABLE)" msg="期望值:{expect}, 实际值:{real}"/>
-        <data bytepos="6, 7" convert="ad, 4096, 3.3" value="1-100"  tag="陀螺仪电源使能（ENABLE)" msg="期望值:{expect}, 实际值:{real}"/>
+        <data bytepos="4, 5" convert="ad, 4096, 3.3" value="0-0.65"  tag="陀螺仪电源使能 OFF" msg="期望值:{expect}, 实际值:{real:.2f}V"/>
+        <data bytepos="6, 7" convert="ad, 4096, 3.3" value="3-3.4"  tag="陀螺仪电源使能 ON" msg="期望值:{expect}, 实际值:{real:.2f}V"/>
     </recv>
 
     <recv funchar="0x17" tag="磁条检测">
         <data bitpos="1, 0"  convert="uint" value="1"  tag="贴地霍尔输出" msg="期望值:{expect}, 实际值:{real}" />
 
-        <data bytepos="2, 3" convert="ad, 4096, 6.6" value="1-100"  tag="贴地霍尔电源" msg="期望值:{expect}, 实际值:{real}"/>
+        <data bytepos="2, 3" convert="ad, 4096, 6.6" value="4.8-5.2"  tag="贴地霍尔电源" msg="期望值:{expect}, 实际值:{real:.2f}V"/>
     </recv>
 
     <recv funchar="0x18" tag="预留"/>
@@ -217,8 +219,8 @@
     <recv funchar="0x1E" tag="左独立防碰测试">
         <data bitpos="0, 0"  convert="uint" value="1"  tag="左独立防碰信号检测" msg="期望值:{expect}, 实际值:{real}" />
 
-        <data bytepos="2, 3" convert="ad, 4096, 330" value="1-100"  tag="左独立防碰红外发射电流 MAX" msg="期望值:{expect}, 实际值:{real}"/>
-        <data bytepos="5, 6" convert="ad, 4096, 330" value="1-100"  tag="左独立防碰红外发射电流 MIN" msg="期望值:{expect}, 实际值:{real}"/>
+        <data bytepos="2, 3" convert="ad, 4096, 330" value="28-40"  tag="左独立防碰红外发射电流 MAX" msg="期望值:{expect}, 实际值:{real:.2f}mA"/>
+        <data bytepos="5, 6" convert="ad, 4096, 330" value="0-22"  tag="左独立防碰红外发射电流 MIN" msg="期望值:{expect}, 实际值:{real:.2f}mA"/>
     </recv>
 
     <recv funchar="0xFD" tag="测试结束" flag="stop" />

@@ -2,6 +2,7 @@ import operator
 from ui.mixin import XMLParser
 from bitstring import BitArray
 from communicate.communicate import SerialCommunicate
+import math
 
 class CheckSum:
     @classmethod
@@ -19,7 +20,6 @@ class CheckSum:
             sum += byte_int
 
         return BitArray(hex(sum))[-8:]
-
 
 def send_command(dev: SerialCommunicate, xml: XMLParser, type_: str):
     ele = xml.root.find( '{}[@type="{}"]'.format(xml._send_path, type_) )
@@ -45,6 +45,13 @@ def convert(item, bytedata: BitArray):
         return bytedata.uint
     elif convert_method == 'hex':
         return bytedata.hex.upper()
+    elif {'{', '}'} <=  set(convert_method):
+        return convert_method.format(*bytedata.bytes)
+    elif convert_method == 'temp':
+        y = (36.5*bytedata.uint)/(4096 - bytedata.uint)
+        ret = 1/(1/298.15 - (math.log1p(3935) - math.log1p(y) )/10 ) - 273.15
+        return ret
+
 
 def convert_value(frame_data, item):
     convert_value = ''
@@ -68,10 +75,10 @@ def convert_value(frame_data, item):
     elif XMLParser.Abitpos in item.keys():
         byte_pos, bit_pos = item.get(XMLParser.Abitpos).split(',')
         bytedata = BitArray('uint:8={}'.format(frame_data[int(byte_pos)]))
+        bytedata.reverse()
         bitdata = bytedata[int(bit_pos): int(bit_pos) + 1]
         convert_value = convert(item, bitdata)
     return convert_value
-
 
 def value_compare(convert_value, item) -> bool:
     result = False
