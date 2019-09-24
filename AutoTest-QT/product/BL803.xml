@@ -6,10 +6,11 @@
     <send data="0x07" funchar="0x02" len="0x01" type="filter" />
     <send data="" funchar="0x03" len="0x00" type="next" />
     <send data="" funchar="0x07" len="0x00" type="test" />
+    <send data="" funchar="0x05" len="0x00" type="error" />
 
     <recv funchar="0x01" tag="QC程序版本检测">
         <data bytepos="0,1" convert="uint" value="803"  tag="扫地机软件版本" msg="期望值:{expect}, 实际值:{real}"/>
-        <data bytepos="2-4" convert="{0}.{1}.{2}" tag="QC软件版本" msg="实际值:{real}" />
+        <data bytepos="2-4" convert="{0:X}.{1:X}.{2:X}" tag="QC软件版本" msg="实际值:{real}" />
     </recv>
 
     <recv funchar="0x02" tag="筛选功能"  send_cmd="filter" />
@@ -181,11 +182,11 @@
         <data bitpos="0, 1" convert="uint" value="1"  tag="反转检测" msg="期望值:{expect}, 实际值:{real}"/>
 
         <data bytepos="3, 4" convert="uint" value="1-100" tag="速度反馈" msg="期望值:{expect}, 实际值:{real}" />
-        <data bytepos="5, 6" convert="uint" value="105-150" tag="滚刷过载（1A不动作)" msg="期望值:{expect}, 实际值:{real}" />
+        <data bytepos="5, 6" convert="uint" value="30-150" tag="滚刷过载（1A不动作)" msg="期望值:{expect}, 实际值:{real}" />
         <data bytepos="7, 8" convert="uint" value="50-500" tag="滚刷过载（1.2A动作)" msg="期望值:{expect}, 实际值:{real}" />
 
-        <data bytepos="9, 10" convert="ad, 4096, 33" value="1-100" tag="正转驱动电压峰值" msg="期望值:{expect}, 实际值:{real:.2f}V" />
-        <data bytepos="11, 12" convert="ad, 4096, 33" value="1-100" tag="反转驱动电压峰值" msg="期望值:{expect}, 实际值:{real:.2f}V" />
+        <data bytepos="9, 10" convert="ad, 4096, 33" value="14-17" tag="正转驱动电压峰值" msg="期望值:{expect}, 实际值:{real:.2f}V" />
+        <data bytepos="11, 12" convert="ad, 4096, 33" value="14-17" tag="反转驱动电压峰值" msg="期望值:{expect}, 实际值:{real:.2f}V" />
     </recv>
 
     <recv funchar="0x15" tag="语音检测">
@@ -223,13 +224,13 @@
         <data bytepos="5, 6" convert="ad, 4096, 330" value="0-22"  tag="左独立防碰红外发射电流 MIN" msg="期望值:{expect}, 实际值:{real:.2f}mA"/>
     </recv>
 
-    <recv funchar="0xFD" tag="测试结束" flag="stop" />
+    <recv funchar="0xFD" tag="测试结束" flag="final" />
 
-    <recv funchar="0xFE" tag="测试异常">
-        <data bitpos="0, 0"  convert="uint" value="1"  tag="测试中途，测试机接收不到上位机信号" msg="期望值:{expect}, 实际值:{real}" />
-        <data bitpos="0, 1"  convert="uint" value="1"  tag="测试中途，扫地机PCB连接异常" msg="期望值:{expect}, 实际值:{real}" />
-        <data bitpos="0, 2"  convert="uint" value="1"  tag="测试中途，电压异常" msg="期望值:{expect}, 实际值:{real}" />
-        <data bitpos="0, 3"  convert="uint" value="1"  tag="测试机异常复位" msg="期望值:{expect}, 实际值:{real}" />
-        <data bitpos="0, 4"  convert="uint" value="1"  tag="与扫地机之前通信异常，但PCB仍在测试机上" msg="期望值:{expect}, 实际值:{real}" />
+    <recv funchar="0xFE" tag="测试异常" flag="error" >
+        <data bitpos="0, 0"  convert="uint" value="1"  tag="测试机与上位机断开连接"  />
+        <data bitpos="0, 1"  convert="uint" value="1"  tag="扫地机PCB连接异常"  />
+        <data bitpos="0, 2"  convert="uint" value="1"  tag="电压异常"  />
+        <data bitpos="0, 3"  convert="uint" value="1"  tag="测试机异常复位"  />
+        <data bitpos="0, 4"  convert="uint" value="1"  tag="未换板" />
     </recv>
 </root>

@@ -16,6 +16,7 @@ from lxml import etree
 class Script(QThread):
     sig_data = pyqtSignal(list)
     sig_finish = pyqtSignal(dict) # {'result':True, 'total_time': 10s}
+    sig_error = pyqtSignal(str)
     def __init__(self, dev: SerialCommunicate, win_idx: int):
         super().__init__()
         self.dev = dev
@@ -42,25 +43,49 @@ class Script(QThread):
         self.runnig = False
         self.result = False
 
-    def recv_item_check(self, recvitem, item, frame: bytes):
+    def error_frame(self, recvitem, frame: bytes):
+        error_msg = ''
+        frame_data = frame[self.xml.frameheader_length + 1: -1]
+        for childItem in recvitem.iterchildren():
+            convert_value = mix.convert_value(frame_data, childItem)
+            result = mix.value_compare(convert_value, childItem)
+            if result:
+                error_msg += childItem.get(XMLParser.ATag, '') + ','
+
+        self.sig_error.emit(error_msg)
+        self.stop()
+
+    def filter_frame(self, recvitem, frame: bytes):
+        mix.send_command(self.dev, self.xml, 'filter')
+
+    def general_frame(self, recvitem, frame: bytes):
+        for childItem in recvitem.iterchildren():
+            self.general_frame_childitem(recvitem, childItem, frame)
+        mix.send_command(self.dev, self.xml, 'next')
+
+    def final_frame(self, recvitem, frame: bytes):
+        self.runnig = False
+        mix.send_command(self.dev, self.xml, 'next')
+
+    def general_frame_childitem(self, recvitem, childitem, frame: bytes):
         checksum = frame[-1]
         data_len = frame[self.xml.frameheader_length]
         frame_data = frame[self.xml.frameheader_length+1: -1]
 
-        convert_value = mix.convert_value(frame_data, item)
+        convert_value = mix.convert_value(frame_data, childitem)
 
         #v = "1, 2, 3, 9-15"
-        result = mix.value_compare(convert_value, item)
+        result = mix.value_compare(convert_value, childitem)
 
-        msg = item.get(XMLParser.AMsg, '')
-        tag = item.get(XMLParser.ATag,  '')
+        msg = childitem.get(XMLParser.AMsg, '')
+        tag = childitem.get(XMLParser.ATag,  '')
         recvitem_tag = recvitem.get(XMLParser.ATag, '')
         funchar = recvitem.get(XMLParser.AFunchar, '')
-        store_value = item.get(XMLParser.AStore, '')
+        store_value = childitem.get(XMLParser.AStore, '')
         if store_value:
             self.dict[store_value] = convert_value
 
-        value = item.get(XMLParser.AValue, '')
+        value = childitem.get(XMLParser.AValue, '')
         if msg.count('{') == 2:
             msg = msg.format(expect=value, real=convert_value)
         elif msg.count('{') == 1 and 'expect' in msg:
@@ -77,18 +102,16 @@ class Script(QThread):
             frameheader = frame[:self.xml.frameheader_length]
             if frameheader in self.frameheader_recv_dict:
                 recv_item = self.frameheader_recv_dict[frameheader]
-                for childItem in recv_item.iterchildren():
-                    self.recv_item_check(recv_item, childItem, frame)
-                self.response_frame(recv_item)
+                recv_item_flag = recv_item.get(XMLParser.AFlag, 'general')
 
-    def response_frame(self, recv_item):
-        if XMLParser.AFlag in recv_item.keys() and 'stop' in recv_item.get(XMLParser.AFlag):
-            self.runnig = False
-
-        if XMLParser.ASend in recv_item.keys() and 'filter' in recv_item.get(XMLParser.ASend):
-            mix.send_command(self.dev, self.xml, 'filter')
-        else:
-            mix.send_command(self.dev, self.xml, 'next')
+                if 'general' in recv_item_flag :
+                    self.general_frame(recv_item, frame)
+                elif 'filter' in recv_item_flag:
+                    self.filter_frame(recv_item, frame)
+                elif 'final' in recv_item_flag:
+                    self.final_frame(recv_item, frame)
+                elif 'error' in recv_item_flag:
+                    self.error_frame(recv_item, frame)
 
     def connect_test(self):
         mix.send_command(self.dev, self.xml, 'connect')
@@ -127,5 +150,6 @@ class Script(QThread):
 
         db.localdb.create_tables([db.LocalProductionRecord])
         db.LocalProductionRecord.create(msg=msgbuf.getvalue(), result=result, model=Config.PRODUCT_MODEL, version='1.0',
-                                         start_time=start_time, end_time=end_time, total_time=total_time)
+                                         start_time=start_time, end_time=end_time, total_time=total_time, chipid=self.dict.get('@CHIPID', ''))
+
 

@@ -337,6 +337,12 @@ class TestUnitFrame(QFrame):
         status_layout = QHBoxLayout()
         status_layout.addWidget(self.status_label)
 
+        #异常信息布局
+        self.error_label = QLabel('')
+        self.error_label.setStyleSheet('.QLabel {color:#A57A80;}')
+        error_layout = QHBoxLayout()
+        error_layout.addWidget(self.error_label)
+
         #测试按钮布局
         self.start_button = QPushButton('测试')
         self.start_button.clicked.connect(self.onUnitTest)
@@ -349,6 +355,7 @@ class TestUnitFrame(QFrame):
         vlayout = QVBoxLayout()
         vlayout.addLayout(com_layout)
         vlayout.addLayout(status_layout)
+        vlayout.addLayout(error_layout)
         vlayout.addStretch(1)
         vlayout.addLayout(hlayout)
         self.setLayout(vlayout)
@@ -367,6 +374,7 @@ class TestUnitFrame(QFrame):
 
     def onUnitTest(self, checked):
         dev = Config.RC[self.win_idx]['dev']
+        self.error_label.setText('')
         if self.script.isFinished() and dev.status == DevStatus.opened and Config.PRODUCT_XML:
             self.script = Script(dev, self.win_idx)
             pallete = QPalette()
@@ -439,7 +447,6 @@ class TestUnitFrame(QFrame):
                 self.status_label.setStyleSheet('color: red;')
                 self.status_label.setText('重连失败')
 
-
 #测试结果页面
 @mixin.DebugClass
 class TestResultFrame(QFrame):
@@ -490,9 +497,14 @@ class TestResultFrame(QFrame):
             self.table.setRowCount(0)
             self.testunitframe.script.sig_finish.connect(self.threadFinish)
             self.testunitframe.script.sig_data.connect(self.recvThreadData)
+            self.testunitframe.script.sig_error.connect(self.errorMsg)
             self.testunitframe.script.start()
             if Config.INITWIN_NUM == 2 and not Config.SCREEN_MODE:
                 self.parent().parent().setCurrentIndex(self.win_idx)
+
+    def errorMsg(self, msg):
+        msg = '测试异常：' + msg
+        self.testunitframe.error_label.setText(msg)
 
     def threadFinish(self, result_dict):
         result, total_time = result_dict['result'], result_dict['total_time']
@@ -673,7 +685,7 @@ class SearchWindow(QDialog):
         self.search_button = QPushButton('查询')
         self.search_button.clicked.connect(self.onSearch)
 
-        header_lables = ['PK', 'ID', '产品', '版本', '开始时间', '结束时间', '总时间', '结果', '信息']
+        header_lables = ['PK', 'ID', '产品', '版本', '芯片ID', '开始时间', '结束时间', '总时间', '结果', '信息']
         self.table = QTableWidget(1, len(header_lables))
         self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.table.setHorizontalHeaderLabels(header_lables)
@@ -696,7 +708,7 @@ class SearchWindow(QDialog):
         self.restoreQsetting()
 
     def onCellClicked(self, row, col):
-        if col == 8:
+        if col == 9:
             pk_item = self.table.item(row, 0)
             pk = int(pk_item.text())
             q = db.LocalProductionRecord.get_by_id(pk)
@@ -721,6 +733,7 @@ class SearchWindow(QDialog):
         id_item = QTableWidgetItem(str(self.idx + 1))
         model_item = QTableWidgetItem(str(query.model))
         version_item = QTableWidgetItem(str(query.version))
+        chipid = QTableWidgetItem(str(query.chipid))
         start_time_item = QTableWidgetItem(mixin.parse_datetime(query.start_time))
         end_time = QTableWidgetItem(mixin.parse_datetime(query.end_time))
         total_time = QTableWidgetItem(str(query.total_time))
@@ -731,11 +744,12 @@ class SearchWindow(QDialog):
         self.table.setItem(self.idx, 1, id_item)
         self.table.setItem(self.idx, 2, model_item)
         self.table.setItem(self.idx, 3, version_item)
-        self.table.setItem(self.idx, 4, start_time_item)
-        self.table.setItem(self.idx, 5, end_time)
-        self.table.setItem(self.idx, 6, total_time)
-        self.table.setItem(self.idx, 7, result)
-        self.table.setCellWidget(self.idx, 8, msg)
+        self.table.setItem(self.idx, 4, chipid)
+        self.table.setItem(self.idx, 5, start_time_item)
+        self.table.setItem(self.idx, 6, end_time)
+        self.table.setItem(self.idx, 7, total_time)
+        self.table.setItem(self.idx, 8, result)
+        self.table.setCellWidget(self.idx, 9, msg)
 
     def restoreQsetting(self):
         geometry = Config.QSETTING.value('MainWindow/SearchWindow/geometry')
@@ -786,3 +800,20 @@ class ExceptionWindow(QDialog):
     def onExcption(self, triggered):
         self.textEdit.setText(Config.DEBUG_HANDLER.getvalue())
 
+
+class AboutDialog(QDialog):
+    def __init__(self, path, parent=None):
+        super().__init__()
+        self.content = QTextEdit(self, readOnly=True)
+        self.content.setHtml(open(path, encoding='utf-8').read())
+
+        self.buttons = QDialogButtonBox(QDialogButtonBox.Ok, self)
+
+        self.buttons.accepted.connect(self.accept)
+
+        layout = QVBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(self.content)
+        layout.addWidget(self.buttons)
+        layout.setSpacing(1)
+        self.setLayout(layout)

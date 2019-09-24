@@ -111,15 +111,6 @@ class BytesBuffer:
         elif header == 'sender':
             header = self.HEADER_SENDER
 
-        # pattern = b'%b.+?(?=%b)' % (header, header)
-        # match = re.search(pattern, self.buffer, re.S)
-        # if match:
-        #     frame = match.group()
-        #     self.buffer = self.buffer.replace(frame, b'', 1)
-        #     self.frame_list.append(frame)
-        #     return frame
-
-
         frame = b''
         try:
             match_header = re.search(header, self.buffer, re.S)

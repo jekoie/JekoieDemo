@@ -26,6 +26,7 @@ class ProductionRecord(BaseModel):
     result = CharField()
     model = CharField()
     version = CharField()
+    chipid = CharField(default='')
     start_time = DateTimeField(formats=['%Y-%m-%d %H:%M:%S'])
     end_time = DateTimeField(formats=['%Y-%m-%d %H:%M:%S'])
     total_time = IntegerField()

@@ -9,18 +9,18 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/AutoTest_QT$main.coverage" NAME="main Coverage Results" MODIFIED="1568962838323" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/AutoTest_QT$main.coverage" NAME="main Coverage Results" MODIFIED="1569228235145" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FavoritesManager">
     <favorites_list name="AutoTest-QT" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+    <leaf>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="38">
-              <caret line="5" column="10" selection-start-line="5" selection-start-column="10" selection-end-line="5" selection-end-column="10" />
+            <state relative-caret-position="152">
+              <caret line="8" column="61" lean-forward="true" selection-start-line="8" selection-start-column="61" selection-end-line="8" selection-end-column="61" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -28,56 +28,14 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/script/script.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="341">
-              <caret line="124" column="57" selection-start-line="124" selection-start-column="54" selection-end-line="124" selection-end-column="57" />
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/script/mix.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-172">
-              <caret line="51" column="77" selection-start-line="51" selection-start-column="8" selection-end-line="51" selection-end-column="77" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ui/ui.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="803">
-              <caret line="739" column="23" selection-start-line="739" selection-start-column="8" selection-end-line="739" selection-end-column="23" />
+            <state relative-caret-position="110">
+              <caret line="711" column="45" lean-forward="true" selection-start-line="711" selection-start-column="45" selection-end-line="711" selection-end-column="45" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config/config.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-39">
-              <caret line="167" column="16" selection-start-line="167" selection-start-column="16" selection-end-line="167" selection-end-column="16" />
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/product/BL803.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="228" column="112" lean-forward="true" selection-start-line="228" selection-start-column="112" selection-end-line="228" selection-end-column="112" />
             </state>
           </provider>
         </entry>
@@ -85,8 +43,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db/db.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="43" column="25" selection-start-line="43" selection-start-column="25" selection-end-line="43" selection-end-column="25" />
+            <state relative-caret-position="190">
+              <caret line="28" column="10" selection-start-line="28" selection-start-column="4" selection-end-line="28" selection-end-column="10" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -95,10 +53,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ui/mixin.py">
+        <entry file="file://$PROJECT_DIR$/script/script.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="196">
-              <caret line="146" column="4" selection-start-line="146" selection-start-column="4" selection-end-line="146" selection-end-column="4" />
+            <state relative-caret-position="540">
+              <caret line="151" column="50" selection-start-line="151" selection-start-column="44" selection-end-line="151" selection-end-column="50" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -107,24 +65,19 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/communicate/communicate.py">
+        <entry file="file://$PROJECT_DIR$/product/BL803.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="247">
+              <caret line="226" column="42" selection-start-line="226" selection-start-column="42" selection-end-line="226" selection-end-column="42" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/app.py">
+        <entry file="file://$PROJECT_DIR$/ui/mixin.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1140">
-              <caret line="68" selection-start-line="68" selection-end-line="68" />
-              <folding>
-                <element signature="e#0#24#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="242">
+              <caret line="162" selection-start-line="162" selection-end-line="162" />
             </state>
           </provider>
         </entry>
@@ -133,38 +86,17 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>\xff\xf1\x0</find>
-      <find>0x08</find>
-      <find>int</find>
-      <find>color</find>
-      <find>win_idx</find>
-      <find>TestUnitFrame</find>
-      <find>AValueRange</find>
-      <find>recv_check</find>
-      <find>结果导出</find>
-      <find>Script</find>
+      <find>pring</find>
+      <find>sig_error</find>
+      <find>onUnitTest</find>
+      <find>error_label</find>
       <find>print</find>
-      <find>RC</find>
-      <find>ct_flag</find>
-      <find>产品选择</find>
-      <find>sig_finish</find>
-      <find>result_list</find>
-      <find>停止</find>
-      <find>stop</find>
-      <find>0x04</find>
-      <find>参数</find>
-      <find>{real}</find>
-      <find>0x0F</find>
-      <find>0x13</find>
-      <find>parse_datetime</find>
-      <find>get</find>
-      <find>parse</find>
-      <find>0x10</find>
+      <find>查询</find>
+      <find>chi</find>
+      <find>0x09</find>
+      <find>self.result</find>
+      <find>0x14</find>
     </findStrings>
-    <replaceStrings>
-      <replace>uint</replace>
-      <replace>{real:.2f}</replace>
-    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -172,14 +104,11 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/app.py" />
-        <option value="$PROJECT_DIR$/ui/mixin.py" />
-        <option value="$PROJECT_DIR$/config/config.py" />
-        <option value="$PROJECT_DIR$/script/script.py" />
-        <option value="$PROJECT_DIR$/script/mix.py" />
-        <option value="$PROJECT_DIR$/ui/ui.py" />
+        <option value="$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/site-packages/arrow/factory.py" />
         <option value="$PROJECT_DIR$/db/db.py" />
         <option value="$PROJECT_DIR$/product/BL803.xml" />
+        <option value="$PROJECT_DIR$/script/script.py" />
+        <option value="$PROJECT_DIR$/ui/ui.py" />
       </list>
     </option>
   </component>
@@ -200,27 +129,7 @@
             <path>
               <item name="AutoTest-QT" type="b2602c69:ProjectViewProjectNode" />
               <item name="AutoTest-QT" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AutoTest-QT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AutoTest-QT" type="462c0819:PsiDirectoryNode" />
-              <item name="communicate" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AutoTest-QT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AutoTest-QT" type="462c0819:PsiDirectoryNode" />
-              <item name="config" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AutoTest-QT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AutoTest-QT" type="462c0819:PsiDirectoryNode" />
               <item name="db" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AutoTest-QT" type="b2602c69:ProjectViewProjectNode" />
-              <item name="AutoTest-QT" type="462c0819:PsiDirectoryNode" />
-              <item name="image" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="AutoTest-QT" type="b2602c69:ProjectViewProjectNode" />
@@ -231,6 +140,11 @@
               <item name="AutoTest-QT" type="b2602c69:ProjectViewProjectNode" />
               <item name="AutoTest-QT" type="462c0819:PsiDirectoryNode" />
               <item name="script" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AutoTest-QT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="AutoTest-QT" type="462c0819:PsiDirectoryNode" />
+              <item name="setting" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="AutoTest-QT" type="b2602c69:ProjectViewProjectNode" />
@@ -358,60 +272,65 @@
       <workItem from="1568767319919" duration="15738000" />
       <workItem from="1568853469016" duration="17688000" />
       <workItem from="1568941498723" duration="10151000" />
+      <workItem from="1568964816953" duration="7703000" />
+      <workItem from="1569026036346" duration="942000" />
+      <workItem from="1569047327772" duration="1345000" />
+      <workItem from="1569199825489" duration="5819000" />
+      <workItem from="1569219492105" duration="8543000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="75663000" />
+    <option name="totallyTimeSpent" value="8543000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="309" y="55" width="1542" height="988" extended-state="0" />
+    <frame x="118" y="67" width="1542" height="990" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4981595" visible="true" weight="0.15519568" />
-      <window_info id="Structure" order="1" sideWeight="0.5018405" side_tool="true" weight="0.16268657" />
-      <window_info id="Favorites" order="2" sideWeight="0.5018405" side_tool="true" weight="0.16268657" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13832659" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Python Console" weight="0.32932693" />
+      <window_info anchor="bottom" id="Terminal" weight="0.32932693" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.2295673" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.26618704" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Database Changes" order="9" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.328125" />
-      <window_info anchor="bottom" id="Python Console" order="12" />
+      <window_info anchor="right" id="SciView" />
+      <window_info anchor="right" id="Database" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="SciView" order="3" />
-      <window_info anchor="right" id="Database" order="4" />
     </layout>
     <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4981595" visible="true" weight="0.16268657" />
-      <window_info id="Structure" order="1" sideWeight="0.5018405" side_tool="true" weight="0.16268657" />
-      <window_info id="Favorites" order="2" sideWeight="0.5018405" side_tool="true" weight="0.16268657" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.27852762" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Database Changes" order="9" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="11" />
-      <window_info anchor="bottom" id="Python Console" order="12" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="SciView" order="3" />
-      <window_info anchor="right" id="Database" order="4" />
+      <window_info id="Favorites" order="0" side_tool="true" />
+      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.13832659" />
+      <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Terminal" order="1" />
+      <window_info anchor="bottom" id="Event Log" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Database Changes" order="3" />
+      <window_info anchor="bottom" id="Version Control" order="4" />
+      <window_info anchor="bottom" id="Python Console" order="5" />
+      <window_info anchor="bottom" id="Message" order="6" />
+      <window_info anchor="bottom" id="Find" order="7" />
+      <window_info active="true" anchor="bottom" id="Run" order="8" visible="true" weight="0.26081732" />
+      <window_info anchor="bottom" id="Debug" order="9" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="10" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="11" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="12" />
+      <window_info anchor="right" id="Database" order="0" />
+      <window_info anchor="right" id="SciView" order="1" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="2" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="3" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="4" weight="0.25" />
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -456,74 +375,58 @@
     </ignored-roots>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/AutoTest_QT$main.coverage" NAME="main Coverage Results" MODIFIED="1568964819209" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/AutoTest_QT$main.coverage" NAME="main Coverage Results" MODIFIED="1569305602515" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/AutoTest_QT$mixin.coverage" NAME="mixin Coverage Results" MODIFIED="1564968439800" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ui" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/site-packages/serial/serialjava.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="520">
-          <caret line="78" column="43" selection-start-line="78" selection-start-column="43" selection-end-line="78" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.PyCharm2018.3/system/python_stubs/-1235271266/PyQt5/QtWidgets/QTableWidget.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="355">
-          <caret line="605" column="8" selection-start-line="605" selection-start-column="8" selection-end-line="605" selection-end-column="8" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/setting/config.xml">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="5" column="10" selection-start-line="5" selection-start-column="10" selection-end-line="5" selection-end-column="10" />
+        <state relative-caret-position="152">
+          <caret line="8" column="61" lean-forward="true" selection-start-line="8" selection-start-column="61" selection-end-line="8" selection-end-column="61" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/communicate/communicate.py">
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/site-packages/arrow/factory.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="81">
+          <caret line="194" lean-forward="true" selection-start-line="194" selection-end-line="194" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/app.py">
+    <entry file="file://$PROJECT_DIR$/db/db.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1140">
-          <caret line="68" selection-start-line="68" selection-end-line="68" />
+        <state relative-caret-position="190">
+          <caret line="28" column="10" selection-start-line="28" selection-start-column="4" selection-end-line="28" selection-end-column="10" />
           <folding>
-            <element signature="e#0#24#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/script/mix.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-172">
-          <caret line="51" column="77" selection-start-line="51" selection-start-column="8" selection-end-line="51" selection-end-column="77" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/script/script.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="341">
-          <caret line="124" column="57" selection-start-line="124" selection-start-column="54" selection-end-line="124" selection-end-column="57" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#0#20#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ui/mixin.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="146" column="4" selection-start-line="146" selection-start-column="4" selection-end-line="146" selection-end-column="4" />
+        <state relative-caret-position="242">
+          <caret line="162" selection-start-line="162" selection-end-line="162" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/product/BL803.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="226" column="42" selection-start-line="226" selection-start-column="42" selection-end-line="226" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/script/script.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="151" column="50" selection-start-line="151" selection-start-column="44" selection-end-line="151" selection-end-column="50" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
@@ -532,38 +435,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ui/ui.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="803">
-          <caret line="739" column="23" selection-start-line="739" selection-start-column="8" selection-end-line="739" selection-end-column="23" />
+        <state relative-caret-position="110">
+          <caret line="711" column="45" lean-forward="true" selection-start-line="711" selection-start-column="45" selection-end-line="711" selection-end-column="45" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/db/db.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="43" column="25" selection-start-line="43" selection-start-column="25" selection-end-line="43" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/config.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-39">
-          <caret line="167" column="16" selection-start-line="167" selection-start-column="16" selection-end-line="167" selection-end-column="16" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/product/BL803.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="228" column="112" lean-forward="true" selection-start-line="228" selection-start-column="112" selection-end-line="228" selection-end-column="112" />
         </state>
       </provider>
     </entry>
