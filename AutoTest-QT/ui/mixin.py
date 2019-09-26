@@ -21,7 +21,6 @@ class XMLParser:
     ATag = 'tag'
     AStore = 'store'
     AFlag = 'flag'
-    ASend = 'send_cmd'
 
     def __init__(self):
         if Config.PRODUCT_XML_CHANGED:
@@ -33,7 +32,7 @@ class XMLParser:
             self.tree = Config.PRODUCT_XML_TREE
 
         self.root = self.tree.getroot()
-        self.frameheader_length = 3
+        self.frameheader_length = 2
 
         self._recv_path = './recv'
         self._send_path = './send'

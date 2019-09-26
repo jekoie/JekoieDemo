@@ -10,13 +10,20 @@ from PyQt5.QtWidgets import (QDialog, QFormLayout, QComboBox, QGroupBox, QHBoxLa
 from PyQt5.QtGui import QPalette, QColor, QTextDocument, QIcon
 from serial.tools import list_ports
 from script.script import Script
+from script import mix
 from bitstring import BitArray
 from ui import mixin
 from pubsub import pub
 from db import db
+from .step import Step
 import io
 import traceback
 
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+
+@mixin.DebugClass
 class FindTextEdit(QWidget):
     def __init__(self):
         super().__init__()
@@ -171,7 +178,7 @@ class MonitorWidget(QFrame):
 class DebugDialog(QDialog):
     prev_actived = False #控制单例
     prev_window = None
-    def __init__(self, parent=None, title='数据监视'):
+    def __init__(self, parent=None, title='数据监听'):
         super().__init__(parent=parent)
         self.setWindowTitle(title)
         self.setWindowFlags(Qt.Window)
@@ -447,76 +454,176 @@ class TestUnitFrame(QFrame):
                 self.status_label.setStyleSheet('color: red;')
                 self.status_label.setText('重连失败')
 
+#重测按钮
+@mixin.DebugClass
+class ReTestButton(QWidget):
+    def __init__(self, win_idx:int, top_item:QTreeWidgetItem):
+        super().__init__()
+        self.top_item = top_item
+        self.dev = Config.RC[win_idx]['dev']
+
+        self.retest_bn = QPushButton(clicked=self.handle_click)
+        self.retest_bn.setIcon( self.style().standardIcon(QStyle.SP_MediaPlay) )
+
+        self.step = QThread()
+        self.step.start()
+        self.step.quit()
+
+        layout = QHBoxLayout()
+        layout.setContentsMargins(0 ,0, 0, 0)
+        layout.addStretch(1)
+        layout.addWidget(self.retest_bn)
+        self.setLayout(layout)
+
+    def handle_click(self, checked):
+        if self.step.isFinished():
+            self.step = Step(self.dev, self.top_item.text(0) )
+            self.step.sig_item_result.connect(self.handle_item_result)
+            self.step.sig_child_item.connect(self.handle_child_item)
+            self.step.start()
+
+    def handle_child_item(self, child_item:mix.ChildItem):
+        child_widget = QTreeWidgetItem(self.top_item)
+        child_widget.setText(0, child_item.tag)
+        child_widget.setText(1, child_item.msg)
+
+        if child_item.result:
+            bcolor = Config.COLOR_GREEN
+            icon = QIcon(Config.PASS_IMG)
+        else:
+            bcolor = Config.COLOR_RED
+            icon = QIcon(Config.FAIL_IMG)
+
+        child_widget.setIcon(0, icon)
+        # for i in range(child_widget.columnCount()):
+        #     child_widget.setBackground(i, bcolor)
+
+        self.top_item.setExpanded(True)
+
+    def handle_item_result(self, item_result: mix.ItemResult):
+        if item_result.result:
+            bcolor = Config.COLOR_GREEN
+            icon = QIcon(Config.PASS_IMG)
+        else:
+            bcolor = Config.COLOR_RED
+            icon = QIcon(Config.FAIL_IMG)
+
+        self.top_item.setIcon(0, icon)
+        self.top_item.setText(0, '{} [{}]'.format(self.top_item.text(0), item_result.total))
+        for i in range(self.top_item.columnCount()):
+            self.top_item.setBackground(i, bcolor)
+
 #测试结果页面
 @mixin.DebugClass
 class TestResultFrame(QFrame):
     def __init__(self, win_idx:int):
         super().__init__()
-        self.table_current_idx = 0
-        self.pass_item_count = 0
-        self.fail_item_count = 0
         self.win_idx = win_idx
-        self.table_default_row = 1
-        self.table_default_col = 4
         self.testunitframe = None
-        self.table_order = Qt.AscendingOrder
 
-        self.table = QTableWidget(self.table_default_row, self.table_default_col)
-        self.table.hideColumn(self.table_default_col - 1)
-        self.table.setHorizontalHeaderLabels(['ID', '测试项', '信息'])
-        self.table.horizontalHeader().setStretchLastSection(True)
-        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
-        self.table.horizontalHeader().setHighlightSections(True)
-
-        self.table.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.table.verticalHeader().setVisible(False)
-        self.table.resizeRowsToContents()
-
-        if QSysInfo.productType() == 'windows' and QSysInfo.productVersion() == '10':
-            self.table.horizontalHeader().setStyleSheet( "QHeaderView::section { border: 1px solid #D8D8D8; }")
+        self.tree_widget = QTreeWidget()
+        self.tree_widget.setAnimated(True)
+        self.tree_widget.setWordWrap(False)
+        self.tree_widget.setHeaderLabels(['测试项', '信息'])
+        self.tree_widget.setStyleSheet("QTreeView::item { margin: 5px }")
 
         self.stat_lable = QLabel('')
         self.stat_lable.setAlignment(Qt.AlignRight)
         self.stat_lable.hide()
+
         pub.subscribe(self.onUnitTest, topicName=Config.TOPIC_STARTTEST)
         layout = QVBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
-        layout.addWidget(self.table)
+        layout.addWidget(self.tree_widget)
         layout.addWidget(self.stat_lable)
         self.setLayout(layout)
         self.restoreQSetting()
 
     def onUnitTest(self, win):
         if self.win_idx == win.win_idx:
-            self.table_current_idx = 0
-            self.pass_item_count = 0
-            self.fail_item_count = 0
             self.testunitframe = win
             self.testunitframe.setStyleSheet('')
             self.stat_lable.hide()
-            self.table.setRowCount(0)
-            self.testunitframe.script.sig_finish.connect(self.threadFinish)
-            self.testunitframe.script.sig_data.connect(self.recvThreadData)
-            self.testunitframe.script.sig_error.connect(self.errorMsg)
+
+            self.testunitframe.script.sig_item.connect(self.handle_item)
+            self.testunitframe.script.sig_item_result.connect(self.handle_item_result)
+            self.testunitframe.script.sig_child_item.connect(self.handle_child_item)
+            self.testunitframe.script.sig_error.connect(self.handle_error)
+            self.testunitframe.script.sig_finish.connect(self.handle_finish)
+
             self.testunitframe.script.start()
             if Config.INITWIN_NUM == 2 and not Config.SCREEN_MODE:
                 self.parent().parent().setCurrentIndex(self.win_idx)
 
-    def errorMsg(self, msg):
+    def find_top_item(self, tag: str) -> QTreeWidgetItem:
+        top_item = None
+        items =  self.tree_widget.findItems(tag, Qt.MatchExactly, 0)
+        for item in items:
+            index = self.tree_widget.indexOfTopLevelItem(item)
+            if index > -1:
+                top_item = item
+                break
+
+        return top_item
+
+    def handle_item(self, item: mix.Item):
+        topLevelItem = QTreeWidgetItem(self.tree_widget)
+        topLevelItem.setText(0, item.tag)
+        topLevelItem.setText(1, '')
+        self.tree_widget.addTopLevelItem(topLevelItem)
+
+    def handle_item_result(self, item_result:mix.ItemResult):
+        top_item = self.find_top_item(item_result.tag)
+
+        if item_result.result:
+            bcolor = Config.COLOR_GREEN
+            icon = QIcon(Config.PASS_IMG)
+        else:
+            bcolor = Config.COLOR_RED
+            icon = QIcon(Config.FAIL_IMG)
+            self.tree_widget.setItemWidget(top_item, 1, ReTestButton(self.win_idx, top_item) )
+
+        if top_item:
+            top_item.setIcon(0, icon)
+            top_item.setText(0, '{} [{}]'.format(top_item.text(0), item_result.total))
+            for i in range(top_item.columnCount()):
+                top_item.setBackground(i, bcolor)
+
+    def handle_child_item(self, child_item:mix.ChildItem):
+        parent_widget = self.find_top_item(child_item.ptag)
+        #设置结点数据
+        if parent_widget:
+            child_widget = QTreeWidgetItem(parent_widget)
+            child_widget.setText(0, child_item.tag)
+            child_widget.setText(1, child_item.msg)
+
+            if child_item.result:
+                bcolor = Config.COLOR_GREEN
+                icon = QIcon(Config.PASS_IMG)
+            else:
+                bcolor = Config.COLOR_RED
+                icon = QIcon(Config.FAIL_IMG)
+
+            child_widget.setIcon(0, icon)
+
+            # for i in range(child_widget.columnCount()):
+            #     child_widget.setBackground(i, bcolor)
+
+            parent_widget.setExpanded(True)
+            self.tree_widget.scrollToBottom()
+
+
+    def handle_error(self, msg):
         msg = '测试异常：' + msg
         self.testunitframe.error_label.setText(msg)
 
-    def threadFinish(self, result_dict):
-        result, total_time = result_dict['result'], result_dict['total_time']
-        self.stat_lable.setText('总测试项:{} PASS项:{} FAIL项:{} 时间:{}s'.format(self.table_current_idx, self.pass_item_count, self.fail_item_count, total_time))
-        self.table.setRowCount(self.table_current_idx)
-        self.table.sortByColumn(3, Qt.AscendingOrder)
+    def handle_finish(self, final_result:mix.FinalResult):
+        self.stat_lable.setText('{}'.format(final_result))
         self.stat_lable.show()
-        self.table.scrollToTop()
 
-        #显示结果和颜色
+        # 显示结果和颜色
         palette = QPalette()
-        if result:
+        if final_result.result:
             palette.setColor(QPalette.Window, Config.COLOR_GREEN)
             self.testunitframe.status_label.setText('PASS')
         else:
@@ -525,42 +632,15 @@ class TestResultFrame(QFrame):
 
         self.testunitframe.setPalette(palette)
 
-    def recvThreadData(self, data):
-        #行数不够，新增一行
-        if self.table_current_idx > self.table.rowCount() - 1:
-            self.table.insertRow(self.table_current_idx)
-
-        #添加数据项
-        index_item = QTableWidgetItem(str(self.table_current_idx + 1))
-        self.table.setItem(self.table_current_idx, 0, index_item)
-        self.table.setItem(self.table_current_idx, 1, QTableWidgetItem(data[0]) )
-        self.table.setItem(self.table_current_idx, 2, QTableWidgetItem(data[1]) )
-
-        if data[2]:
-            self.table.setItem(self.table_current_idx, 3, QTableWidgetItem('1'))
-            index_item.setIcon(QIcon(Config.PASS_IMG))
-            self.setRowColor(self.table_current_idx, Config.COLOR_GREEN)
-            self.pass_item_count += 1
-        else:
-            self.table.setItem(self.table_current_idx, 3, QTableWidgetItem('0'))
-            index_item.setIcon(QIcon(Config.FAIL_IMG))
-            self.setRowColor(self.table_current_idx, Config.COLOR_RED)
-            self.fail_item_count += 1
-
-        self.table.scrollToBottom()
-        self.table_current_idx += 1
-
-    def setRowColor(self, row:int, color:QColor):
-        for col in range(self.table.columnCount()):
-            self.table.item(row, col).setBackground(color)
 
     def restoreQSetting(self):
         state = Config.QSETTING.value('MainWindow/TestResultFrame/Header/state')
         if state:
-            self.table.horizontalHeader().restoreState(state)
+            self.tree_widget.header().restoreState(state)
 
     def __del__(self):
-        Config.QSETTING.setValue('MainWindow/TestResultFrame/Header/state', self.table.horizontalHeader().saveState())
+        header = self.tree_widget.header()
+        Config.QSETTING.setValue('MainWindow/TestResultFrame/Header/state', header.saveState())
 
 #登录对话框
 @mixin.DebugClass
@@ -586,6 +666,7 @@ class LoginDialog(QDialog):
         buttons.rejected.connect(self.reject)
         self.setLayout(layout)
 
+@mixin.DebugClass
 class TableMsgWidget(QLabel):
     def __init__(self):
         super().__init__()
@@ -624,6 +705,7 @@ class PandasModel(QAbstractTableModel):
         csv_buf.seek(0)
         self._data = pd.read_csv(csv_buf)
 
+@mixin.DebugClass
 class TableMsgWidow(QDialog):
     prev_actived = False  # 控制单例
     prev_window = None
@@ -766,6 +848,7 @@ class SearchWindow(QDialog):
         Config.QSETTING.setValue('MainWindow/SearchWindow/geometry', self.saveGeometry())
         Config.QSETTING.setValue('MainWindow/SearchWindow/Header/state', self.table.horizontalHeader().saveState())
 
+@mixin.DebugClass
 class ExceptionWindow(QDialog):
     prev_actived = False #控制单例
     prev_window = None
@@ -800,7 +883,7 @@ class ExceptionWindow(QDialog):
     def onExcption(self, triggered):
         self.textEdit.setText(Config.DEBUG_HANDLER.getvalue())
 
-
+@mixin.DebugClass
 class AboutDialog(QDialog):
     def __init__(self, path, parent=None):
         super().__init__()
@@ -817,3 +900,75 @@ class AboutDialog(QDialog):
         layout.addWidget(self.buttons)
         layout.setSpacing(1)
         self.setLayout(layout)
+
+@mixin.DebugClass
+class StepWidget(QFrame):
+    def __init__(self, win_idx: int):
+        super().__init__()
+        self.win_idx = win_idx
+        self.tree_widget = QTreeWidget()
+        self.tree_widget.setAnimated(True)
+        self.tree_widget.setWordWrap(False)
+        self.tree_widget.setHeaderLabels(['测试项', '信息'])
+        self.tree_widget.setStyleSheet("QTreeView::item { margin: 5px }")
+
+        layout = QVBoxLayout()
+        layout.setContentsMargins(0,0,0,0)
+        layout.addWidget(self.tree_widget)
+        self.generate_tree()
+        self.setLayout(layout)
+        self.restoreQsetting()
+
+    def generate_tree(self):
+        self.xml = mix.XMLParser()
+        for recv_item in self.xml.iter_recv():
+            top_item = QTreeWidgetItem(self.tree_widget)
+            top_item.setText(0, recv_item.get(mix.XMLParser.ATag, '') )
+            top_item.setText(1, '')
+            self.tree_widget.setItemWidget(top_item, 1, ReTestButton(self.win_idx, top_item))
+
+    def __del__(self):
+        Config.QSETTING.setValue('MainWindow/StepWidget/{}/Header/state'.format(self.win_idx), self.tree_widget.header().saveState())
+
+    def restoreQsetting(self):
+        header_state = Config.QSETTING.value('MainWindow/StepWidget/{}/Header/state'.format(self.win_idx))
+        if header_state:
+            self.tree_widget.header().restoreState(header_state)
+
+@mixin.DebugClass
+class SingleStepFrame(QDialog):
+    prev_actived = False  # 控制单例
+    prev_window = None
+    def __init__(self, parent=None, title='单步测试'):
+        super().__init__(parent=parent)
+        self.setWindowTitle(title)
+        self.setWindowFlags(Qt.Window)
+        self.setAttribute(Qt.WA_DeleteOnClose)
+
+        layout = QVBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+
+        if Config.FIXED_WIN_NUM == 1:
+            layout.addWidget(StepWidget(win_idx=0))
+        elif Config.FIXED_WIN_NUM == 2:
+            tabWidget = QTabWidget()
+            layout.addWidget(tabWidget)
+            for idx in range(Config.FIXED_WIN_NUM):
+                dev = Config.RC[idx]['dev']
+                page = StepWidget(idx)
+                tabWidget.addTab(page, dev.name)
+
+        __class__.prev_actived = True
+        __class__.prev_window = self
+        self.setLayout(layout)
+        self.restoreQsetting()
+
+    def closeEvent(self, e):
+        super().closeEvent(e)
+        __class__.prev_actived = False
+        Config.QSETTING.setValue('MainWindow/SingleStepFrame/geometry', self.saveGeometry())
+
+    def restoreQsetting(self):
+        geometry = Config.QSETTING.value('MainWindow/SingleStepFrame/geometry')
+        if geometry:
+            self.restoreGeometry(geometry)

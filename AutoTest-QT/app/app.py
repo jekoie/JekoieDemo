@@ -76,7 +76,8 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.spliter)
 
         tool_menu = QMenu('工具', self.menuBar())
-        tool_menu.addAction('数据监视', self.onDebugWindow)
+        tool_menu.addAction('数据监听', self.onDebugWindow)
+        tool_menu.addAction('单步测试', self.onSingleStep)
         tool_menu.addAction('记录查询', self.onViewData)
         tool_menu.addAction('条码打印', self.onPrintBarCode)
         tool_menu.addAction('异常信息', self.onExceptionWindow)
@@ -107,6 +108,15 @@ class MainWindow(QMainWindow):
         else:
             QApplication.setActiveWindow(ui.DebugDialog.prev_window)
             ui.DebugDialog.prev_window.showNormal()
+
+    def onSingleStep(self):
+        if not ui.SingleStepFrame.prev_actived:
+            self.singleWin = ui.SingleStepFrame()
+            self.singleWin.show()
+        else:
+            QApplication.setActiveWindow(ui.SingleStepFrame.prev_window)
+            ui.SingleStepFrame.prev_window.showNormal()
+
 
     def onViewData(self):
         if not ui.SearchWindow.prev_actived:

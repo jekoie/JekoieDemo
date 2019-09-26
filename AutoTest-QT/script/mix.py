@@ -2,7 +2,13 @@ import operator
 from ui.mixin import XMLParser
 from bitstring import BitArray
 from communicate.communicate import SerialCommunicate
+from collections import namedtuple
 import math
+
+Item = namedtuple('Item', ['tag'])
+ItemResult = namedtuple('Item', ['tag', 'result','total', 'pass_count', 'fail_count'])
+ChildItem = namedtuple('Item', ['ptag', 'tag', 'msg', 'result'])
+FinalResult = namedtuple('FinalResult', ['result', 'total_time'])
 
 class CheckSum:
     @classmethod
@@ -21,14 +27,19 @@ class CheckSum:
 
         return BitArray(hex(sum))[-8:]
 
-def send_command(dev: SerialCommunicate, xml: XMLParser, type_: str):
+def send_command(dev: SerialCommunicate, xml: XMLParser, type_: str, data=None):
     ele = xml.root.find( '{}[@type="{}"]'.format(xml._send_path, type_) )
     frameheader = ele.get('header', xml.default_send_frameheader)
     funchar = ele.get('funchar')
-    datalen = ele.get('len')
-    data = ele.get('data')
+    # datalen = ele.get('len')
+    send_data = ele.get('data')
+    if data:
+        send_data = data
 
-    valid_data  = BitArray('{}, {}, {}, {}'.format(frameheader, funchar, datalen, data))
+    datalen = len(BitArray(send_data).bytes)
+    datalen = '0x{}'.format( BitArray('uint:8={}'.format(datalen)).hex )
+
+    valid_data  = BitArray('{}, {}, {}, {}'.format(frameheader, funchar, datalen, send_data))
     checksum_data = operator.attrgetter(xml.send_checksum_func)(CheckSum)(valid_data)
 
     final_data = valid_data + checksum_data

@@ -2,18 +2,22 @@
 <root>
     <option send_frameheader="0xAAAA"  recv_frameheader="0xFFF1" send_checksum="send_checksum"  recv_checksum="recv_checksum" />
 
-    <send data="" funchar="0x01" len="0x00" type="connect" />
-    <send data="0x07" funchar="0x02" len="0x01" type="filter" />
-    <send data="" funchar="0x03" len="0x00" type="next" />
-    <send data="" funchar="0x07" len="0x00" type="test" />
-    <send data="" funchar="0x05" len="0x00" type="error" />
+    <send data=""       funchar="0x01"  type="connect" />
+    <send data="0x07"   funchar="0x02"  type="filter" />
+    <send data=""       funchar="0x03"  type="next" />
+    <send data=""       funchar="0x05"  type="error" />
+    <send data=""       funchar="0x07"  type="test" />
+
+    <send data="0x01"   funchar="0x08"  type="stepin" />
+    <send data="0x01"   funchar="0x08"  type="stepout" />
+    <send data=""       funchar="0x08"  type="step" />
 
     <recv funchar="0x01" tag="QC程序版本检测">
         <data bytepos="0,1" convert="uint" value="803"  tag="扫地机软件版本" msg="期望值:{expect}, 实际值:{real}"/>
         <data bytepos="2-4" convert="{0:X}.{1:X}.{2:X}" tag="QC软件版本" msg="实际值:{real}" />
     </recv>
 
-    <recv funchar="0x02" tag="筛选功能"  send_cmd="filter" />
+    <recv funchar="0x02" tag="筛选功能"  flag="filter" />
     <recv funchar="0x03" tag="响应信号" />
 
     <recv funchar="0x04" tag="扫地机PCB电源检测">
@@ -28,7 +32,7 @@
         <data bytepos="25, 26" convert="ad, 4096, 3.3" value="2.7-3.3" tag="纽扣电池电压" msg="期望值：{expect}, 实际值：{real:.2f}V" />
     </recv>
 
-    <recv funchar="0x05" tag="单片机工作状态检测">
+    <recv funchar="0x05" tag="单片机工作状态检测" flag="setp">
         <data bytepos="3, 4" convert="ad, 4096, 3.3" value="3-3.4"  tag="单片机供电电源" msg="期望值：{expect}, 实际值：{real:.2f}V" />
         <data bytepos="5, 6" convert="ad, 4096, 3.3" value="3-3.4"  tag="单片机AD Ref参考电压" msg="期望值：{expect}, 实际值：{real:.2f}V" />
     </recv>
@@ -233,4 +237,5 @@
         <data bitpos="0, 3"  convert="uint" value="1"  tag="测试机异常复位"  />
         <data bitpos="0, 4"  convert="uint" value="1"  tag="测试途中移走扫地机主板" />
     </recv>
+
 </root>
