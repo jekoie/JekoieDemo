@@ -227,10 +227,10 @@
     <recv funchar="0xFD" tag="测试结束" flag="final" />
 
     <recv funchar="0xFE" tag="测试异常" flag="error" >
-        <data bitpos="0, 0"  convert="uint" value="1"  tag="测试机与上位机断开连接"  />
-        <data bitpos="0, 1"  convert="uint" value="1"  tag="扫地机PCB连接异常"  />
+        <data bitpos="0, 0"  convert="uint" value="1"  tag="测试机接收不到上位机信号"  />
+        <data bitpos="0, 1"  convert="uint" value="1"  tag="测试机接收不到扫地机信号"  />
         <data bitpos="0, 2"  convert="uint" value="1"  tag="电压异常"  />
         <data bitpos="0, 3"  convert="uint" value="1"  tag="测试机异常复位"  />
-        <data bitpos="0, 4"  convert="uint" value="1"  tag="未换板" />
+        <data bitpos="0, 4"  convert="uint" value="1"  tag="测试途中移走扫地机主板" />
     </recv>
 </root>
