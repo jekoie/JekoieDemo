@@ -2,7 +2,7 @@ import os
 import pandas as pd
 from communicate.communicate import DevStatus
 from config.config import Config
-from PyQt5.QtCore import Qt, QThread, QSysInfo, QSize, QAbstractTableModel, QVariant, QStringListModel
+from PyQt5.QtCore import Qt, QThread, QSysInfo, QSize, QAbstractTableModel, QVariant, QStringListModel, QThreadPool
 from PyQt5.QtWidgets import (QDialog, QFormLayout, QComboBox, QGroupBox, QHBoxLayout, QRadioButton,QVBoxLayout, QFileDialog,
                              QDialogButtonBox, QFrame, QLabel, QPushButton, QMenu, QTableWidget, QHeaderView, QTabWidget, QStyle,
                              QAbstractItemView, QTableWidgetItem, QMessageBox, QTextEdit, QListWidget, QStackedWidget, QLineEdit
@@ -15,7 +15,7 @@ from bitstring import BitArray
 from ui import mixin
 from pubsub import pub
 from db import db
-from .step import Step
+from . import step
 import io
 import traceback
 
@@ -227,6 +227,11 @@ class SettingDialog(QDialog):
         self.product_combo = QComboBox()
         self.product_combo.addItems(product_list)
         self.product_combo.currentIndexChanged[str].connect(self.onProductChoice)
+        if Config.PRODUCT_MODEL :
+            self.product_combo.setCurrentIndex(self.product_combo.findText(Config.PRODUCT_MODEL))
+
+        #软件版本
+        self.software_version = QLineEdit(Config.VERSION, textChanged=self.onVersion)
 
         #显示方式
         self.show_mode_gb = show_mode_gb = QGroupBox('显示方式:')
@@ -254,10 +259,14 @@ class SettingDialog(QDialog):
         win_num_gb.setLayout(win_num_layout)
 
         layout.addRow('产品型号:', self.product_combo)
+        layout.addRow('软件版本:', self.software_version)
         layout.addRow(win_num_gb)
         layout.addRow(show_mode_gb)
 
         self.setLayout(layout)
+
+    def onVersion(self, version):
+        Config.VERSION = version
 
     def onScreenMode(self, checked):
         Config.SCREEN_MODE = checked
@@ -334,38 +343,46 @@ class TestUnitFrame(QFrame):
 
         self.win_idx = win_idx
 
-        #COM Label布局
+        #COM Label
         self.com_label = QLabel('COM')
-        com_layout = QHBoxLayout()
-        com_layout.addWidget(self.com_label)
-
-        #状态Label布局
+        #状态Label
         self.status_label = QLabel('状态')
-        status_layout = QHBoxLayout()
-        status_layout.addWidget(self.status_label)
-
-        #异常信息布局
+        #异常信息
         self.error_label = QLabel('')
         self.error_label.setStyleSheet('.QLabel {color:#A57A80;}')
-        error_layout = QHBoxLayout()
-        error_layout.addWidget(self.error_label)
 
-        #测试按钮布局
-        self.start_button = QPushButton('测试')
-        self.start_button.clicked.connect(self.onUnitTest)
+        leftLayout = QVBoxLayout()
+        leftLayout.setSpacing(5)
+        leftLayout.addWidget(self.com_label)
+        leftLayout.addWidget(self.status_label)
+        leftLayout.addWidget(self.error_label)
+        leftLayout.addStretch(1)
 
-        hlayout = QHBoxLayout()
-        hlayout.addStretch(1)
-        hlayout.addWidget(self.start_button)
+        ####显示关键信息
+        self.productmodel_label = QLabel('')
+        self.softversoin_label = QLabel('')
+        self.chipid_label = QLabel('')
+
+        #测试按钮
+        self.start_button = QPushButton('测试', clicked=self.onUnitTest)
+        self.start_button.setSizePolicy(QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed))
+
+        rightLayout = QVBoxLayout()
+        rightLayout.addWidget(self.productmodel_label)
+        rightLayout.addWidget(self.softversoin_label)
+        rightLayout.addWidget(self.chipid_label)
+
+        rightLayout.addStretch(1)
+        rightLayout.addWidget(self.start_button)
+        rightLayout.setAlignment(self.start_button, Qt.AlignRight)
 
         #总布局
-        vlayout = QVBoxLayout()
-        vlayout.addLayout(com_layout)
-        vlayout.addLayout(status_layout)
-        vlayout.addLayout(error_layout)
-        vlayout.addStretch(1)
-        vlayout.addLayout(hlayout)
-        self.setLayout(vlayout)
+        mainlayout = QHBoxLayout()
+        mainlayout.addLayout(leftLayout)
+        mainlayout.addLayout(rightLayout)
+        mainlayout.setStretchFactor(leftLayout, 4)
+        mainlayout.setStretchFactor(rightLayout, 1)
+        self.setLayout(mainlayout)
         self.devInitState()
 
     def devInitState(self):
@@ -383,12 +400,6 @@ class TestUnitFrame(QFrame):
         dev = Config.RC[self.win_idx]['dev']
         self.error_label.setText('')
         if self.script.isFinished() and dev.status == DevStatus.opened and Config.PRODUCT_XML:
-            self.script = Script(dev, self.win_idx)
-            pallete = QPalette()
-            pallete.setColor(QPalette.Window, Qt.darkCyan)
-            self.setPalette(pallete)
-            self.status_label.setStyleSheet('')
-            self.status_label.setText('正在测试')
             pub.sendMessage(Config.TOPIC_STARTTEST, win=self)
         elif Config.PRODUCT_XML is None:
             self.status_label.setStyleSheet('color: red;')
@@ -400,10 +411,10 @@ class TestUnitFrame(QFrame):
     def contextMenuEvent(self, event):
         menu = QMenu()
         item = menu.addAction('单元设置')
-        menu.addAction('停止', self.onStop)
-        menu.addAction('设置', lambda : self.onSetting(event) )
-        menu.addAction('断开连接', self.onDisconnect)
-        menu.addAction('重新连接', self.onReconnect)
+        menu.addAction('停止测试', self.onStop)
+        menu.addAction('串口设置', lambda : self.onSetting(event) )
+        menu.addAction('断开串口', self.onDisconnect)
+        menu.addAction('重连串口', self.onReconnect)
 
         item.setEnabled(False)
         menu.move(event.globalPos())
@@ -431,7 +442,7 @@ class TestUnitFrame(QFrame):
                 self.com_label.setText('{name}[{baudrate}]'.format(**settings))
                 self.status_label.setStyleSheet('')
                 self.status_label.setText('连接成功')
-                if Config.INITWIN_NUM == 2 and not Config.SCREEN_MODE:
+                if Config.FIXED_WIN_NUM == 2 and not Config.SCREEN_MODE:
                     tab = Config.RC['tab']
                     tab.setCurrentIndex(self.win_idx)
                     tab.setTabText(self.win_idx, settings['name'])
@@ -454,13 +465,18 @@ class TestUnitFrame(QFrame):
                 self.status_label.setStyleSheet('color: red;')
                 self.status_label.setText('重连失败')
 
+class ResultTreeWidgetItem(QTreeWidgetItem):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.tag = ''
+
 #重测按钮
 @mixin.DebugClass
 class ReTestButton(QWidget):
-    def __init__(self, win_idx:int, top_item:QTreeWidgetItem):
+    def __init__(self, win_idx:int, top_item:ResultTreeWidgetItem):
         super().__init__()
         self.top_item = top_item
-        self.dev = Config.RC[win_idx]['dev']
+        self.win_idx = win_idx
 
         self.retest_bn = QPushButton(clicked=self.handle_click)
         self.retest_bn.setIcon( self.style().standardIcon(QStyle.SP_MediaPlay) )
@@ -473,14 +489,29 @@ class ReTestButton(QWidget):
         layout.setContentsMargins(0 ,0, 0, 0)
         layout.addStretch(1)
         layout.addWidget(self.retest_bn)
+
         self.setLayout(layout)
 
     def handle_click(self, checked):
         if self.step.isFinished():
-            self.step = Step(self.dev, self.top_item.text(0) )
+            self.step = step.Step(self.win_idx , self.top_item.tag )
             self.step.sig_item_result.connect(self.handle_item_result)
             self.step.sig_child_item.connect(self.handle_child_item)
+            self.step.sig_finish.connect(self.handle_finish)
+            self.retest_bn.setIcon(self.style().standardIcon(QStyle.SP_MediaStop))
+            self.top_item.takeChildren()
+            self.top_item.setIcon(0, QIcon())
+            self.top_item.setText(0, self.top_item.tag)
             self.step.start()
+            for idx in range(self.top_item.columnCount()):
+                self.top_item.setBackground(idx, Config.COLOR_GRAY)
+        elif self.step.isRunning():
+            self.step.stop()
+
+    def handle_finish(self, sec):
+        origin_text = self.top_item.text(0)
+        self.top_item.setText(0, '{} 测试时长:{:.2f}s'.format(origin_text, sec))
+        self.retest_bn.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
 
     def handle_child_item(self, child_item:mix.ChildItem):
         child_widget = QTreeWidgetItem(self.top_item)
@@ -509,7 +540,7 @@ class ReTestButton(QWidget):
             icon = QIcon(Config.FAIL_IMG)
 
         self.top_item.setIcon(0, icon)
-        self.top_item.setText(0, '{} [{}]'.format(self.top_item.text(0), item_result.total))
+        self.top_item.setText(0, '{}[{}]'.format(item_result.tag, item_result.total))
         for i in range(self.top_item.columnCount()):
             self.top_item.setBackground(i, bcolor)
 
@@ -519,7 +550,8 @@ class TestResultFrame(QFrame):
     def __init__(self, win_idx:int):
         super().__init__()
         self.win_idx = win_idx
-        self.testunitframe = None
+        self.test_items = []
+        self.testunitframe = None #type:TestUnitFrame
 
         self.tree_widget = QTreeWidget()
         self.tree_widget.setAnimated(True)
@@ -539,11 +571,37 @@ class TestResultFrame(QFrame):
         self.setLayout(layout)
         self.restoreQSetting()
 
+    def contextMenuEvent(self, event):
+        if self.testunitframe and self.testunitframe.script.isFinished():
+            menu = QMenu()
+            menu.addAction('进入单步', self.onStepIn)
+            menu.addAction('退出单步', self.onStepOut)
+            menu.addAction('取消异常', self.onOffAlarm)
+            menu.exec(event.globalPos())
+
+    def onOffAlarm(self):
+        offAlarm = step.OffAlarm(self.win_idx)
+        QThreadPool.globalInstance().start(offAlarm)
+
+    def onStepIn(self):
+        stepin = step.StepIn(self.win_idx)
+        QThreadPool.globalInstance().start(stepin)
+
+    def onStepOut(self):
+        stepout = step.StepOut(self.win_idx)
+        QThreadPool.globalInstance().start(stepout)
+
     def onUnitTest(self, win):
         if self.win_idx == win.win_idx:
-            self.testunitframe = win
-            self.testunitframe.setStyleSheet('')
-            self.stat_lable.hide()
+            self.testunitframe = win  # type:TestUnitFrame
+
+            self.testunitframe.script = Script(self.win_idx)
+            pallete = QPalette()
+            pallete.setColor(QPalette.Window, Qt.darkCyan)
+            self.testunitframe.setPalette(pallete)
+            self.testunitframe.status_label.setStyleSheet('')
+            self.testunitframe.status_label.setText('正在测试')
+            self.testunitframe.start_button.setEnabled(False)
 
             self.testunitframe.script.sig_item.connect(self.handle_item)
             self.testunitframe.script.sig_item_result.connect(self.handle_item_result)
@@ -551,13 +609,44 @@ class TestResultFrame(QFrame):
             self.testunitframe.script.sig_error.connect(self.handle_error)
             self.testunitframe.script.sig_finish.connect(self.handle_finish)
 
+            #连接关键信息信号
+            self.testunitframe.script.sig_model.connect(self.handle_model)
+            self.testunitframe.script.sig_sotfversion.connect(self.handle_softversion)
+            self.testunitframe.script.sig_chipid.connect(self.handle_chipid)
+
+            #设置关键信息Label
+            self.testunitframe.productmodel_label.setText('产品型号:')
+            self.testunitframe.softversoin_label.setText('软件版本:')
+            self.testunitframe.chipid_label.setText('ChipID:')
+            self.testunitframe.softversoin_label.setStyleSheet('')
+
+            #清空状态和测试结果
+            self.tree_widget.clear()
+            self.test_items.clear()
+            self.stat_lable.hide()
+
             self.testunitframe.script.start()
-            if Config.INITWIN_NUM == 2 and not Config.SCREEN_MODE:
+
+            if Config.FIXED_WIN_NUM == 2 and not Config.SCREEN_MODE:
                 self.parent().parent().setCurrentIndex(self.win_idx)
 
-    def find_top_item(self, tag: str) -> QTreeWidgetItem:
+    def handle_model(self, model):
+        origin_text = self.testunitframe.productmodel_label.text()
+        self.testunitframe.productmodel_label.setText('{}{}'.format(origin_text, model))
+
+    def handle_softversion(self, version):
+        origin_text = self.testunitframe.softversoin_label.text()
+        self.testunitframe.softversoin_label.setText('{}{}'.format(origin_text, version))
+        if version != Config.VERSION:
+            self.testunitframe.softversoin_label.setStyleSheet('color: red;')
+
+    def handle_chipid(self, chipid):
+        origin_text = self.testunitframe.chipid_label.text()
+        self.testunitframe.chipid_label.setText('{}{}'.format(origin_text, chipid))
+
+    def find_top_item(self, tag: str) -> ResultTreeWidgetItem:
         top_item = None
-        items =  self.tree_widget.findItems(tag, Qt.MatchExactly, 0)
+        items =  self.tree_widget.findItems(tag, Qt.MatchContains, 0)
         for item in items:
             index = self.tree_widget.indexOfTopLevelItem(item)
             if index > -1:
@@ -567,20 +656,29 @@ class TestResultFrame(QFrame):
         return top_item
 
     def handle_item(self, item: mix.Item):
-        topLevelItem = QTreeWidgetItem(self.tree_widget)
+        self.test_items.append(item.tag)
+        if self.test_items.count(item.tag) > 1: return
+        topLevelItem = ResultTreeWidgetItem(self.tree_widget)
         topLevelItem.setText(0, item.tag)
         topLevelItem.setText(1, '')
+        topLevelItem.tag = item.tag
+
         self.tree_widget.addTopLevelItem(topLevelItem)
 
     def handle_item_result(self, item_result:mix.ItemResult):
+        if self.test_items.count(item_result.tag) > 1: return
         top_item = self.find_top_item(item_result.tag)
 
         if item_result.result:
             bcolor = Config.COLOR_GREEN
             icon = QIcon(Config.PASS_IMG)
+            top_item.setExpanded(False)
         else:
             bcolor = Config.COLOR_RED
             icon = QIcon(Config.FAIL_IMG)
+            top_item.setExpanded(True)
+
+        if 'step' in item_result.flag and item_result.result is False:
             self.tree_widget.setItemWidget(top_item, 1, ReTestButton(self.win_idx, top_item) )
 
         if top_item:
@@ -590,10 +688,11 @@ class TestResultFrame(QFrame):
                 top_item.setBackground(i, bcolor)
 
     def handle_child_item(self, child_item:mix.ChildItem):
+        if self.test_items.count(child_item.ptag) > 1: return
         parent_widget = self.find_top_item(child_item.ptag)
         #设置结点数据
         if parent_widget:
-            child_widget = QTreeWidgetItem(parent_widget)
+            child_widget = ResultTreeWidgetItem(parent_widget)
             child_widget.setText(0, child_item.tag)
             child_widget.setText(1, child_item.msg)
 
@@ -612,13 +711,13 @@ class TestResultFrame(QFrame):
             parent_widget.setExpanded(True)
             self.tree_widget.scrollToBottom()
 
-
     def handle_error(self, msg):
         msg = '测试异常：' + msg
         self.testunitframe.error_label.setText(msg)
 
     def handle_finish(self, final_result:mix.FinalResult):
-        self.stat_lable.setText('{}'.format(final_result))
+        self.testunitframe.start_button.setEnabled(True)
+        self.stat_lable.setText('总时间:{}s'.format(final_result.total_time))
         self.stat_lable.show()
 
         # 显示结果和颜色
@@ -631,7 +730,6 @@ class TestResultFrame(QFrame):
             self.testunitframe.status_label.setText('FAIL')
 
         self.testunitframe.setPalette(palette)
-
 
     def restoreQSetting(self):
         state = Config.QSETTING.value('MainWindow/TestResultFrame/Header/state')
@@ -919,13 +1017,36 @@ class StepWidget(QFrame):
         self.setLayout(layout)
         self.restoreQsetting()
 
+    def contextMenuEvent(self, event):
+        menu = QMenu()
+        menu.addAction('进入单步', self.onStepIn)
+        menu.addAction('退出单步', self.onStepOut)
+        menu.addAction('取消异常', self.onOffAlarm)
+        menu.exec(event.globalPos())
+
+    def onOffAlarm(self):
+        offAlarm = step.OffAlarm(self.win_idx)
+        QThreadPool.globalInstance().start(offAlarm)
+
+    def onStepIn(self):
+        stepin = step.StepIn(self.win_idx)
+        QThreadPool.globalInstance().start(stepin)
+
+    def onStepOut(self):
+        stepout = step.StepOut(self.win_idx)
+        QThreadPool.globalInstance().start(stepout)
+
     def generate_tree(self):
         self.xml = mix.XMLParser()
         for recv_item in self.xml.iter_recv():
-            top_item = QTreeWidgetItem(self.tree_widget)
-            top_item.setText(0, recv_item.get(mix.XMLParser.ATag, '') )
-            top_item.setText(1, '')
-            self.tree_widget.setItemWidget(top_item, 1, ReTestButton(self.win_idx, top_item))
+            flag = recv_item.get(mix.XMLParser.AFlag, 'general')
+            tag = recv_item.get(mix.XMLParser.ATag, '')
+            if 'step' in flag:
+                top_item = ResultTreeWidgetItem(self.tree_widget)
+                top_item.tag = tag
+                top_item.setText(0, recv_item.get(mix.XMLParser.ATag, '') )
+                top_item.setText(1, '')
+                self.tree_widget.setItemWidget(top_item, 1, ReTestButton(self.win_idx, top_item))
 
     def __del__(self):
         Config.QSETTING.setValue('MainWindow/StepWidget/{}/Header/state'.format(self.win_idx), self.tree_widget.header().saveState())

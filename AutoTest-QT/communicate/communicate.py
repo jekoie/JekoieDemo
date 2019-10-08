@@ -95,5 +95,9 @@ class SerialCommunicate(QObject):
         self.dev.close()
         self.status = DevStatus.closed
 
+    def flush(self):
+        self.dev.reset_input_buffer()
+        self.dev.reset_output_buffer()
+
     def __repr__(self):
         return '<name={} baudrate={} status={}>'.format(self.dev.name, self.dev.baudrate, self.status.name)

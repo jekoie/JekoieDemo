@@ -23,12 +23,16 @@ class Script(QThread):
     sig_item_result = pyqtSignal(mix.ItemResult)
     sig_child_item = pyqtSignal(mix.ChildItem)
 
-    def __init__(self, dev: SerialCommunicate, win_idx: int):
+    #显示关机信息信号
+    sig_chipid = pyqtSignal(str)
+    sig_sotfversion = pyqtSignal(str)
+    sig_model = pyqtSignal(str)
+
+    def __init__(self, win_idx: int):
         super().__init__()
-        self.dev = dev
-        # self.dev.dev.reset_input_buffer()
-        # self.dev.dev.reset_output_buffer()
         self.win_idx = win_idx
+        self.dev =  Config.RC[win_idx]['dev'] #type:SerialCommunicate
+        self.dev.flush()
         #产品文件
         self.xml = XMLParser()
         # 串口数据缓存区
@@ -48,6 +52,16 @@ class Script(QThread):
     def stop(self):
         self.runnig = False
         self.result = False
+        mix.send_command(self.dev, self.xml, 'stop')
+
+    def key_msg_emit(self, key, value):
+        value = str(value)
+        if key == '@CHIPID':
+            self.sig_chipid.emit(value)
+        elif key == '@VERSION':
+            self.sig_sotfversion.emit(value)
+        elif key == '@MODEL':
+            self.sig_model.emit(value)
 
     def error_frame(self, recvitem, frame: bytes):
         error_msg = ''
@@ -66,12 +80,15 @@ class Script(QThread):
 
     def general_frame(self, recvitem, frame: bytes):
         recvitem_tag = recvitem.get(XMLParser.ATag, '')
-        item = mix.Item(tag=recvitem_tag)
+        funchar = recvitem.get(XMLParser.AFunchar, '')
+        flag = recvitem.get(XMLParser.AFlag, 'general')
+        item = mix.Item(tag=recvitem_tag, flag=flag, funchar=funchar)
         self.sig_item.emit(item)
 
         child_results = []
         for childItem in recvitem.iterchildren():
             child_result = self.general_frame_childitem(recvitem, childItem, frame)
+            self.result_list.append(child_result)
             child_results.append(child_result.result)
 
         result = True
@@ -83,7 +100,7 @@ class Script(QThread):
             if fail_count > 0:
                 result = False
 
-        item_result = mix.ItemResult(tag=item.tag, result=result, total=total, pass_count=pass_count, fail_count=fail_count)
+        item_result = mix.ItemResult(tag=item.tag, funchar=funchar, flag=flag, result=result, total=total, pass_count=pass_count, fail_count=fail_count)
         self.sig_item_result.emit(item_result)
         mix.send_command(self.dev, self.xml, 'next')
 
@@ -108,6 +125,7 @@ class Script(QThread):
         store_value = childitem.get(XMLParser.AStore, '')
         if store_value:
             self.dict[store_value] = convert_value
+            self.key_msg_emit(store_value, convert_value)
 
         value = childitem.get(XMLParser.AValue, '')
         if msg.count('{') == 2:
@@ -118,7 +136,6 @@ class Script(QThread):
             msg = msg.format(real=convert_value)
 
         child_item_result = mix.ChildItem(ptag=recvitem_tag, tag=tag, msg=msg, result=result)
-        self.result_list.append(child_item_result)
         self.sig_child_item.emit(child_item_result)
         return child_item_result
 
@@ -153,7 +170,7 @@ class Script(QThread):
 
         result_item_list = []
         for result_item in self.result_list:
-            result_item_list.append(result_item[2])
+            result_item_list.append(result_item.result)
         result = False if False in result_item_list else True
         result = result and self.result
         end_time = datetime.datetime.now()
@@ -163,7 +180,11 @@ class Script(QThread):
 
     def storeTestResult(self, result, start_time, end_time):
         if len(self.result_list) == 0: return None
-        df = pd.DataFrame(self.result_list, columns=['测试项', '信息', '结果'])
+        pd_data = []
+        for child_item in self.result_list:
+            pd_data.append(['[{}]{}'.format(child_item.ptag, child_item.tag) ,child_item.msg , child_item.result])
+
+        df = pd.DataFrame(pd_data, columns=['测试项', '信息', '结果'])
         df = df.replace([True, False], ['PASS', 'FAIL'])
 
         msgbuf = io.StringIO()
@@ -174,8 +195,13 @@ class Script(QThread):
         # db.RemoteProductionRecord.create(msg=msgbuf.getvalue(), result=result, model=Config.PRODUCT_MODEL, version='1.0',
         #                                  start_time=start_time, end_time=end_time, total_time=total_time)
 
+        model = self.dict.get('@MODEL', '')
+        softversion = self.dict.get('@VERSION', '')
+        chipid = self.dict.get('@CHIPID', '')
+
+        result = 'PASS' if result else 'FAIL'
         db.localdb.create_tables([db.LocalProductionRecord])
-        db.LocalProductionRecord.create(msg=msgbuf.getvalue(), result=result, model=Config.PRODUCT_MODEL, version='1.0',
-                                         start_time=start_time, end_time=end_time, total_time=total_time, chipid=self.dict.get('@CHIPID', ''))
+        db.LocalProductionRecord.create(msg=msgbuf.getvalue(), result=result, model=model, version=softversion,
+                                         start_time=start_time, end_time=end_time, total_time=total_time, chipid=chipid)
 
 

@@ -3,7 +3,7 @@ import random
 import os
 import datetime
 import time
-from PyQt5.QtCore import  QThread, pyqtSignal
+from PyQt5.QtCore import  QThread, QRunnable ,pyqtSignal
 from faker import Faker
 import pandas as pd
 from communicate.communicate import SerialCommunicate
@@ -12,15 +12,58 @@ from script import mix
 from db import db
 from lxml import etree
 
+class OffAlarm(QRunnable):
+    def __init__(self, win_idx):
+        super().__init__()
+        self.dev =  Config.RC[win_idx]['dev'] #type:SerialCommunicate
+        self.xml = XMLParser()
+        self.buffer = BytesBuffer()
+        self.dev.flush()
+
+    def run(self):
+        mix.send_command(self.dev, self.xml, 'error')
+
+class StepIn(QRunnable):
+    def __init__(self, win_idx):
+        super().__init__()
+        self.dev =  Config.RC[win_idx]['dev'] #type:SerialCommunicate
+        self.xml = XMLParser()
+        self.buffer = BytesBuffer()
+        BytesBuffer.set_header(self.xml.default_send_frameheader, self.xml.default_recv_frameheader)
+        self.dev.flush()
+
+    def run(self):
+        mix.send_command(self.dev, self.xml, 'connect')
+        while True:
+            self.buffer.extend(self.dev.read_available())
+            frame = self.buffer.currentFrame()
+            if frame:
+                mix.send_command(self.dev, self.xml, 'next')
+                break
+
+        time.sleep(1)
+        mix.send_command(self.dev, self.xml, 'stepin')
+
+class StepOut(QRunnable):
+    def __init__(self, win_idx):
+        super().__init__()
+        self.dev =  Config.RC[win_idx]['dev']
+        self.xml = XMLParser()
+        self.buffer = BytesBuffer()
+        BytesBuffer.set_header(self.xml.default_send_frameheader, self.xml.default_recv_frameheader)
+
+    def run(self):
+        mix.send_command(self.dev, self.xml, 'stepout')
+
 class Step(QThread):
     sig_item_result = pyqtSignal(mix.ItemResult)
     sig_child_item = pyqtSignal(mix.ChildItem)
-
-    def __init__(self, dev:SerialCommunicate,  item_tag):
+    sig_finish = pyqtSignal(float)
+    def __init__(self, win_idx,  item_tag):
         super().__init__()
         self.runing = True
 
-        self.dev = dev
+        self.dev = Config.RC[win_idx]['dev']
         self.xml = XMLParser()
         self.buffer = BytesBuffer()
         BytesBuffer.set_header(self.xml.default_send_frameheader, self.xml.default_recv_frameheader)
@@ -28,9 +71,11 @@ class Step(QThread):
         self.item = self.xml.root.find('./recv[@tag="{}"]'.format(self.item_tag) )
         self.funchar = self.item.get(XMLParser.AFunchar, '')
 
+    def stop(self):
+        self.runing = False
+
     def item_check(self, frame:bytes):
         if frame and frame[2] == int(self.funchar, 16):
-
             child_results = []
             for childItem in self.item.iterchildren():
                 child_result = self.general_frame_childitem(childItem, frame)
@@ -45,7 +90,8 @@ class Step(QThread):
                 if fail_count > 0:
                     result = False
 
-            item_result = mix.ItemResult(tag=self.item_tag, result=result, total=total, pass_count=pass_count, fail_count=fail_count)
+            flag = self.item.get(XMLParser.AFlag, 'general')
+            item_result = mix.ItemResult(tag=self.item_tag, flag=flag, funchar=self.funchar, result=result, total=total, pass_count=pass_count, fail_count=fail_count)
             self.sig_item_result.emit(item_result)
             self.runing = False
 
@@ -74,12 +120,24 @@ class Step(QThread):
         self.sig_child_item.emit(child_item_result)
         return child_item_result
 
-    def run(self):
-        mix.send_command(self.dev, self.xml, 'connect')
-        mix.send_command(self.dev, self.xml, 'stepin')
-        mix.send_command(self.dev, self.xml, 'step', self.funchar)
-        mix.send_command(self.dev, self.xml, 'stepout')
+    def recv_check(self,  frame: bytes):
+        if frame:
+            frameheader_funchar = frame[:self.xml.frameheader_length + 1]
+            if frameheader_funchar in self.frameheader_recv_dict:
+                self.item_check(frame)
+                mix.send_command(self.dev, self.xml, 'next')
 
+    def run(self):
+        start_time = datetime.datetime.now()
+        self.frameheader_recv_dict = self.xml.frameheader_recv()
+        mix.send_command(self.dev, self.xml, 'step', self.funchar)
         while self.runing:
             self.buffer.extend(self.dev.read_available())
-            self.item_check(self.buffer.currentFrame())
+            self.recv_check(self.buffer.currentFrame())
+        end_time = datetime.datetime.now()
+        self.sig_finish.emit( (end_time - start_time).total_seconds() )
+
+
+
+
+

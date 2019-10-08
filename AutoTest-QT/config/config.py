@@ -73,10 +73,14 @@ class BaseConfig:
     PRODUCT_MODEL = None
     #显示方式： 分页显示，分屏显示
     SCREEN_MODE = False
+    #扫地机软件版本
+    VERSION = None
 
     #颜色
     COLOR_GREEN = QColor('#006600')
     COLOR_RED = QColor('#C80000')
+    COLOR_GRAY = QColor('#808080')
+    COLOR_WHITE = QColor('#f2f2f2')
 
     #应用程序信息
     ORGANIZATION = 'bona'
@@ -143,8 +147,9 @@ class Config(BaseConfig):
         Config.RC['tab'] = None
         with AppSettingReader() as reader:
             Config.INITWIN_NUM = int(reader.get('initwinnum', 'value'))
-            Config.PRODUCT_MODEL = reader.get('product_model', 'value')
+            # Config.PRODUCT_MODEL = reader.get('product_model', 'value')
             Config.SCREEN_MODE = eval(reader.get('screen_mode', 'value'))
+            Config.VERSION = str(reader.get('version', 'value'))
 
             Config.FIXED_WIN_NUM = Config.INITWIN_NUM
 
@@ -172,6 +177,7 @@ class Config(BaseConfig):
             reader.set('initwinnum', {'value': str(Config.INITWIN_NUM) })
             reader.set('product_model', {'value': str(Config.PRODUCT_MODEL) })
             reader.set('screen_mode', {'value': str(Config.SCREEN_MODE)} )
+            reader.set('version', {'value': str(Config.VERSION) })
 
         #保存设备配置变量到 dev.xml
         for idx in range(Config.FIXED_WIN_NUM):
@@ -206,6 +212,9 @@ class AppSettingReader(object):
 
     def get(self, tag:str, key:str):
         node = __class__.__root.find(".//*[@name='{}']".format(tag))
+        if node is None:
+            ele = etree.SubElement(self.__root, 'li', {'name':tag, 'value': ''})
+            return None
         return node.get(key, None)
 
     def set(self, tag:str, attr:dict):

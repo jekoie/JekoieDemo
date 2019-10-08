@@ -84,7 +84,7 @@ class MainWindow(QMainWindow):
 
         setting_menu = QMenu('选项', self.menuBar())
         setting_menu.addAction('参数设置', self.onSetting)
-        setting_menu.addAction('软件重启', self.onRestart)
+        # setting_menu.addAction('软件重启', self.onRestart)
 
         help_menu = QMenu('帮助', self.menuBar())
         help_menu.addAction('关于', self.onAbout)
@@ -116,7 +116,6 @@ class MainWindow(QMainWindow):
         else:
             QApplication.setActiveWindow(ui.SingleStepFrame.prev_window)
             ui.SingleStepFrame.prev_window.showNormal()
-
 
     def onViewData(self):
         if not ui.SearchWindow.prev_actived:

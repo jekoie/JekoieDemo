@@ -5,8 +5,8 @@ from communicate.communicate import SerialCommunicate
 from collections import namedtuple
 import math
 
-Item = namedtuple('Item', ['tag'])
-ItemResult = namedtuple('Item', ['tag', 'result','total', 'pass_count', 'fail_count'])
+Item = namedtuple('Item', ['tag', 'flag', 'funchar'])
+ItemResult = namedtuple('Item', ['tag', 'flag', 'funchar', 'result' ,'total', 'pass_count', 'fail_count'])
 ChildItem = namedtuple('Item', ['ptag', 'tag', 'msg', 'result'])
 FinalResult = namedtuple('FinalResult', ['result', 'total_time'])
 
@@ -30,9 +30,9 @@ class CheckSum:
 def send_command(dev: SerialCommunicate, xml: XMLParser, type_: str, data=None):
     ele = xml.root.find( '{}[@type="{}"]'.format(xml._send_path, type_) )
     frameheader = ele.get('header', xml.default_send_frameheader)
-    funchar = ele.get('funchar')
+    funchar = ele.get('funchar', '')
     # datalen = ele.get('len')
-    send_data = ele.get('data')
+    send_data = ele.get('data', '')
     if data:
         send_data = data
 
